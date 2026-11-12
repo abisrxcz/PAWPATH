@@ -110,8 +110,8 @@
        You can paste your actual Supabase URL and Key here to connect to live
        PostgreSQL. If left as empty strings, it works immediately with localStorage!
     */
-    const SUPABASE_URL = "https://gceswisigqgrogrsuauq.supabase.co/rest/v1/";
-    const SUPABASE_ANON_KEY = "sb_publishable_VdC6aopu1KfA-xzpd1wsEw_vliL7PBC";
+    const SUPABASE_URL = "";
+    const SUPABASE_ANON_KEY = "";
 
     const hasSupabase = Boolean(SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase);
     const sb = hasSupabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
@@ -156,7 +156,7 @@
         medicalNotes: '5-in-1 & Anti-Rabies vaccinated, dewormed, gentle with children and calm indoors.',
         reporterName: 'Maria Clara (Sampaloc Shelter)',
         reporterPhone: '+63 917 555 4021',
-        imageUrl: '/assets/images/pet_bantay_aspin_1794457122492.jpg'
+        imageUrl: 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=800&q=80'
       },
       {
         id: 'pet-muning',
@@ -175,7 +175,7 @@
         medicalNotes: 'Spayed calico Puspin completing ear-mite drops. Sweet and affectionate.',
         reporterName: 'Binondo Heritage Sanctuary',
         reporterPhone: '+63 917 555 8832',
-        imageUrl: '/assets/images/pet_muning_puspin_1794457123096.jpg'
+        imageUrl: 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=800&q=80'
       },
       {
         id: 'pet-soju',
@@ -194,7 +194,7 @@
         medicalNotes: 'Found limping near market. Needs immediate foster home and veterinary diagnostics.',
         reporterName: 'Barangay Tondo Rescue Unit',
         reporterPhone: '+63 917 555 1190',
-        imageUrl: '/assets/images/pet_soju_rescue_1794457122662.jpg'
+        imageUrl: 'https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=800&q=80'
       },
       {
         id: 'pet-luna',
@@ -213,7 +213,7 @@
         medicalNotes: 'Litter-box trained, spayed, calm companion.',
         reporterName: 'Dr. Aris Ramos, DVM',
         reporterPhone: '+63 917 555 2345',
-        imageUrl: '/assets/images/pet_luna_cat_1794457123320.jpg'
+        imageUrl: 'https://images.unsplash.com/photo-1573865526739-10659fec78a5?auto=format&fit=crop&w=800&q=80'
       },
       {
         id: 'pet-cooper',
@@ -232,7 +232,7 @@
         medicalNotes: 'First puppy shots complete, playful, socialized with other dogs.',
         reporterName: 'Malate Paws Collective',
         reporterPhone: '+63 917 555 6710',
-        imageUrl: '/assets/images/pet_cooper_puppy_1794457123217.jpg'
+        imageUrl: 'https://images.unsplash.com/photo-1587300003388-59208cc962cb?auto=format&fit=crop&w=800&q=80'
       },
       {
         id: 'pet-peanut',
@@ -251,7 +251,7 @@
         medicalNotes: 'Underweight tabby kitten recovering on nutrient-dense diet.',
         reporterName: 'Pandacan Community Vet',
         reporterPhone: '+63 917 555 9912',
-        imageUrl: '/assets/images/pet_peanut_tabby_1794457124108.jpg'
+        imageUrl: 'https://images.unsplash.com/photo-1561948955-570b270e7c36?auto=format&fit=crop&w=800&q=80'
       }
     ];
 
@@ -347,6 +347,23 @@
       }
     ];
 
+    // Fallback Image Map & Error Handler
+    const PET_IMG_FALLBACKS = {
+      'pet-bantay': 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=800&q=80',
+      'pet-muning': 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=800&q=80',
+      'pet-soju': 'https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=800&q=80',
+      'pet-luna': 'https://images.unsplash.com/photo-1573865526739-10659fec78a5?auto=format&fit=crop&w=800&q=80',
+      'pet-cooper': 'https://images.unsplash.com/photo-1587300003388-59208cc962cb?auto=format&fit=crop&w=800&q=80',
+      'pet-peanut': 'https://images.unsplash.com/photo-1561948955-570b270e7c36?auto=format&fit=crop&w=800&q=80',
+      'Dog': 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=800&q=80',
+      'Cat': 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=800&q=80'
+    };
+
+    function handleImgFallback(img, species = 'Dog') {
+      img.onerror = null;
+      img.src = PET_IMG_FALLBACKS[species] || PET_IMG_FALLBACKS['Dog'];
+    }
+
     // State
     let currentUser = JSON.parse(localStorage.getItem(LS.USER) || 'null');
     let currentView = currentUser ? 'role-hub' : 'home';
@@ -354,6 +371,20 @@
     let messagesData = JSON.parse(localStorage.getItem(LS.MESSAGES) || 'null') || INITIAL_MESSAGES;
     let activePetId = 'pet-bantay';
     let cart = [];
+
+    // Auto-migrate previously stored local /assets/ image paths to live resilient URLs
+    if (Array.isArray(petsData)) {
+      let needsSave = false;
+      petsData.forEach(p => {
+        if (!p.imageUrl || p.imageUrl.startsWith('/assets/') || p.imageUrl.startsWith('/src/')) {
+          p.imageUrl = PET_IMG_FALLBACKS[p.id] || PET_IMG_FALLBACKS[p.species] || PET_IMG_FALLBACKS['Dog'];
+          needsSave = true;
+        }
+      });
+      if (needsSave) {
+        localStorage.setItem(LS.PETS, JSON.stringify(petsData));
+      }
+    }
 
     // Helper functions
     function saveStorage() {
@@ -515,7 +546,7 @@
               ${activeListings.map(pet => `
                 <article class="bg-white rounded-2xl overflow-hidden shadow-sm flex flex-col justify-between">
                   <div class="aspect-[4/3] bg-[#EAE7E7] overflow-hidden">
-                    <img src="${pet.imageUrl}" alt="${pet.name}" class="w-full h-full object-cover">
+                    <img src="${pet.imageUrl}" alt="${pet.name}" onerror="handleImgFallback(this, '${pet.species}')" loading="lazy" class="w-full h-full object-cover">
                   </div>
                   <div class="p-5 flex-1 flex flex-col justify-between gap-4">
                     <div>
@@ -633,7 +664,7 @@
               ${activePets.map(pet => `
                 <div onclick="selectPetPin('${pet.id}')" class="p-4 rounded-2xl cursor-pointer transition-all ${pet.id === currentSelected.id ? 'bg-white border-2 border-[#2D5A3C] shadow-md' : 'bg-white/80 hover:bg-white border border-[#E2E4DE]'}">
                   <div class="flex items-center gap-3">
-                    <img src="${pet.imageUrl}" alt="${pet.name}" class="w-14 h-14 rounded-xl object-cover shrink-0">
+                    <img src="${pet.imageUrl}" alt="${pet.name}" onerror="handleImgFallback(this, '${pet.species}')" class="w-14 h-14 rounded-xl object-cover shrink-0">
                     <div class="min-w-0 flex-1">
                       <div class="flex items-center justify-between">
                         <h4 class="font-display text-sm font-bold text-[#1A1A1A]">${pet.name}</h4>
@@ -652,7 +683,7 @@
               ${currentSelected ? `
                 <div class="bg-white rounded-3xl overflow-hidden shadow-lg border border-black/[0.06]">
                   <div class="relative h-64 w-full bg-[#EAE7E7]">
-                    <img src="${currentSelected.imageUrl}" alt="${currentSelected.name}" class="w-full h-full object-cover">
+                    <img src="${currentSelected.imageUrl}" alt="${currentSelected.name}" onerror="handleImgFallback(this, '${currentSelected.species}')" class="w-full h-full object-cover">
                     <span class="absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-white/95 text-[#144226] shadow">
                       📍 ${currentSelected.district}, Manila
                     </span>
@@ -698,7 +729,7 @@
             <div class="p-4 border-b border-black/[0.06] space-y-3">
               <div class="flex items-center justify-between">
                 <div class="flex items-center gap-3">
-                  <img src="${activePet.imageUrl}" alt="${activePet.name}" class="w-11 h-11 rounded-full object-cover">
+                  <img src="${activePet.imageUrl}" alt="${activePet.name}" onerror="handleImgFallback(this, '${activePet.species}')" class="w-11 h-11 rounded-full object-cover">
                   <div>
                     <h3 class="font-display text-base font-bold text-[#1A1A1A]">${activePet.name} (${activePet.breed})</h3>
                     <span class="text-[11px] font-bold text-[#2D5A3C] uppercase">Status: ${activePet.adoptionStage}</span>
@@ -1083,6 +1114,53 @@
       renderApp();
     }
 
+    function openPetDetailsModal(petId) {
+      const pet = petsData.find(p => p.id === petId);
+      if (!pet) return;
+      const container = document.getElementById('modal-container');
+      container.classList.remove('hidden');
+      container.innerHTML = `
+        <div class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
+          <div class="relative w-full max-w-lg bg-white rounded-3xl overflow-hidden shadow-2xl max-h-[90vh] flex flex-col">
+            <div class="relative h-56 w-full bg-[#EAE7E7] shrink-0">
+              <img src="${pet.imageUrl}" alt="${pet.name}" onerror="handleImgFallback(this, '${pet.species}')" class="w-full h-full object-cover">
+              <button onclick="closeModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-black/60 hover:bg-black/80 text-white flex items-center justify-center font-bold">✕</button>
+              <span class="absolute bottom-4 left-4 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-white/95 text-[#144226] shadow">
+                📍 ${pet.district}, Manila
+              </span>
+            </div>
+            <div class="p-6 space-y-4 overflow-y-auto">
+              <div class="flex items-start justify-between">
+                <div>
+                  <h3 class="font-display text-2xl font-bold text-[#1A1A1A]">${pet.name}</h3>
+                  <p class="text-sm text-[#5A635C]">${pet.breed} · ${pet.ageLabel}</p>
+                </div>
+                <span class="px-3 py-1 rounded-full text-xs font-bold uppercase ${pet.status === 'HEALTHY' ? 'bg-[#E6F4EA] text-[#137333]' : 'bg-[#FCE8E6] text-[#A50E0E]'}">${pet.status}</span>
+              </div>
+              <div class="space-y-2 text-xs text-[#414942]">
+                <div class="p-3 bg-[#F7F8F4] rounded-xl">
+                  <strong>Location:</strong> ${pet.barangay}
+                </div>
+                <div class="p-3 bg-[#F7F8F4] rounded-xl">
+                  <strong>Welfare Coordinator / Reporter:</strong> ${pet.reporterName} (${pet.reporterPhone || 'Manila Desk'})
+                </div>
+                <div class="p-3 bg-[#F7F8F4] rounded-xl">
+                  <strong>Medical &amp; Temperament Notes:</strong> ${pet.medicalNotes || 'Healthy, vaccinated, ready for adoption.'}
+                </div>
+                <div class="p-3 bg-[#F7F8F4] rounded-xl">
+                  <strong>Vaccination Status:</strong> ${pet.vaccinated ? '✅ 5-in-1 & Anti-Rabies Vaccinated' : '⚠️ Due for local clinic booster'}
+                </div>
+              </div>
+              <div class="pt-2 flex gap-3">
+                <button type="button" onclick="closeModal()" class="flex-1 h-11 rounded-full border border-[#E2E4DE] text-xs font-semibold hover:bg-[#F7F8F4]">Close</button>
+                <button type="button" onclick="closeModal(); startAdopt('${pet.id}')" class="flex-1 h-11 rounded-full bg-[#2D5A3C] hover:bg-[#21432C] text-white text-xs font-semibold">Adopt ${pet.name}</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
     function openRA10631Modal(pet) {
       const container = document.getElementById('modal-container');
       container.classList.remove('hidden');
@@ -1152,7 +1230,7 @@
         vaccinated: true,
         medicalNotes: document.getElementById('reh-reason').value,
         reporterName: currentUser ? currentUser.fullName : 'Manila Resident',
-        imageUrl: '/assets/images/pet_bantay_aspin_1794457122492.jpg'
+        imageUrl: 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=800&q=80'
       };
       petsData.unshift(newPet);
       saveStorage();
@@ -1178,7 +1256,7 @@
         vaccinated: false,
         medicalNotes: document.getElementById('stray-desc').value,
         reporterName: currentUser ? currentUser.fullName : 'Citizen',
-        imageUrl: '/assets/images/pet_soju_rescue_1794457122662.jpg'
+        imageUrl: species === 'Cat' ? 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=800&q=80' : 'https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=800&q=80'
       };
       petsData.unshift(newStray);
       saveStorage();
