@@ -1,6 +1,0 @@
-{
-  "name": "PawPath Manila",
-  "description": "A Centralized Animal Adoption, Nutrition, and Healthcare System for Metro Manila, Philippines.",
-  "requestFramePermissions": ["geolocation"],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
-}
