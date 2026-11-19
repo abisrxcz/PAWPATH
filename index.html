@@ -989,6 +989,7 @@
             S.notifOpen = false;
             lsWrite(LS_KEYS.USER, null);
             S.view = 'home';
+            syncFromSupabase();
             toast('Logged out. System navigations are now locked.');
           },
 
@@ -1785,7 +1786,13 @@
         }
 
         function renderPreLoginLanding() {
-          const previewPets = S.pets.filter((p) => p.adoptionStage !== 'Pet Adopted').slice(0, 3);
+          const isStrayPet = (p) => p.listingType === 'stray' || p.status === 'URGENT RESCUE';
+          // Stray reports first (they are the most urgent), then everything else, newest first as stored.
+          const previewPets = S.pets
+            .filter((p) => p.adoptionStage !== 'Pet Adopted')
+            .slice()
+            .sort((a, b) => Number(isStrayPet(b)) - Number(isStrayPet(a)))
+            .slice(0, 6);
           return `
             <div class="flex flex-col">
               <section class="bg-white" aria-label="PawPath Manila welcome">
@@ -1887,7 +1894,7 @@
                           <div class="px-5 pb-5">
                             <button type="button" onclick="PP.openAuth('login')" class="w-full h-11 rounded-lg border border-[#2D5A3C] text-[#2D5A3C] hover:bg-[#2D5A3C] hover:text-white font-semibold text-sm transition-colors flex items-center justify-center gap-2">
                               ${ico('shield', 'w-4 h-4')}
-                              <span>Sign In to Adopt ${esc(pet.name)}</span>
+                              <span>${isStrayPet(pet) ? 'Sign In to Help' : 'Sign In to Adopt'} ${esc(pet.name)}</span>
                             </button>
                           </div>
                         </article>
