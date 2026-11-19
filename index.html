@@ -127,295 +127,53 @@
           height: 760,
         };
 
-        const DEMO_USER = {
-          id: 'usr-cinna',
-          fullName: 'Cinna Moroll',
-          email: 'cinna.moroll@pawpath.ph',
-          mobile: '+63 917 555 0188',
-          age: 26,
-          district: 'Sampaloc',
-          barangay: 'Barangay 402',
-          role: 'citizen',
-        };
-
-        const INITIAL_PETS = [
-          {
-            id: 'pet-bantay',
-            name: 'Bantay',
-            species: 'Dog',
-            breed: 'Local Aspin',
-            ageLabel: '1.5 Years',
-            status: 'HEALTHY',
-            healthStatus: 'Healthy',
-            healthConditions: ['Fully Vaccinated', 'Spayed/Neutered'],
-            temperamentPreferences: ['Friendly to Children', 'Requires Active Owners'],
-            adoptionStage: 'Available',
-            listingType: 'adoption',
-            district: 'Sampaloc',
-            barangay: 'Barangay 402, Sampaloc, Manila',
-            lat: 14.6091,
-            lng: 120.9923,
-            vaccinated: true,
-            medicalNotes: '5-in-1 & Anti-Rabies vaccinated, dewormed, gentle with children and calm indoors.',
-            reporterName: 'Maria Clara (Sampaloc Shelter)',
-            reporterPhone: '+63 917 555 4021',
-            imageUrl: PET_IMAGE_ASSETS['pet-bantay'],
-          },
-          {
-            id: 'pet-muning',
-            name: 'Muning',
-            species: 'Cat',
-            breed: 'Domestic Shorthair Puspin',
-            ageLabel: '2 Years',
-            status: 'NEEDS CARE',
-            healthStatus: 'Needs Care',
-            healthConditions: ['Fully Vaccinated', 'Ongoing Treatment', 'Spayed/Neutered'],
-            temperamentPreferences: ['No Other Pets'],
-            adoptionStage: 'Available',
-            listingType: 'adoption',
-            district: 'Binondo',
-            barangay: 'Plaza San Lorenzo Ruiz, Binondo, Manila',
-            lat: 14.5998,
-            lng: 120.9746,
-            vaccinated: true,
-            medicalNotes: 'Spayed calico Puspin completing ear-mite drops. Sweet and affectionate.',
-            reporterName: 'Binondo Heritage Sanctuary',
-            reporterPhone: '+63 917 555 8832',
-            imageUrl: PET_IMAGE_ASSETS['pet-muning'],
-          },
-          {
-            id: 'pet-soju',
-            name: 'Soju',
-            species: 'Dog',
-            breed: 'Golden Retriever Mix',
-            ageLabel: '8 Months',
-            status: 'URGENT RESCUE',
-            healthStatus: 'Needs Care',
-            healthConditions: ['Ongoing Treatment'],
-            temperamentPreferences: ['Friendly to Children', 'Requires Active Owners'],
-            adoptionStage: 'Available',
-            listingType: 'stray',
-            district: 'Tondo',
-            barangay: 'Near Pritil Market, Tondo, Manila',
-            lat: 14.6188,
-            lng: 120.9675,
-            vaccinated: false,
-            medicalNotes: 'Found limping near Pritil Market. Needs immediate foster home and vet diagnostics.',
-            reporterName: 'Barangay Tondo Rescue Unit',
-            reporterPhone: '+63 917 555 1190',
-            imageUrl: PET_IMAGE_ASSETS['pet-soju'],
-          },
-          {
-            id: 'pet-luna',
-            name: 'Luna',
-            species: 'Cat',
-            breed: 'Domestic Longhair',
-            ageLabel: '1 Year',
-            status: 'HEALTHY',
-            healthStatus: 'Healthy',
-            healthConditions: ['Fully Vaccinated', 'Spayed/Neutered'],
-            temperamentPreferences: ['Friendly to Children'],
-            adoptionStage: 'Available',
-            listingType: 'adoption',
-            district: 'Ermita',
-            barangay: 'Padre Faura St, Ermita, Manila',
-            lat: 14.5794,
-            lng: 120.9845,
-            vaccinated: true,
-            medicalNotes: 'Litter-box trained, spayed, calm companion.',
-            reporterName: 'Dr. Aris Ramos, DVM',
-            reporterPhone: '+63 917 555 2345',
-            imageUrl: PET_IMAGE_ASSETS['pet-luna'],
-          },
-          {
-            id: 'pet-cooper',
-            name: 'Cooper',
-            species: 'Dog',
-            breed: 'Aspin Puppy',
-            ageLabel: '5 Months',
-            status: 'HEALTHY',
-            healthStatus: 'Healthy',
-            healthConditions: ['Fully Vaccinated'],
-            temperamentPreferences: ['Friendly to Children', 'Requires Active Owners'],
-            adoptionStage: 'Available',
-            listingType: 'adoption',
-            district: 'Malate',
-            barangay: 'Remedios Circle, Malate, Manila',
-            lat: 14.5714,
-            lng: 120.9882,
-            vaccinated: true,
-            medicalNotes: 'First puppy shots complete, playful, socialized with other dogs.',
-            reporterName: 'Malate Paws Collective',
-            reporterPhone: '+63 917 555 6710',
-            imageUrl: PET_IMAGE_ASSETS['pet-cooper'],
-          },
-          {
-            id: 'pet-peanut',
-            name: 'Peanut',
-            species: 'Cat',
-            breed: 'Tabby Puspin Kitten',
-            ageLabel: '3 Months',
-            status: 'NEEDS CARE',
-            healthStatus: 'Needs Care',
-            healthConditions: ['Ongoing Treatment'],
-            temperamentPreferences: ['Prefer No Children Around'],
-            adoptionStage: 'Available',
-            listingType: 'adoption',
-            district: 'Pandacan',
-            barangay: 'Zamora St, Pandacan, Manila',
-            lat: 14.5882,
-            lng: 121.0031,
-            vaccinated: false,
-            medicalNotes: 'Underweight tabby kitten recovering on nutrient-dense wet food diet.',
-            reporterName: 'Pandacan Community Vet',
-            reporterPhone: '+63 917 555 9912',
-            imageUrl: PET_IMAGE_ASSETS['pet-peanut'],
-          },
-        ];
-
-        const INITIAL_MESSAGES = [
-          {
-            id: 'm1',
-            petId: 'pet-bantay',
-            senderName: 'Maria Clara',
-            senderRole: 'coordinator',
-            body: "Hi! Thanks for checking Bantay's profile. He is healthy, fully vaccinated, and staying at our Sampaloc Barangay shelter.",
-            createdAt: '10:14 AM',
-          },
-          {
-            id: 'm2',
-            petId: 'pet-bantay',
-            senderName: 'Cinna Moroll',
-            senderRole: 'adopter',
-            body: 'Hello! We live nearby in Sampaloc and would love to meet Bantay. When is a good schedule?',
-            createdAt: '10:18 AM',
-          },
-          {
-            id: 'm3',
-            petId: 'pet-bantay',
-            senderName: 'Maria Clara',
-            senderRole: 'coordinator',
-            body: 'You can click "Want to Adopt" to complete the Capabilities & Background Check and RA 10631 Agreement before our 2:00 PM meetup.',
-            createdAt: '10:24 AM',
-          },
-        ];
-
+        // =========================================================================
+        // REAL METRO MANILA DIRECTORIES (no prices, no booking, no cart)
+        // Names / addresses / phones were taken from public directories
+        // (clinicfinderph.com, Manila Bulletin, Pet Express, Primer.ph). Coordinates are
+        // street-level estimates; every card carries a Google Maps link so users can
+        // confirm the exact pin.
+        // =========================================================================
         const HEALTH_CENTERS = [
-          {
-            id: 'hc-1',
-            name: 'Manila City Veterinary Office',
-            category: 'Government Office',
-            address: 'Pandacan Public Market Complex, Pandacan, Manila',
-            district: 'Pandacan',
-            phone: '(02) 8527-4950',
-            hours: '8:00 AM - 5:00 PM (Mon-Fri)',
-            lat: 14.5905,
-            lng: 121.0002,
-            services: [
-              { name: 'Anti-Rabies Vaccination (Manila Residents)', price: 'FREE' },
-              { name: 'Wellness Check & Microchipping', price: '₱150.00' },
-              { name: 'Low-Cost Barangay Kapon Scheduling', price: 'FREE' },
-            ],
-          },
-          {
-            id: 'hc-2',
-            name: 'San Lazaro Hospital Animal Bite Center',
-            category: 'Public Hospital',
-            address: 'Quiricada St, Santa Cruz, Manila',
-            district: 'Santa Cruz',
-            phone: '(02) 8732-3776',
-            hours: '24 Hours Open',
-            lat: 14.6139,
-            lng: 120.9806,
-            services: [
-              { name: 'Public Anti-Rabies Post-Exposure', price: 'FREE / PhilHealth' },
-              { name: 'Rabies Triage Screening', price: 'FREE' },
-            ],
-          },
-          {
-            id: 'hc-3',
-            name: 'Vets in Practice — Ermita',
-            category: 'Private Partner',
-            address: '1023 Roxas Blvd, Ermita, Manila',
-            district: 'Ermita',
-            phone: '(02) 8521-9988',
-            hours: '24 Hours Open (Emergency)',
-            lat: 14.5762,
-            lng: 120.9801,
-            services: [
-              { name: 'Emergency Consultation', price: '₱650.00' },
-              { name: '5-in-1 Core Vaccine', price: '₱850.00' },
-              { name: 'Low-Cost Kapon (Spay/Neuter)', price: '₱2,800.00' },
-            ],
-          },
-          {
-            id: 'hc-4',
-            name: 'Sampaloc Community Rescue Clinic',
-            category: 'Volunteer Rescue Clinic',
-            address: 'Espana Blvd cor. Lacson Ave, Sampaloc, Manila',
-            district: 'Sampaloc',
-            phone: '(02) 8741-3310',
-            hours: '9:00 AM - 6:00 PM (Tue-Sun)',
-            lat: 14.6114,
-            lng: 120.9905,
-            services: [
-              { name: 'Stray Wound Triage & Deworming', price: '₱200.00' },
-              { name: 'Feline 4-in-1 Vaccine', price: '₱750.00' },
-            ],
-          },
+          { id: 'hc-1', name: 'Manila City Pound & Animal Shelter Clinic (Vitas)', category: 'City Government Animal Facility', address: 'Vitas, Tondo, Manila', district: 'Tondo', phone: '', lat: 14.6105, lng: 120.9545 },
+          { id: 'hc-2', name: 'PSPCA — Philippine Society for the Prevention of Cruelty to Animals', category: 'Animal Welfare Clinic', address: '2044 Recto Ave, Quiapo, Manila', district: 'Quiapo', phone: '(02) 8293 9698', lat: 14.6030, lng: 120.9830 },
+          { id: 'hc-3', name: 'Four Paws Animal Wellness and Hospital Corp', category: 'Veterinary Hospital', address: '1712 A. Francisco St, Santa Ana, Manila', district: 'Santa Ana', phone: '(02) 8801 3078', lat: 14.5825, lng: 121.0105 },
+          { id: 'hc-4', name: 'CURAPET Animal Clinic', category: 'Veterinary Clinic', address: '2543 Tejeron St, Santa Ana, Manila', district: 'Santa Ana', phone: '(02) 8253 1668', lat: 14.5835, lng: 121.0070 },
+          { id: 'hc-5', name: 'Santa Ana Animal Health Clinic', category: 'Veterinary Clinic', address: '2259 Calderon, Santa Ana, Manila', district: 'Santa Ana', phone: '(02) 8241-7224', lat: 14.5810, lng: 121.0085 },
+          { id: 'hc-6', name: 'E. A. Garcia Veterinary Clinic', category: 'Veterinary Clinic', address: 'Dolmar Building, United Nations Ave, Paco, Manila', district: 'Paco', phone: '(02) 8524-6290', lat: 14.5825, lng: 120.9915 },
+          { id: 'hc-7', name: 'Shepherd Animal Clinic', category: 'Veterinary Clinic', address: '1427 Pedro Gil St, corner Penafrancia, Paco, Manila', district: 'Paco', phone: '(02) 8247 4305', lat: 14.5790, lng: 120.9985 },
+          { id: 'hc-8', name: 'Wags & Purrs Veterinary Clinic', category: 'Veterinary Clinic', address: '2nd Floor, One Square Bldg, 3340 V. Mapa Ext, Santa Mesa, Manila', district: 'Santa Mesa', phone: '0976 341 4439', lat: 14.6013, lng: 121.0120 },
+          { id: 'hc-9', name: 'Citivet Veterinary Clinic & Pet Supply Co', category: 'Veterinary Clinic', address: '1913 Dapitan St, Sampaloc, Manila', district: 'Sampaloc', phone: '0919-253-2080', lat: 14.6120, lng: 120.9890 },
+          { id: 'hc-10', name: 'Dagupan Animal Clinic', category: 'Veterinary Clinic', address: '1765 Dagupan St, Tondo, Manila', district: 'Tondo', phone: '(02) 8255 5953', lat: 14.6170, lng: 120.9690 },
+          { id: 'hc-11', name: 'Northbay Veterinary Clinic and Pet Supply', category: 'Veterinary Clinic', address: 'Fidel St, Tondo, Manila', district: 'Tondo', phone: '0932 138 4489', lat: 14.6235, lng: 120.9590 },
         ];
 
         const FOOD_SHOPS = [
-          {
-            id: 'fs-1',
-            name: 'Pet Express — SM Manila',
-            address: 'Lower Ground Floor, SM City Manila, Ermita',
-            district: 'Ermita',
-            phone: '(02) 8523-1156',
-            hours: '10:00 AM - 9:00 PM Daily',
-            lat: 14.5902,
-            lng: 120.9834,
-            guide: 'Adult Dogs: 22-26% protein kibble with clean fresh water. Recovering rescues benefit from calorie-dense veterinary wet cans.',
-            items: [
-              { id: 'sup-vitality', name: 'Vitality Classic Adult (3kg)', price: 685, unit: '3kg bag', shopId: 'fs-1', shopName: 'Pet Express — SM Manila' },
-              { id: 'sup-royal-canin', name: 'Royal Canin Recovery Wet Can', price: 215, unit: '195g can', shopId: 'fs-1', shopName: 'Pet Express — SM Manila' },
-              { id: 'sup-dental-chews', name: 'Pedigree Dentastix Medium Pack', price: 195, unit: '7 sticks', shopId: 'fs-1', shopName: 'Pet Express — SM Manila' },
-            ],
-          },
-          {
-            id: 'fs-2',
-            name: 'Happy Paws Pet Supply — Quiapo',
-            address: '389 Quezon Blvd, Quiapo, Manila',
-            district: 'Quiapo',
-            phone: '(02) 8734-5221',
-            hours: '8:30 AM - 7:30 PM Daily',
-            lat: 14.6001,
-            lng: 120.9841,
-            guide: 'Kittens and indoor Puspins require high-taurine wet & urinary care formulas 2-3 times daily for kidney and heart health.',
-            items: [
-              { id: 'sup-aozi', name: 'Aozi Pure Natural Organic Dog Food (2.5kg)', price: 540, unit: '2.5kg bag', shopId: 'fs-2', shopName: 'Happy Paws Pet Supply — Quiapo' },
-              { id: 'sup-special-cat', name: 'Special Cat Urinary Care (1.5kg)', price: 345, unit: '1.5kg bag', shopId: 'fs-2', shopName: 'Happy Paws Pet Supply — Quiapo' },
-              { id: 'sup-milk-replacer', name: 'Bearing Kitten & Puppy Milk Replacer', price: 320, unit: '300g tin', shopId: 'fs-2', shopName: 'Happy Paws Pet Supply — Quiapo' },
-            ],
-          },
-          {
-            id: 'fs-3',
-            name: 'Sampaloc Paws & Kibble Depot',
-            address: '1422 Dapitan St, Sampaloc, Manila',
-            district: 'Sampaloc',
-            phone: '(02) 8781-0942',
-            hours: '9:00 AM - 8:00 PM Daily',
-            lat: 14.6132,
-            lng: 120.9895,
-            guide: 'Senior dogs and pets with respiratory sensitivity (asthma) benefit from dust-free hypoallergenic kibble and elevated bowls.',
-            items: [
-              { id: 'sup-hypo', name: 'Holistic Recipe Lamb & Rice Hypoallergenic (2.5kg)', price: 790, unit: '2.5kg bag', shopId: 'fs-3', shopName: 'Sampaloc Paws & Kibble Depot' },
-              { id: 'sup-omega', name: 'Coatshine Omega-3 Skin & Coat Supplement', price: 260, unit: '120ml bottle', shopId: 'fs-3', shopName: 'Sampaloc Paws & Kibble Depot' },
-            ],
-          },
+          { id: 'fs-1', name: 'Pet Express — SM City Manila', address: 'SM City Manila, Concepcion Aguila St, Ermita, Manila', district: 'Ermita', phone: '(02) 8650-4693 (Pet Express hotline)', lat: 14.5902, lng: 120.9834 },
+          { id: 'fs-2', name: 'Citivet Veterinary Clinic & Pet Supply Co', address: '1913 Dapitan St, Sampaloc, Manila', district: 'Sampaloc', phone: '0919-253-2080', lat: 14.6120, lng: 120.9890 },
+          { id: 'fs-3', name: 'Northbay Veterinary Clinic and Pet Supply', address: 'Fidel St, Tondo, Manila', district: 'Tondo', phone: '0932 138 4489', lat: 14.6235, lng: 120.9590 },
+          { id: 'fs-4', name: 'Cartimar Pet Center', address: 'Cartimar Ave, Pasay City', district: 'Pasay', phone: '', lat: 14.5462, lng: 121.0008 },
+          { id: 'fs-5', name: 'Dogs and the City — SM Mall of Asia', address: 'SM Mall of Asia, Pasay City', district: 'Pasay', phone: '', lat: 14.5353, lng: 120.9822 },
         ];
 
-        const HEALTH_CONDITION_OPTIONS = ['Fully Vaccinated', 'Asthma', 'Ongoing Treatment', 'Spayed/Neutered'];
+        // Pins are only drawn for places inside the existing map's coordinate window;
+        // others stay in the lists with a Google Maps link (no misleading edge pins).
+        [HEALTH_CENTERS, FOOD_SHOPS].forEach((list) =>
+          list.forEach((r) => {
+            r.inMap = r.lat >= MAP_BOUNDS.south && r.lat <= MAP_BOUNDS.north && r.lng >= MAP_BOUNDS.west && r.lng <= MAP_BOUNDS.east;
+          })
+        );
+
+        const gmapsHref = (r) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(r.name + ', ' + r.address)}`;
+        const phoneText = (r) => r.phone || 'Not publicly listed — check Google Maps';
+
+        function renderContactLinks(r, cls) {
+          return `<div class="${cls || 'flex flex-wrap gap-2'}">
+            <a href="${esc(gmapsHref(r))}" target="_blank" rel="noopener noreferrer" class="px-3.5 h-9 rounded-lg border border-black/[0.12] text-[#144226] hover:bg-[#F7F8F4] text-xs font-semibold inline-flex items-center gap-1.5">${ico('mapPin', 'w-3.5 h-3.5')}<span>Open in Google Maps</span></a>
+          </div>`;
+        }
+
+        const HEALTH_CONDITION_OPTIONS = ['Fully Vaccinated', 'Asthma', 'Ongoing Treatment', 'Spayed/Neutered', 'None of the Above', 'Other'];
         const TEMPERAMENT_OPTIONS = ['Friendly to Children', 'No Other Pets', 'Prefer No Children Around', 'Requires Active Owners'];
         const LIFECYCLE_STEPS = ['Available', 'Want to Adopt', 'Pending Coordinator Review', 'Ongoing Adoption', 'Pet Adopted'];
 
@@ -427,8 +185,8 @@
           PETS: 'pp_manila_pets',
           MESSAGES: 'pp_manila_messages',
           APPLICATIONS: 'pp_manila_applications',
-          ORDERS: 'pp_manila_orders',
-          CART: 'pp_manila_cart',
+          ACCOUNTS: 'pp_manila_accounts',
+          NOTIFS: 'pp_manila_notifications',
         };
 
         const CFG = window.PAWPATH_CONFIG || {};
@@ -459,9 +217,250 @@
           } catch (_) {}
         }
 
+        // Pets live in Supabase when configured; localStorage is only the offline demo store.
+        function persistPets() {
+          if (!sb) lsWrite(LS_KEYS.PETS, S.pets);
+        }
+
+
+        // ---------------------------------------------------------------------
+        // Accounts (demo mode keeps a real per-device account registry)
+        // ---------------------------------------------------------------------
+        async function hashPw(email, pw) {
+          const text = `pawpath:${String(email).toLowerCase()}:${pw}`;
+          try {
+            if (window.crypto && window.crypto.subtle) {
+              const buf = await window.crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
+              return Array.from(new Uint8Array(buf)).map((b) => b.toString(16).padStart(2, '0')).join('');
+            }
+          } catch (_) {}
+          let h = 5381;
+          for (let i = 0; i < text.length; i += 1) h = ((h << 5) + h + text.charCodeAt(i)) | 0;
+          return 'x' + (h >>> 0).toString(16);
+        }
+        const getAccounts = () => {
+          const a = lsRead(LS_KEYS.ACCOUNTS, []);
+          return Array.isArray(a) ? a : [];
+        };
+
+        // Build the app's user object from a Supabase auth user (+ profiles row, created if missing).
+        async function loadProfile(user) {
+          const meta = user.user_metadata || {};
+          let row = null;
+          try {
+            const r = await sb.from('profiles').select('*').eq('id', user.id).maybeSingle();
+            row = r.data || null;
+          } catch (_) {}
+          if (!row) {
+            const fresh = {
+              id: user.id,
+              full_name: meta.full_name || (user.email || 'Manila Citizen').split('@')[0].replace(/[._]/g, ' '),
+              email: user.email,
+              mobile: meta.mobile || null,
+              age: meta.age ? Number(meta.age) : null,
+              is_adult_confirmed: Boolean(meta.age),
+              district: meta.district || 'Sampaloc',
+              barangay: meta.barangay || meta.district || 'Metro Manila',
+              role: 'citizen',
+            };
+            try { await sb.from('profiles').upsert(fresh); } catch (_) {}
+            row = fresh;
+          }
+          return {
+            id: user.id,
+            fullName: row.full_name,
+            email: row.email || user.email,
+            mobile: row.mobile || meta.mobile || '',
+            age: row.age || meta.age || null,
+            district: row.district || 'Sampaloc',
+            barangay: row.barangay || row.district || 'Metro Manila',
+            role: row.role || 'citizen',
+          };
+        }
+
+        // ---------------------------------------------------------------------
+        // Adoption requests + notifications (Supabase when configured, else localStorage)
+        // ---------------------------------------------------------------------
+        const nowIso = () => new Date().toISOString();
+        const shortDate = (iso) => new Date(iso || Date.now()).toLocaleDateString('en-PH', { month: 'short', day: 'numeric', year: 'numeric' });
+        function timeAgo(iso) {
+          const t = new Date(iso).getTime();
+          if (!t) return '';
+          const sec = Math.max(0, Math.round((Date.now() - t) / 1000));
+          if (sec < 60) return 'Just now';
+          if (sec < 3600) return `${Math.floor(sec / 60)}m ago`;
+          if (sec < 86400) return `${Math.floor(sec / 3600)}h ago`;
+          if (sec < 604800) return `${Math.floor(sec / 86400)}d ago`;
+          return shortDate(iso);
+        }
+        const REVIEW_STATUS = {
+          'Pending Coordinator Review': 'Pending owner review',
+          'Ongoing Adoption': 'Approved — arranging meetup',
+          'Pet Adopted': 'Adoption completed',
+          'Declined': 'Not selected',
+        };
+        const persistApps = () => { if (!sb) lsWrite(LS_KEYS.APPLICATIONS, S.applications); };
+        const persistNotifs = () => { if (!sb) lsWrite(LS_KEYS.NOTIFS, S.notifications); };
+
+        function normalizeApps(list) {
+          if (!Array.isArray(list)) return [];
+          return list.map((a) => {
+            const stage = a.stage === 'Ongoing Adoption' && /^Pending/i.test(a.coordinatorReviewStatus || '') ? 'Pending Coordinator Review' : a.stage;
+            return { ...a, stage, coordinatorReviewStatus: REVIEW_STATUS[stage] || a.coordinatorReviewStatus, createdAt: a.createdAt || nowIso() };
+          });
+        }
+
+        function rowToRequest(r) {
+          const d = r.details || {};
+          return {
+            id: String(r.id),
+            petId: String(r.pet_id),
+            petName: r.pet_name || 'Pet',
+            applicantId: r.applicant_id ? String(r.applicant_id) : null,
+            applicantName: r.applicant_name,
+            applicantMobile: r.applicant_mobile || '',
+            applicantDistrict: r.applicant_district || '',
+            ownerId: r.owner_id ? String(r.owner_id) : null,
+            ownerName: r.owner_name || '',
+            stage: r.stage,
+            coordinatorReviewStatus: r.review_status || REVIEW_STATUS[r.stage] || '',
+            backgroundCheck: d.backgroundCheck || {},
+            ra10631: d.ra10631 || {},
+            submittedAt: shortDate(r.created_at),
+            createdAt: r.created_at,
+            updatedAt: r.updated_at,
+          };
+        }
+        function rowToNotif(r) {
+          return {
+            id: String(r.id),
+            recipientId: String(r.recipient_id),
+            type: r.type,
+            title: r.title,
+            body: r.body || '',
+            petId: r.pet_id ? String(r.pet_id) : null,
+            requestId: r.request_id ? String(r.request_id) : null,
+            read: Boolean(r.read),
+            createdAt: r.created_at,
+          };
+        }
+        function upsertRequestLocal(req) {
+          const i = S.applications.findIndex((a) => a.id === req.id);
+          S.applications = i >= 0 ? S.applications.map((a) => (a.id === req.id ? { ...a, ...req } : a)) : [req, ...S.applications];
+        }
+
+        const isMyListing = (p) => {
+          const u = S.user;
+          if (!u || !p) return false;
+          if (p.ownerId) return p.ownerId === u.id;
+          return p.reporterName === u.fullName;
+        };
+        // Owner id for a pet; in demo mode older listings fall back to the account whose name matches the reporter.
+        function ownerIdFor(p) {
+          if (p.ownerId) return p.ownerId;
+          const acct = getAccounts().find((a) => a.profile && a.profile.fullName === p.reporterName);
+          return acct ? acct.profile.id : null;
+        }
+        const myNotifs = () => (S.user ? S.notifications.filter((n) => n.recipientId === S.user.id) : []);
+        const myApplications = () => (S.user ? S.applications.filter((a) => a.applicantId === S.user.id) : []);
+        const requestsForPet = (petId) => S.applications.filter((a) => a.petId === petId);
+        const pendingForMyPets = () => S.applications.filter((a) => S.user && a.ownerId === S.user.id && a.stage === 'Pending Coordinator Review').length;
+
+        async function pushNotif(n) {
+          if (!n.recipientId) return;
+          if (sb) {
+            try {
+              await sb.from('notifications').insert({
+                recipient_id: n.recipientId,
+                type: n.type,
+                title: n.title,
+                body: n.body || null,
+                pet_id: n.petId && UUID_RE.test(String(n.petId)) ? n.petId : null,
+                request_id: n.requestId && UUID_RE.test(String(n.requestId)) ? n.requestId : null,
+              });
+            } catch (_) {}
+            return;
+          }
+          S.notifications = [
+            { id: `n-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`, read: false, createdAt: nowIso(), ...n },
+            ...S.notifications,
+          ];
+          persistNotifs();
+        }
+
+        async function syncUserData() {
+          if (!sb || !S.user) return;
+          try {
+            const [rq, nt] = await Promise.all([
+              sb.from('adoption_requests').select('*').order('created_at', { ascending: false }),
+              sb.from('notifications').select('*').eq('recipient_id', S.user.id).order('created_at', { ascending: false }).limit(60),
+            ]);
+            if (!rq.error && Array.isArray(rq.data)) S.applications = rq.data.map(rowToRequest);
+            if (!nt.error && Array.isArray(nt.data)) S.notifications = nt.data.map(rowToNotif);
+            render();
+          } catch (_) {}
+        }
+
+        let userChannel = null;
+        function stopUserRealtime() {
+          if (userChannel && sb) {
+            try { sb.removeChannel(userChannel); } catch (_) {}
+          }
+          userChannel = null;
+        }
+        function subscribeUserRealtime() {
+          if (!sb || !S.user || userChannel) return;
+          const uid = S.user.id;
+          userChannel = sb
+            .channel(`pawpath-user-${uid}`)
+            .on('postgres_changes', { event: '*', schema: 'public', table: 'adoption_requests' }, (payload) => {
+              if (payload.eventType === 'DELETE') {
+                if (payload.old && payload.old.id) S.applications = S.applications.filter((a) => a.id !== String(payload.old.id));
+              } else if (payload.new) {
+                upsertRequestLocal(rowToRequest(payload.new));
+              }
+              render();
+            })
+            .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'notifications', filter: `recipient_id=eq.${uid}` }, (payload) => {
+              const n = rowToNotif(payload.new);
+              if (!S.notifications.some((x) => x.id === n.id)) S.notifications = [n, ...S.notifications];
+              toast(n.title);
+            })
+            .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'notifications', filter: `recipient_id=eq.${uid}` }, (payload) => {
+              const n = rowToNotif(payload.new);
+              S.notifications = S.notifications.map((x) => (x.id === n.id ? n : x));
+              render();
+            })
+            .subscribe((status) => {
+              if (status === 'SUBSCRIBED') syncUserData();
+            });
+        }
+
+        async function restoreSession() {
+          if (!sb) return;
+          try {
+            const { data } = await sb.auth.getSession();
+            const user = data && data.session && data.session.user;
+            if (user) {
+              if (!S.user || S.user.id !== user.id) {
+                S.user = await loadProfile(user);
+                lsWrite(LS_KEYS.USER, S.user);
+              }
+              syncUserData();
+              subscribeUserRealtime();
+              render();
+            } else if (S.user) {
+              // Saved browser profile without a live Supabase session: ask the person to log in again.
+              S.user = null;
+              lsWrite(LS_KEYS.USER, null);
+              render();
+            }
+          } catch (_) {}
+        }
+
         // Normalize pet image fallback for persisted older entries
         function safePetImage(pet) {
-          if (pet && typeof pet.imageUrl === 'string' && pet.imageUrl.startsWith('data:image/')) {
+          if (pet && typeof pet.imageUrl === 'string' && /^(data:image\/|https?:\/\/)/.test(pet.imageUrl)) {
             return pet.imageUrl;
           }
           if (pet && PET_IMAGE_ASSETS[pet.id]) return PET_IMAGE_ASSETS[pet.id];
@@ -471,23 +470,26 @@
         // =========================================================================
         // 4. APPLICATION STATE
         // =========================================================================
-        const storedPets = lsRead(LS_KEYS.PETS, null);
-        const initialPets = Array.isArray(storedPets) && storedPets.length > 0
-          ? storedPets.map((p) => ({ ...p, imageUrl: safePetImage(p) }))
-          : INITIAL_PETS;
+        // Zero pre-logged pets. With Supabase configured the feed starts empty and fills from the
+        // database; in local demo mode only pets users log themselves are kept in localStorage.
+        const SEED_PET_IDS = /^pet-(bantay|muning|soju|luna|cooper|peanut)$/;
+        const storedPets = sb ? null : lsRead(LS_KEYS.PETS, null);
+        const initialPets = Array.isArray(storedPets)
+          ? storedPets.filter((p) => !SEED_PET_IDS.test(String(p.id))).map((p) => ({ ...p, imageUrl: safePetImage(p) }))
+          : [];
 
         const storedMsgs = lsRead(LS_KEYS.MESSAGES, null);
-        const initialMsgs = Array.isArray(storedMsgs) ? storedMsgs : INITIAL_MESSAGES;
+        const initialMsgs = Array.isArray(storedMsgs) ? storedMsgs.filter((m) => !SEED_PET_IDS.test(String(m.petId))) : [];
 
         const S = {
           user: lsRead(LS_KEYS.USER, null),
           view: 'home',
           mapPane: 'adoption',
           pets: initialPets,
-          selectedPetId: initialPets[0] ? initialPets[0].id : 'pet-bantay',
+          selectedPetId: initialPets[0] ? initialPets[0].id : null,
           petFilter: 'all',
           resourceFilter: 'all',
-          selectedResourceId: 'hc-1',
+          selectedResourceId: HEALTH_CENTERS[0].id,
           gpsLocation: null,
           gpsDistrictPreset: 'Sampaloc',
           gpsStatusText: 'Static Demo Map · Manila City',
@@ -495,17 +497,18 @@
           mapZoom: 1,
           mapPan: { x: 0, y: 0 },
           messages: initialMsgs,
-          applications: lsRead(LS_KEYS.APPLICATIONS, []),
-          cart: lsRead(LS_KEYS.CART, []),
-          orders: lsRead(LS_KEYS.ORDERS, []),
+          applications: sb ? [] : normalizeApps(lsRead(LS_KEYS.APPLICATIONS, [])),
+          notifications: sb ? [] : (Array.isArray(lsRead(LS_KEYS.NOTIFS, [])) ? lsRead(LS_KEYS.NOTIFS, []) : []),
+          notifOpen: false,
+          appsTab: null,
+          appsFocusPetId: null,
           authModal: null,
           adoptionModal: null,
-          cartDrawerOpen: false,
-          pickupBranch: FOOD_SHOPS[0].name,
-          confirmedReceipt: null,
           toast: null,
           toastTimer: null,
           chatDraft: '',
+          rehomePhoto: null,
+          strayPhoto: null,
           rehome: {
             name: '',
             species: 'Dog',
@@ -516,14 +519,16 @@
             rehomingReason: '',
             healthStatus: 'Healthy',
             healthConditions: ['Fully Vaccinated'],
+            otherHealthCondition: '',
             temperamentPreferences: ['Friendly to Children'],
           },
           stray: {
-            species: 'Dog',
-            district: 'Tondo',
+            species: '',
+            district: '',
             locationText: '',
-            conditionDesc: '',
-            phone: '+63 917 555 4921',
+            conditionTypes: [],
+            conditionOther: '',
+            phone: '+63 ',
           },
         };
 
@@ -539,8 +544,14 @@
             "'": '&#39;',
           }[c]));
 
-        const phpFmt = (n) =>
-          '₱' + Number(n || 0).toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        function formatPhilippinePhone(value) {
+          let digits = String(value || '').replace(/\D/g, '');
+          if (digits.startsWith('63')) digits = digits.slice(2);
+          else if (digits.startsWith('0')) digits = digits.slice(1);
+          digits = digits.slice(0, 10);
+          const groups = [digits.slice(0, 3), digits.slice(3, 6), digits.slice(6, 10)].filter(Boolean);
+          return `+63${groups.length ? ` ${groups.join(' ')}` : ''}`;
+        }
 
         function projectLatLng(lat, lng) {
           const x = ((lng - MAP_BOUNDS.west) / (MAP_BOUNDS.east - MAP_BOUNDS.west)) * MAP_BOUNDS.width;
@@ -588,6 +599,8 @@
             case 'zoomIn': return `<svg ${base}><circle cx="11" cy="11" r="8"/><line x1="21" x2="16.65" y1="21" y2="16.65"/><line x1="11" x2="11" y1="8" y2="14"/><line x1="8" x2="14" y1="11" y2="11"/></svg>`;
             case 'zoomOut': return `<svg ${base}><circle cx="11" cy="11" r="8"/><line x1="21" x2="16.65" y1="21" y2="16.65"/><line x1="8" x2="14" y1="11" y2="11"/></svg>`;
             case 'reset': return `<svg ${base}><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>`;
+            case 'bell': return `<svg ${base}><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>`;
+            case 'users': return `<svg ${base}><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`;
             case 'paw': return `<svg ${base}><circle cx="11" cy="4" r="2"/><circle cx="18" cy="8" r="2"/><circle cx="20" cy="16" r="2"/><path d="M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.045Q6.52 17.48 4.46 16.84A3.5 3.5 0 0 1 5.5 10Z"/></svg>`;
             default: return '';
           }
@@ -607,32 +620,8 @@
         // 6. DERIVED DATA HELPERS
         // =========================================================================
         function getAllResources() {
-          const clinics = HEALTH_CENTERS.map((hc) => ({
-            id: hc.id,
-            kind: 'clinic',
-            name: hc.name,
-            subtitle: hc.category,
-            address: hc.address,
-            district: hc.district,
-            phone: hc.phone,
-            hours: hc.hours,
-            lat: hc.lat,
-            lng: hc.lng,
-            clinicData: hc,
-          }));
-          const shops = FOOD_SHOPS.map((fs) => ({
-            id: fs.id,
-            kind: 'food',
-            name: fs.name,
-            subtitle: 'Pet Food & Supplies Store',
-            address: fs.address,
-            district: fs.district,
-            phone: fs.phone,
-            hours: fs.hours,
-            lat: fs.lat,
-            lng: fs.lng,
-            shopData: fs,
-          }));
+          const clinics = HEALTH_CENTERS.map((hc) => ({ ...hc, kind: 'clinic', subtitle: hc.category }));
+          const shops = FOOD_SHOPS.map((fs) => ({ ...fs, kind: 'food', subtitle: 'Pet Food & Supplies Store' }));
           return [...clinics, ...shops];
         }
 
@@ -657,38 +646,125 @@
         // =========================================================================
         // 7. SUPABASE SYNC HELPERS (OPTIONAL WHEN config.js HAS CREDENTIALS)
         // =========================================================================
+        function rowToPet(row) {
+          return {
+            id: String(row.id),
+            name: String(row.name),
+            species: row.species || 'Dog',
+            breed: String(row.breed),
+            ageLabel: String(row.age_label),
+            status: row.status || 'HEALTHY',
+            healthStatus: row.health_status || 'Healthy',
+            healthConditions: row.health_conditions || [],
+            temperamentPreferences: row.temperament_preferences || [],
+            adoptionStage: row.adoption_stage || 'Available',
+            listingType: row.listing_type || 'adoption',
+            district: String(row.district),
+            barangay: String(row.barangay),
+            lat: Number(row.lat),
+            lng: Number(row.lng),
+            vaccinated: Boolean(row.vaccinated),
+            medicalNotes: String(row.medical_notes || ''),
+            rehomingReason: row.rehoming_reason ? String(row.rehoming_reason) : undefined,
+            reporterName: String(row.reporter_name),
+            reporterPhone: row.reporter_phone ? String(row.reporter_phone) : undefined,
+            ownerId: row.owner_id ? String(row.owner_id) : null,
+            imageUrl: safePetImage({ id: String(row.id), species: row.species, imageUrl: row.image_url }),
+          };
+        }
+
+        const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+        function petPayload(p) {
+          const payload = {
+            name: p.name,
+            species: p.species,
+            breed: p.breed,
+            age_label: p.ageLabel,
+            status: p.status,
+            health_status: p.healthStatus,
+            health_conditions: p.healthConditions,
+            temperament_preferences: p.temperamentPreferences || [],
+            adoption_stage: p.adoptionStage,
+            listing_type: p.listingType,
+            district: p.district,
+            barangay: p.barangay,
+            lat: p.lat,
+            lng: p.lng,
+            vaccinated: p.vaccinated,
+            medical_notes: p.medicalNotes,
+            rehoming_reason: p.rehomingReason || null,
+            reporter_name: p.reporterName,
+            reporter_phone: p.reporterPhone || null,
+            image_url: p.imageUrl || null,
+          };
+          if (S.user && UUID_RE.test(String(S.user.id))) payload.owner_id = S.user.id;
+          return payload;
+        }
+
+        function upsertPetLocal(pet) {
+          const exists = S.pets.some((p) => p.id === pet.id);
+          S.pets = exists ? S.pets.map((p) => (p.id === pet.id ? { ...p, ...pet } : p)) : [pet, ...S.pets];
+        }
+
+        function removePetLocal(id) {
+          S.pets = S.pets.filter((p) => p.id !== id);
+          if (S.selectedPetId === id) S.selectedPetId = null;
+        }
+
+        // Live pets: saved to Supabase when configured, otherwise kept in localStorage (demo mode).
+        async function createPet(localPet) {
+          if (!sb) {
+            S.pets = [localPet, ...S.pets];
+            persistPets();
+            return localPet;
+          }
+          const { data, error } = await sb.from('pets').insert(petPayload(localPet)).select().single();
+          if (error || !data) {
+            toast(`Could not save to Supabase: ${error ? error.message : 'unknown error'}`);
+            return null;
+          }
+          const saved = rowToPet(data);
+          upsertPetLocal(saved);
+          return saved;
+        }
+
         async function syncFromSupabase() {
           if (!sb) return;
           try {
             const { data, error } = await sb.from('pets').select('*').order('created_at', { ascending: false });
-            if (!error && Array.isArray(data) && data.length > 0) {
-              S.pets = data.map((row) => ({
-                id: String(row.id),
-                name: String(row.name),
-                species: row.species || 'Dog',
-                breed: String(row.breed),
-                ageLabel: String(row.age_label),
-                status: row.status || 'HEALTHY',
-                healthStatus: row.health_status || 'Healthy',
-                healthConditions: row.health_conditions || [],
-                temperamentPreferences: row.temperament_preferences || [],
-                adoptionStage: row.adoption_stage || 'Available',
-                listingType: row.listing_type || 'adoption',
-                district: String(row.district),
-                barangay: String(row.barangay),
-                lat: Number(row.lat),
-                lng: Number(row.lng),
-                vaccinated: Boolean(row.vaccinated),
-                medicalNotes: String(row.medical_notes || ''),
-                rehomingReason: row.rehoming_reason ? String(row.rehoming_reason) : undefined,
-                reporterName: String(row.reporter_name),
-                reporterPhone: row.reporter_phone ? String(row.reporter_phone) : undefined,
-                imageUrl: safePetImage({ id: String(row.id), species: row.species, imageUrl: row.image_url }),
-              }));
-              lsWrite(LS_KEYS.PETS, S.pets);
+            if (!error && Array.isArray(data)) {
+              S.pets = data.map(rowToPet);
+              if (S.selectedPetId && !S.pets.some((p) => p.id === S.selectedPetId)) S.selectedPetId = null;
               render();
             }
           } catch (_) {}
+        }
+
+        let petsChannel = null;
+        function subscribePetsRealtime() {
+          if (!sb || petsChannel) return;
+          petsChannel = sb
+            .channel('pawpath-pets-live')
+            .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'pets' }, (payload) => {
+              const pet = rowToPet(payload.new);
+              const known = S.pets.some((p) => p.id === pet.id);
+              upsertPetLocal(pet);
+              render();
+              if (!known) toast(`New ${pet.listingType === 'stray' ? 'stray report' : 'pet'}: ${pet.name}`);
+            })
+            .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'pets' }, (payload) => {
+              upsertPetLocal(rowToPet(payload.new));
+              render();
+            })
+            .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'pets' }, (payload) => {
+              if (payload.old && payload.old.id) removePetLocal(String(payload.old.id));
+              render();
+            })
+            .subscribe((status) => {
+              // Re-fetch on (re)connect so nothing is missed while the socket was down.
+              if (status === 'SUBSCRIBED') syncFromSupabase();
+            });
         }
 
         // =========================================================================
@@ -732,26 +808,60 @@
             if (!S.authModal) return;
             S.authModal.mode = mode;
             S.authModal.error = null;
+            S.authModal.notice = null;
             render();
           },
 
-          demoLogin() {
-            S.user = { ...DEMO_USER };
-            lsWrite(LS_KEYS.USER, S.user);
+          formatSignupMobile(input) {
+            const value = input.value;
+            const cursor = input.selectionStart === null ? value.length : input.selectionStart;
+            const digitsBeforeCursor = value.slice(0, cursor).replace(/\D/g, '').replace(/^63/, '').length;
+            let digits = value.replace(/\D/g, '');
+            if (digits.startsWith('63')) digits = digits.slice(2);
+            digits = digits.slice(0, 10);
+
+            let formatted = `+63 ${digits.slice(0, 3)}`;
+            if (digits.length >= 3) formatted += ' ';
+            if (digits.length > 3) formatted += digits.slice(3, 6);
+            if (digits.length >= 6) formatted += ' ';
+            if (digits.length > 6) formatted += digits.slice(6, 10);
+
+            let position = 4;
+            const digitsToPosition = Math.min(digitsBeforeCursor, digits.length);
+            for (let i = 0; i < digitsToPosition; i += 1) {
+              if (i === 3 || i === 6) position += 1;
+              position += 1;
+            }
+
+            input.value = formatted;
+            input.setSelectionRange(position, position);
+          },
+
+          finishLogin(profile, message) {
+            S.user = profile;
+            lsWrite(LS_KEYS.USER, profile);
             S.authModal = null;
             S.view = 'home';
-            S.rehome.district = S.user.district;
-            S.stray.phone = S.user.mobile;
-            toast(`Welcome back, ${S.user.fullName}! Full navigation unlocked.`);
+            S.notifOpen = false;
+            if (sb) {
+              syncUserData();
+              subscribeUserRealtime();
+            } else {
+              S.applications = normalizeApps(lsRead(LS_KEYS.APPLICATIONS, []));
+              S.notifications = lsRead(LS_KEYS.NOTIFS, []) || [];
+            }
+            toast(message);
           },
 
           async submitAuthLogin(e) {
             e.preventDefault();
             if (!S.authModal) return;
             const form = e.target;
-            const email = (form.email.value || '').trim();
+            const email = (form.email.value || '').trim().toLowerCase();
             const password = form.password.value || '';
+            S.authModal.email = email;
             S.authModal.error = null;
+            S.authModal.notice = null;
             S.authModal.submitting = true;
             render();
 
@@ -759,45 +869,20 @@
               if (sb) {
                 const { data, error } = await sb.auth.signInWithPassword({ email, password });
                 if (error) throw error;
-                if (data && data.user) {
-                  const prof = {
-                    id: data.user.id,
-                    fullName: (data.user.user_metadata && data.user.user_metadata.full_name) || email.split('@')[0].replace(/[._]/g, ' '),
-                    email: data.user.email || email,
-                    mobile: (data.user.user_metadata && data.user.user_metadata.mobile) || '+63 917 555 0188',
-                    age: 25,
-                    district: (data.user.user_metadata && data.user.user_metadata.district) || 'Sampaloc',
-                    barangay: (data.user.user_metadata && data.user.user_metadata.barangay) || 'Metro Manila',
-                    role: 'citizen',
-                  };
-                  S.user = prof;
-                  lsWrite(LS_KEYS.USER, S.user);
-                  S.authModal = null;
-                  S.view = 'home';
-                  toast(`Welcome back, ${prof.fullName}!`);
-                  return;
-                }
+                const prof = await loadProfile(data.user);
+                PP.finishLogin(prof, `Welcome back, ${prof.fullName}!`);
+                return;
               }
-
-              const fallback = (email.split('@')[0] || 'Manila Citizen').replace(/[._]/g, ' ');
-              const formatted = fallback.split(' ').map((w) => (w ? w[0].toUpperCase() + w.slice(1) : '')).join(' ');
-              S.user = {
-                id: `usr-${Date.now()}`,
-                fullName: formatted,
-                email,
-                mobile: '+63 917 555 0188',
-                age: 26,
-                district: 'Sampaloc',
-                barangay: 'Barangay 402',
-                role: 'citizen',
-              };
-              lsWrite(LS_KEYS.USER, S.user);
-              S.authModal = null;
-              S.view = 'home';
-              toast(`Signed in as ${S.user.fullName}. Navigation unlocked.`);
+              // Local demo mode: only accounts created on this device can log in.
+              const acct = getAccounts().find((a) => a.email === email);
+              if (!acct) throw new Error('No account with that email was found on this device. Please sign up first.');
+              if (acct.passHash !== (await hashPw(email, password))) throw new Error('Incorrect password. Please try again.');
+              PP.finishLogin(acct.profile, `Welcome back, ${acct.profile.fullName}!`);
             } catch (err) {
               if (S.authModal) {
-                S.authModal.error = err && err.message ? err.message : 'Unable to sign in. Try Demo Sign-In.';
+                let msg = err && err.message ? err.message : 'Unable to sign in. Please check your details and try again.';
+                if (/email not confirmed/i.test(msg)) msg = 'Please confirm your email first: open the confirmation link we sent you, then log in again.';
+                S.authModal.error = msg;
                 S.authModal.submitting = false;
                 render();
               }
@@ -809,7 +894,7 @@
             if (!S.authModal) return;
             const f = e.target;
             const fullName = (f.fullName.value || '').trim();
-            const email = (f.email.value || '').trim();
+            const email = (f.email.value || '').trim().toLowerCase();
             const password = f.password.value || '';
             const ageNum = parseInt(f.age.value, 10);
             const mobile = (f.mobile.value || '').trim();
@@ -822,23 +907,48 @@
               return;
             }
 
+            if (!/^\+63 \d{3} \d{3} \d{4}$/.test(mobile)) {
+              S.authModal.error = 'Enter a valid mobile number in the format +63 917 123 4567.';
+              render();
+              return;
+            }
+
+            if (password.length < 6) {
+              S.authModal.error = 'Password must be at least 6 characters.';
+              render();
+              return;
+            }
+
             S.authModal.error = null;
+            S.authModal.notice = null;
             S.authModal.submitting = true;
             render();
 
             try {
-              let userId = `usr-${Date.now()}`;
+              const profile = { id: `usr-${Date.now()}`, fullName, email, mobile, age: ageNum, district, barangay: barangay || `${district}, Manila`, role: 'citizen' };
+
               if (sb) {
                 const { data, error } = await sb.auth.signUp({
                   email,
                   password,
-                  options: { data: { full_name: fullName, mobile, district, barangay } },
+                  options: { data: { full_name: fullName, mobile, age: ageNum, district, barangay } },
                 });
                 if (error) throw error;
-                if (data && data.user) {
-                  userId = data.user.id;
+                if (data && data.user && Array.isArray(data.user.identities) && data.user.identities.length === 0) {
+                  throw new Error('An account with this email already exists. Please log in instead.');
+                }
+                if (!data || !data.session) {
+                  // Email confirmation is enabled in Supabase: the account exists, but there is no session yet.
+                  S.authModal.mode = 'login';
+                  S.authModal.submitting = false;
+                  S.authModal.notice = 'Account created! Check your email and click the confirmation link, then log in here.';
+                  render();
+                  return;
+                }
+                profile.id = data.user.id;
+                try {
                   await sb.from('profiles').upsert({
-                    id: userId,
+                    id: profile.id,
                     full_name: fullName,
                     email,
                     mobile,
@@ -848,23 +958,17 @@
                     barangay: barangay || district,
                     role: 'citizen',
                   });
-                }
+                } catch (_) {}
+                PP.finishLogin(profile, `Account created for ${fullName}. Welcome to PawPath Manila.`);
+                return;
               }
 
-              S.user = {
-                id: userId,
-                fullName,
-                email,
-                mobile,
-                age: ageNum,
-                district,
-                barangay: barangay || `${district}, Manila`,
-                role: 'citizen',
-              };
-              lsWrite(LS_KEYS.USER, S.user);
-              S.authModal = null;
-              S.view = 'home';
-              toast(`Account created for ${S.user.fullName}. Welcome to PawPath Manila.`);
+              // Local demo mode: save the account so it can be logged into again on this device.
+              const accts = getAccounts();
+              if (accts.some((a) => a.email === email)) throw new Error('An account with this email already exists on this device. Please log in instead.');
+              accts.push({ email, passHash: await hashPw(email, password), profile });
+              lsWrite(LS_KEYS.ACCOUNTS, accts);
+              PP.finishLogin(profile, `Account created for ${fullName}. Welcome to PawPath Manila.`);
             } catch (err) {
               if (S.authModal) {
                 S.authModal.error = err && err.message ? err.message : 'Registration failed.';
@@ -875,10 +979,14 @@
           },
 
           async logout() {
+            stopUserRealtime();
             if (sb) {
               try { await sb.auth.signOut(); } catch (_) {}
+              S.applications = [];
+              S.notifications = [];
             }
             S.user = null;
+            S.notifOpen = false;
             lsWrite(LS_KEYS.USER, null);
             S.view = 'home';
             toast('Logged out. System navigations are now locked.');
@@ -917,7 +1025,7 @@
           selectResourcePin(resId) {
             S.selectedResourceId = resId;
             const res = getAllResources().find((r) => r.id === resId);
-            if (res) PP.focusCoords(res.lat, res.lng, Math.max(S.mapZoom, 1.25));
+            if (res && res.inMap) PP.focusCoords(res.lat, res.lng, Math.max(S.mapZoom, 1.25));
             render();
           },
           zoomMap(delta) {
@@ -972,6 +1080,17 @@
           openAdoptionModal(petId) {
             const pet = S.pets.find((p) => p.id === petId);
             if (!pet || !S.user) return;
+            if (isMyListing(pet)) {
+              toast('This is your own listing. Open Adoptions to see citizens who want to adopt.');
+              return;
+            }
+            if (myApplications().some((a) => a.petId === pet.id && a.stage !== 'Declined')) {
+              S.appsTab = 'mine';
+              S.view = 'applications';
+              toast(`You already applied to adopt ${pet.name}. Track it here.`);
+              render();
+              return;
+            }
             S.adoptionModal = {
               petId: pet.id,
               step: 1,
@@ -1039,47 +1158,83 @@
             af.noAbandonmentRule = noAbandonmentRule;
             af.digitalSignature = f.digitalSignature.value.trim();
 
-            const app = {
+            const ownerId = ownerIdFor(pet);
+            const bg = {
+              monthlyIncomeRange: af.monthlyIncomeRange,
+              jobStabilityNote: af.jobStabilityNote,
+              housingType: af.housingType,
+              landlordPermission: af.landlordPermission,
+              yardStatus: af.yardStatus,
+              firstTimeFurparent: af.firstTimeFurparent,
+              currentFurbabiesCount: af.currentFurbabiesCount,
+              adoptionIntentReason: af.adoptionIntentReason,
+              petSleepingArrangement: af.petSleepingArrangement,
+            };
+            const signedAt = nowIso();
+            let app = {
               id: `app-${Date.now()}`,
               petId: pet.id,
               petName: pet.name,
               applicantId: S.user.id,
               applicantName: S.user.fullName,
-              stage: 'Ongoing Adoption',
-              coordinatorReviewStatus: 'Pending Shelter Coordinator Review',
-              backgroundCheck: {
-                monthlyIncomeRange: af.monthlyIncomeRange,
-                jobStabilityNote: af.jobStabilityNote,
-                housingType: af.housingType,
-                landlordPermission: af.landlordPermission,
-                yardStatus: af.yardStatus,
-                firstTimeFurparent: af.firstTimeFurparent,
-                currentFurbabiesCount: af.currentFurbabiesCount,
-                adoptionIntentReason: af.adoptionIntentReason,
-                petSleepingArrangement: af.petSleepingArrangement,
-              },
-              ra10631: {
-                governmentIdType: af.governmentIdType,
-                governmentIdRef: af.governmentIdRef,
-                humaneCarePromise: true,
-                noAbandonmentRule: true,
-                digitalSignature: af.digitalSignature,
-              },
-              submittedAt: new Date().toLocaleDateString('en-PH', { month: 'short', day: 'numeric', year: 'numeric' }),
+              applicantMobile: S.user.mobile || '',
+              applicantDistrict: S.user.district || '',
+              ownerId,
+              ownerName: pet.reporterName,
+              stage: 'Pending Coordinator Review',
+              coordinatorReviewStatus: REVIEW_STATUS['Pending Coordinator Review'],
+              backgroundCheck: bg,
+              // The ID number stays on the applicant's own device; only the ID type is shared with the pet owner.
+              ra10631: { governmentIdType: af.governmentIdType, humaneCarePromise: true, noAbandonmentRule: true, digitalSignature: af.digitalSignature, signedAt },
+              submittedAt: shortDate(signedAt),
+              createdAt: signedAt,
+              updatedAt: signedAt,
             };
 
-            S.applications = [app, ...S.applications.filter((a) => a.petId !== pet.id)];
-            lsWrite(LS_KEYS.APPLICATIONS, S.applications);
+            if (sb) {
+              const { data, error } = await sb
+                .from('adoption_requests')
+                .insert({
+                  pet_id: pet.id,
+                  pet_name: pet.name,
+                  applicant_id: S.user.id,
+                  applicant_name: S.user.fullName,
+                  applicant_mobile: S.user.mobile || null,
+                  applicant_district: S.user.district || null,
+                  owner_id: ownerId && UUID_RE.test(String(ownerId)) ? ownerId : null,
+                  owner_name: pet.reporterName,
+                  stage: app.stage,
+                  review_status: app.coordinatorReviewStatus,
+                  details: { backgroundCheck: bg, ra10631: app.ra10631 },
+                })
+                .select()
+                .single();
+              if (error || !data) {
+                toast(`Could not submit your application: ${error ? error.message : 'unknown error'}. Make sure you are logged in.`);
+                return;
+              }
+              app = rowToRequest(data);
+              upsertRequestLocal(app);
+            } else {
+              S.applications = [app, ...S.applications.filter((a) => !(a.petId === pet.id && a.applicantId === S.user.id))];
+              persistApps();
+            }
 
-            S.pets = S.pets.map((p) => (p.id === pet.id ? { ...p, adoptionStage: 'Ongoing Adoption' } : p));
-            lsWrite(LS_KEYS.PETS, S.pets);
+            // The pet now has at least one interested citizen.
+            if (pet.adoptionStage === 'Available') {
+              S.pets = S.pets.map((p) => (p.id === pet.id ? { ...p, adoptionStage: 'Want to Adopt' } : p));
+              persistPets();
+              if (sb) {
+                try { await sb.from('pets').update({ adoption_stage: 'Want to Adopt' }).eq('id', pet.id); } catch (_) {}
+              }
+            }
 
             const summaryMsg = {
               id: `sys-${Date.now()}`,
               petId: pet.id,
               senderName: 'PawPath Verification',
               senderRole: 'system',
-              body: `Capabilities & Background Check (${app.backgroundCheck.monthlyIncomeRange}, ${app.backgroundCheck.housingType}) and RA 10631 Digital Agreement submitted by ${app.applicantName}. Status: Pending Shelter Coordinator Review.`,
+              body: `${app.applicantName} submitted a Capabilities & Background Check (${bg.monthlyIncomeRange}, ${bg.housingType}) and a signed RA 10631 Digital Agreement. Status: ${app.coordinatorReviewStatus}.`,
               createdAt: 'Just now',
             };
             S.messages = [...S.messages, summaryMsg];
@@ -1090,17 +1245,159 @@
 
             if (sb) {
               try {
-                await sb.from('pets').update({ adoption_stage: 'Ongoing Adoption' }).eq('id', pet.id);
-                await sb.from('messages').insert({
-                  pet_id: pet.id,
-                  sender_name: summaryMsg.senderName,
-                  sender_role: 'system',
-                  body: summaryMsg.body,
-                });
+                await sb.from('messages').insert({ pet_id: pet.id, sender_name: summaryMsg.senderName, sender_role: 'system', body: summaryMsg.body });
               } catch (_) {}
             }
 
-            toast('Background check & RA 10631 Agreement submitted for Coordinator Review.');
+            // Notify the pet owner / rescuer, and confirm to the applicant.
+            await pushNotif({
+              recipientId: ownerId,
+              type: 'new_applicant',
+              title: `${app.applicantName} wants to adopt ${pet.name}`,
+              body: 'Open Adoptions to review their background check and RA 10631 agreement.',
+              petId: pet.id,
+              requestId: app.id,
+            });
+            await pushNotif({
+              recipientId: S.user.id,
+              type: 'status_update',
+              title: `Application sent for ${pet.name}`,
+              body: 'The owner has been notified. You will get an update here when they review it.',
+              petId: pet.id,
+              requestId: app.id,
+            });
+
+            toast(`Application for ${pet.name} submitted. ${pet.reporterName} was notified.`);
+          },
+
+          // Owner/rescuer actions on an applicant
+          async updateRequestStage(requestId, newStage) {
+            const req = S.applications.find((a) => a.id === requestId);
+            if (!req || !S.user) return;
+            const pet = S.pets.find((p) => p.id === req.petId);
+            if (!pet || !isMyListing(pet)) return;
+            if (newStage === 'Declined' && !window.confirm(`Decline ${req.applicantName}'s request to adopt ${pet.name}?`)) return;
+            if (newStage === 'Pet Adopted' && !window.confirm(`Confirm that ${pet.name} was adopted by ${req.applicantName}? Other requests will be closed.`)) return;
+
+            const status = REVIEW_STATUS[newStage];
+            const stamp = nowIso();
+            const applyReq = async (r, stage) => {
+              const rStatus = REVIEW_STATUS[stage];
+              if (sb) {
+                const { data, error } = await sb
+                  .from('adoption_requests')
+                  .update({ stage, review_status: rStatus, updated_at: stamp })
+                  .eq('id', r.id)
+                  .select();
+                if (error || !data || data.length === 0) return false;
+              }
+              upsertRequestLocal({ ...r, stage, coordinatorReviewStatus: rStatus, updatedAt: stamp });
+              return true;
+            };
+
+            if (!(await applyReq(req, newStage))) {
+              toast('Could not update this request (no permission?). Try logging in again.');
+              return;
+            }
+
+            let petStage = pet.adoptionStage;
+            const others = requestsForPet(pet.id).filter((a) => a.id !== req.id);
+            if (newStage === 'Pet Adopted') {
+              petStage = 'Pet Adopted';
+              for (const o of others.filter((x) => x.stage !== 'Declined' && x.stage !== 'Pet Adopted')) {
+                await applyReq(o, 'Declined');
+                await pushNotif({
+                  recipientId: o.applicantId,
+                  type: 'status_update',
+                  title: `${pet.name} found a home`,
+                  body: `${pet.name} was adopted by another citizen. Thank you for applying. Browse other pets in need on the Adoption Map.`,
+                  petId: pet.id,
+                  requestId: o.id,
+                });
+              }
+            } else if (newStage === 'Ongoing Adoption') {
+              petStage = 'Ongoing Adoption';
+            } else if (newStage === 'Declined') {
+              const active = others.filter((x) => x.stage !== 'Declined');
+              petStage = active.some((x) => x.stage === 'Ongoing Adoption') ? 'Ongoing Adoption' : active.length ? 'Want to Adopt' : 'Available';
+            }
+            if (petStage !== pet.adoptionStage) {
+              S.pets = S.pets.map((p) =>
+                p.id === pet.id ? { ...p, adoptionStage: petStage, status: petStage === 'Pet Adopted' ? 'PET ADOPTED' : p.status } : p
+              );
+              persistPets();
+              if (sb) {
+                const patch = { adoption_stage: petStage };
+                if (petStage === 'Pet Adopted') patch.status = 'PET ADOPTED';
+                try { await sb.from('pets').update(patch).eq('id', pet.id); } catch (_) {}
+              }
+            }
+            persistApps();
+
+            const messages = {
+              'Ongoing Adoption': [`Your request for ${pet.name} was approved`, `${pet.reporterName} approved your request. Expect a call or message to arrange a safe meetup at a Barangay or Veterinary sub-office.`],
+              'Pet Adopted': [`Adoption of ${pet.name} is complete`, `Congratulations! ${pet.name} is officially adopted under your RA 10631 agreement.`],
+              'Declined': [`Update on your request for ${pet.name}`, `${pet.reporterName} was not able to proceed with your request this time. You can apply for other pets on the Adoption Map.`],
+            };
+            if (messages[newStage]) {
+              await pushNotif({ recipientId: req.applicantId, type: 'status_update', title: messages[newStage][0], body: messages[newStage][1], petId: pet.id, requestId: req.id });
+            }
+            toast(`${req.applicantName}: ${status}.`);
+          },
+
+          // Applications / adoption tracking views
+          openApplicants(petId) {
+            S.appsFocusPetId = petId || null;
+            S.appsTab = 'adopters';
+            S.view = 'applications';
+            S.notifOpen = false;
+            render();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          },
+          setAppsTab(tab) {
+            S.appsTab = tab;
+            if (tab === 'mine') S.appsFocusPetId = null;
+            render();
+          },
+          clearAppsFocus() {
+            S.appsFocusPetId = null;
+            render();
+          },
+
+          // Notifications
+          toggleNotifs() {
+            S.notifOpen = !S.notifOpen;
+            render();
+          },
+          async markNotifRead(id) {
+            S.notifications = S.notifications.map((n) => (n.id === id ? { ...n, read: true } : n));
+            persistNotifs();
+            if (sb && UUID_RE.test(String(id))) {
+              try { await sb.from('notifications').update({ read: true }).eq('id', id); } catch (_) {}
+            }
+          },
+          async markAllNotifsRead() {
+            const ids = myNotifs().filter((n) => !n.read).map((n) => n.id);
+            S.notifications = S.notifications.map((n) => (S.user && n.recipientId === S.user.id ? { ...n, read: true } : n));
+            persistNotifs();
+            render();
+            if (sb && ids.length) {
+              try { await sb.from('notifications').update({ read: true }).in('id', ids); } catch (_) {}
+            }
+          },
+          openNotif(id) {
+            const n = S.notifications.find((x) => x.id === id);
+            if (!n) return;
+            PP.markNotifRead(id);
+            S.notifOpen = false;
+            if (n.type === 'new_applicant') {
+              PP.openApplicants(n.petId);
+            } else {
+              S.appsTab = 'mine';
+              S.view = 'applications';
+              render();
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
           },
 
           closeAdoptionModal() {
@@ -1110,7 +1407,8 @@
             S.adoptionModal = null;
             if (submitted && targetId) {
               S.selectedPetId = targetId;
-              S.view = 'chat';
+              S.appsTab = 'mine';
+              S.view = 'applications';
             }
             render();
           },
@@ -1172,12 +1470,16 @@
             }, 650);
           },
           markAdopted(petId) {
+            const target = S.pets.find((p) => p.id === petId);
+            if (!target || !isMyListing(target)) return;
             S.pets = S.pets.map((p) =>
               p.id === petId ? { ...p, adoptionStage: 'Pet Adopted', status: 'PET ADOPTED' } : p
             );
-            lsWrite(LS_KEYS.PETS, S.pets);
+            persistPets();
             if (sb) {
-              sb.from('pets').update({ adoption_stage: 'Pet Adopted', status: 'PET ADOPTED' }).eq('id', petId).then(() => {});
+              sb.from('pets').update({ adoption_stage: 'Pet Adopted', status: 'PET ADOPTED' }).eq('id', petId).select().then(({ data, error }) => {
+                if (error || !data || data.length === 0) toast(`Could not update pet in Supabase${error ? ': ' + error.message : ' (no permission?)'}`);
+              });
             }
             toast('Adoption finalized. Listing marked as Pet Adopted.');
           },
@@ -1195,16 +1497,37 @@
             S.rehome.healthConditions = arr.includes(cond) ? arr.filter((x) => x !== cond) : [...arr, cond];
             render();
           },
+          syncRehomeOther(v) {
+            S.rehome.otherHealthCondition = v;
+          },
           toggleRehomeTemp(pref) {
             const arr = S.rehome.temperamentPreferences;
             S.rehome.temperamentPreferences = arr.includes(pref) ? arr.filter((x) => x !== pref) : [...arr, pref];
             render();
           },
-          submitRehome(e) {
+          async pickPhoto(kind, input) {
+            const file = input.files && input.files[0];
+            if (!file) return;
+            if (!file.type.startsWith('image/')) { toast('Please choose an image file.'); return; }
+            try {
+              const url = await resizeImage(file, 900, 0.78);
+              if (kind === 'rehome') S.rehomePhoto = url; else S.strayPhoto = url;
+              render();
+            } catch (_) {
+              toast('Could not read that photo. Try a JPG or PNG.');
+            }
+          },
+          clearPhoto(kind) {
+            if (kind === 'rehome') S.rehomePhoto = null; else S.strayPhoto = null;
+            render();
+          },
+
+          async submitRehome(e) {
             e.preventDefault();
             if (!S.user) return;
             const f = e.target;
             const r = S.rehome;
+            if (!S.rehomePhoto) { toast('Please add a photo of the pet (Photo Check).'); return; }
             r.name = f.name.value.trim();
             r.species = f.species.value;
             r.ageLabel = f.ageLabel.value.trim();
@@ -1212,9 +1535,18 @@
             r.district = f.district.value;
             r.barangay = f.barangay.value.trim();
             r.rehomingReason = f.rehomingReason.value.trim();
+            r.otherHealthCondition = (f.otherHealthCondition?.value || '').trim();
+            if (r.healthConditions.includes('Other') && !r.otherHealthCondition) {
+              toast('Please enter the pet&apos;s other health condition.');
+              return;
+            }
+
+            const healthConditions = r.healthConditions.map((cond) =>
+              cond === 'Other' ? `Other: ${r.otherHealthCondition}` : cond
+            );
 
             const baseCoords = MANILA_DISTRICTS[r.district] || { lat: 14.6042, lng: 120.9886 };
-            const newPet = {
+            let newPet = {
               id: `pet-${Date.now()}`,
               name: r.name,
               species: r.species,
@@ -1222,7 +1554,7 @@
               ageLabel: r.ageLabel,
               status: r.healthStatus === 'Healthy' ? 'HEALTHY' : 'NEEDS CARE',
               healthStatus: r.healthStatus,
-              healthConditions: [...r.healthConditions],
+              healthConditions,
               temperamentPreferences: [...r.temperamentPreferences],
               adoptionStage: 'Available',
               listingType: 'rehome',
@@ -1235,35 +1567,16 @@
               rehomingReason: r.rehomingReason,
               reporterName: S.user.fullName,
               reporterPhone: S.user.mobile,
-              imageUrl: PET_IMAGE_ASSETS[r.species],
+              ownerId: S.user.id,
+              imageUrl: S.rehomePhoto,
             };
 
-            S.pets = [newPet, ...S.pets];
-            lsWrite(LS_KEYS.PETS, S.pets);
-            if (sb) {
-              sb.from('pets').insert({
-                name: newPet.name,
-                species: newPet.species,
-                breed: newPet.breed,
-                age_label: newPet.ageLabel,
-                status: newPet.status,
-                health_status: newPet.healthStatus,
-                health_conditions: newPet.healthConditions,
-                temperament_preferences: newPet.temperamentPreferences,
-                adoption_stage: newPet.adoptionStage,
-                listing_type: newPet.listingType,
-                district: newPet.district,
-                barangay: newPet.barangay,
-                lat: newPet.lat,
-                lng: newPet.lng,
-                vaccinated: newPet.vaccinated,
-                medical_notes: newPet.medicalNotes,
-                rehoming_reason: newPet.rehomingReason,
-                reporter_name: newPet.reporterName,
-                reporter_phone: newPet.reporterPhone,
-              }).then(() => {});
-            }
+            newPet.imageUrl = await uploadPetPhoto(S.rehomePhoto);
+            const savedPet = await createPet(newPet);
+            if (!savedPet) return;
+            newPet = savedPet;
 
+            S.rehomePhoto = null;
             S.rehome = {
               name: '',
               species: 'Dog',
@@ -1274,6 +1587,7 @@
               rehomingReason: '',
               healthStatus: 'Healthy',
               healthConditions: ['Fully Vaccinated'],
+              otherHealthCondition: '',
               temperamentPreferences: ['Friendly to Children'],
             };
             S.selectedPetId = newPet.id;
@@ -1286,18 +1600,45 @@
           syncStrayField(k, v) {
             S.stray[k] = v;
           },
-          submitStray(e) {
+          formatStrayPhone(input) {
+            input.value = formatPhilippinePhone(input.value);
+            S.stray.phone = input.value;
+          },
+          toggleStrayCondition(condition) {
+            const conditions = S.stray.conditionTypes;
+            S.stray.conditionTypes = conditions.includes(condition)
+              ? conditions.filter((item) => item !== condition)
+              : [...conditions, condition];
+            if (condition === 'Other' && !S.stray.conditionTypes.includes('Other')) {
+              S.stray.conditionOther = '';
+            }
+            render();
+          },
+          async submitStray(e) {
             e.preventDefault();
             if (!S.user) return;
             const f = e.target;
+            if (!S.strayPhoto) { toast('Please add a photo of the animal (Photo Check).'); return; }
             const species = f.species.value;
             const district = f.district.value;
-            const conditionDesc = f.conditionDesc.value.trim();
+            const conditionTypes = S.stray.conditionTypes;
+            const conditionOther = (f.conditionOther?.value || '').trim();
+            if (conditionTypes.length === 0) {
+              toast('Please select at least one physical condition.');
+              return;
+            }
+            if (conditionTypes.includes('Other') && !conditionOther) {
+              toast('Please describe the other physical condition.');
+              return;
+            }
+            const conditionDesc = conditionTypes
+              .map((condition) => condition === 'Other' ? `Other: ${conditionOther}` : condition)
+              .join(' · ');
             const locationText = f.locationText.value.trim();
             const phone = f.phone.value.trim();
             const baseCoords = MANILA_DISTRICTS[district] || { lat: 14.6188, lng: 120.9675 };
 
-            const newStray = {
+            let newStray = {
               id: `stray-${Date.now()}`,
               name: `Stray ${species} (${district})`,
               species,
@@ -1317,119 +1658,38 @@
               medicalNotes: conditionDesc,
               reporterName: S.user.fullName,
               reporterPhone: phone,
-              imageUrl: PET_IMAGE_ASSETS[species],
+              ownerId: S.user.id,
+              imageUrl: S.strayPhoto,
             };
 
-            S.pets = [newStray, ...S.pets];
-            lsWrite(LS_KEYS.PETS, S.pets);
-            if (sb) {
-              sb.from('pets').insert({
-                name: newStray.name,
-                species: newStray.species,
-                breed: newStray.breed,
-                age_label: newStray.ageLabel,
-                status: newStray.status,
-                health_status: newStray.healthStatus,
-                health_conditions: newStray.healthConditions,
-                temperament_preferences: [],
-                adoption_stage: newStray.adoptionStage,
-                listing_type: 'stray',
-                district: newStray.district,
-                barangay: newStray.barangay,
-                lat: newStray.lat,
-                lng: newStray.lng,
-                vaccinated: false,
-                medical_notes: newStray.medicalNotes,
-                reporter_name: newStray.reporterName,
-                reporter_phone: newStray.reporterPhone,
-              }).then(() => {});
-            }
+            newStray.imageUrl = await uploadPetPhoto(S.strayPhoto);
+            const savedStray = await createPet(newStray);
+            if (!savedStray) return;
+            newStray = savedStray;
 
-            S.stray = { species: 'Dog', district: 'Tondo', locationText: '', conditionDesc: '', phone: S.user.mobile || '' };
+            S.strayPhoto = null;
+            S.stray = { species: 'Dog', district: 'Tondo', locationText: '', conditionTypes: [], conditionOther: '', phone: S.user.mobile || '' };
             S.selectedPetId = newStray.id;
             S.mapPane = 'adoption';
             S.view = 'map';
-            toast('Stray emergency alert dispatched to the Manila Adoption Map.');
+            toast('Stray report published. Citizens who want to adopt will show up under Adoptions and in your notifications.');
           },
 
-          // Food & Supplies Cart
-          bookClinic(clinicName) {
-            toast(`Consultation appointment requested at ${clinicName}.`);
-          },
-          openCartDrawer(open) {
-            S.cartDrawerOpen = open;
-            if (!open) S.confirmedReceipt = null;
-            render();
-          },
-          addToCart(itemId) {
-            let found = null;
-            for (const shop of FOOD_SHOPS) {
-              const hit = shop.items.find((i) => i.id === itemId);
-              if (hit) { found = hit; break; }
-            }
-            if (!found) return;
-            S.confirmedReceipt = null;
-            const existing = S.cart.find((c) => c.id === found.id);
-            if (existing) {
-              S.cart = S.cart.map((c) => (c.id === found.id ? { ...c, quantity: c.quantity + 1 } : c));
-            } else {
-              S.cart = [...S.cart, { id: found.id, name: found.name, price: found.price, quantity: 1, shopName: found.shopName }];
-            }
-            S.pickupBranch = found.shopName;
-            S.cartDrawerOpen = true;
-            lsWrite(LS_KEYS.CART, S.cart);
-            render();
-          },
-          adjustCart(itemId, delta) {
-            S.cart = S.cart
-              .map((c) => (c.id === itemId ? { ...c, quantity: c.quantity + delta } : c))
-              .filter((c) => c.quantity > 0);
-            lsWrite(LS_KEYS.CART, S.cart);
-            render();
-          },
-          loadFosterBundle() {
-            S.confirmedReceipt = null;
-            S.cart = [
-              { id: 'sup-vitality', name: 'Vitality Classic Adult (3kg)', price: 685, quantity: 1, shopName: 'Pet Express — SM Manila' },
-              { id: 'sup-royal-canin', name: 'Royal Canin Recovery Wet Can', price: 215, quantity: 2, shopName: 'Pet Express — SM Manila' },
-            ];
-            S.pickupBranch = 'Pet Express — SM Manila';
-            S.cartDrawerOpen = true;
-            lsWrite(LS_KEYS.CART, S.cart);
-            render();
-          },
-          setPickupBranch(val) {
-            S.pickupBranch = val;
-          },
-          confirmOrder() {
-            if (!S.user || S.cart.length === 0) return;
-            const totalPhp = S.cart.reduce((sum, i) => sum + i.price * i.quantity, 0);
-            const order = {
-              id: `ORD-${Math.floor(100000 + Math.random() * 900000)}`,
-              customerName: S.user.fullName,
-              pickupBranch: S.pickupBranch,
-              collectionMode: 'Store Pick-Up Only (No live animals)',
-              items: [...S.cart],
-              totalPhp,
-              status: 'reserved',
-              createdAt: new Date().toLocaleTimeString('en-PH', { hour: '2-digit', minute: '2-digit' }),
-            };
-            S.orders = [order, ...S.orders];
-            S.cart = [];
-            S.confirmedReceipt = order;
-            lsWrite(LS_KEYS.ORDERS, S.orders);
-            lsWrite(LS_KEYS.CART, []);
+          // Remove a pet listing (saved to Supabase and broadcast live to every viewer)
+          async deletePet(petId) {
+            const pet = S.pets.find((p) => p.id === petId);
+            if (!pet || !S.user) return;
+            if (!window.confirm(`Remove ${pet.name} from PawPath Manila? This cannot be undone.`)) return;
             if (sb) {
-              sb.from('supply_orders').insert({
-                customer_name: order.customerName,
-                pickup_branch: order.pickupBranch,
-                collection_mode: order.collectionMode,
-                items: order.items,
-                total_php: order.totalPhp,
-                status: order.status,
-              }).then(() => {});
+              const { data, error } = await sb.from('pets').delete().eq('id', petId).select();
+              if (error || !data || data.length === 0) {
+                toast(`Could not delete from Supabase${error ? ': ' + error.message : ' (no permission?)'}`);
+                return;
+              }
             }
-            toast(`Order reservation ${order.id} confirmed for Store Pick-Up.`);
+            removePetLocal(petId);
+            persistPets();
+            toast(`${pet.name} was removed.`);
           },
         };
         window.PP = PP;
@@ -1443,9 +1703,11 @@
             ? u.fullName.split(' ').map((n) => n[0]).join('').slice(0, 2).toUpperCase()
             : '';
 
+          const unread = myNotifs().filter((n) => !n.read).length;
           const navLinks = [
             { id: 'home', label: 'Home' },
             { id: 'map', label: 'Adoption Map' },
+            { id: 'applications', label: 'Adoptions' },
             { id: 'chat', label: 'Messages' },
             { id: 'health', label: 'Health Centers' },
             { id: 'food', label: 'Food & Supplies' },
@@ -1469,6 +1731,10 @@
 
           const rightControls = u
             ? `<div class="flex items-center gap-2.5 shrink-0">
+                <button type="button" onclick="PP.toggleNotifs()" title="Notifications" aria-label="Notifications${unread ? `, ${unread} unread` : ''}" aria-expanded="${S.notifOpen}" class="relative min-w-[40px] min-h-[40px] rounded-lg border border-black/[0.08] flex items-center justify-center text-[#414942] hover:text-[#144226] hover:bg-[#F7F8F4] transition-colors">
+                  ${ico('bell', 'w-4 h-4')}
+                  ${unread ? `<span class="absolute -top-1.5 -right-1.5 min-w-[18px] h-[18px] px-1 rounded-full bg-[#D97736] text-white text-[10px] font-bold flex items-center justify-center">${unread > 9 ? '9+' : unread}</span>` : ''}
+                </button>
                 <button type="button" onclick="PP.navigate('home')" class="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-black/[0.08] bg-[#F7F8F4] hover:bg-[#ECEFE6] transition-colors whitespace-nowrap shrink-0 min-h-[40px]">
                   <span class="w-6 h-6 rounded-full bg-[#2D5A3C] text-white flex items-center justify-center font-bold text-[11px]">${esc(initials)}</span>
                   <span class="text-xs font-semibold text-[#1A1A1A] hidden sm:inline">${esc(u.fullName)}</span>
@@ -1484,10 +1750,11 @@
 
           const mobileBar = u
             ? `<nav aria-label="Mobile navigation" class="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-lg border-t border-black/[0.08] pb-safe">
-                <div class="h-14 grid grid-cols-5 items-center px-1 text-center">
+                <div class="h-14 grid grid-cols-6 items-center px-1 text-center">
                   ${[
                     { id: 'home', label: 'Home', icon: 'home', match: S.view === 'home' || S.view === 'rehome' || S.view === 'stray' },
                     { id: 'map', label: 'Map', icon: 'mapPin', match: S.view === 'map' },
+                    { id: 'applications', label: 'Adoption', icon: 'paw', match: S.view === 'applications' },
                     { id: 'chat', label: 'Messages', icon: 'message', match: S.view === 'chat' },
                     { id: 'health', label: 'Health', icon: 'stethoscope', match: S.view === 'health' },
                     { id: 'food', label: 'Supplies', icon: 'bag', match: S.view === 'food' },
@@ -1536,7 +1803,7 @@
                     <div class="flex flex-wrap items-center justify-center gap-3 pt-8">
                       <button type="button" onclick="PP.openAuth('login')" class="h-12 px-6 rounded-lg bg-[#D97736] hover:bg-[#B85D23] text-white font-semibold text-sm transition-colors whitespace-nowrap shrink-0 flex items-center gap-2">
                         <span>Log In to Access Platform</span>
-                        ${ico('arrowRight', 'w-4 h-4')}
+                
                       </button>
                       <button type="button" onclick="PP.openAuth('signup')" class="h-12 px-6 rounded-lg border border-white/35 bg-white/10 hover:bg-white/20 text-white font-semibold text-sm transition-colors whitespace-nowrap shrink-0">
                         Create Citizen Account
@@ -1559,8 +1826,8 @@
                         To protect animal locations, shelter coordinators, and adopter privacy, interactive navigation is locked until account verification is completed.
                       </p>
                     </div>
-                    <button type="button" onclick="PP.demoLogin()" class="h-11 px-5 rounded-lg bg-[#2D5A3C] hover:bg-[#21432C] text-white text-sm font-semibold whitespace-nowrap shrink-0 transition-colors">
-                      Sign In as Demo Citizen
+                    <button type="button" onclick="PP.openAuth('login')" class="h-11 px-5 rounded-lg bg-[#2D5A3C] hover:bg-[#21432C] text-white text-sm font-semibold whitespace-nowrap shrink-0 transition-colors">
+                      Sign In
                     </button>
                   </div>
 
@@ -1599,6 +1866,7 @@
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  ${previewPets.length === 0 ? `<div class="md:col-span-3 bg-white rounded-2xl border border-black/[0.08] p-8 text-center text-sm text-[#5A635C]">No rescues are listed yet. Be the first &mdash; sign in to log a pet or report a stray.</div>` : ''}
                   ${previewPets
                     .map(
                       (pet) => `
@@ -1639,13 +1907,13 @@
           const strayAlertCount = S.pets.filter((p) => p.listingType === 'stray' && p.adoptionStage !== 'Pet Adopted').length;
 
           const appsHtml =
-            S.applications.length === 0
+            myApplications().length === 0
               ? `<div class="py-6 text-center bg-[#F7F8F4] rounded-xl px-4">
                   <p class="text-sm font-medium text-[#1A1A1A]">No active adoption applications yet</p>
                   <p class="text-xs text-[#5A635C] mt-1">Open the Adoption Map and select &ldquo;Want to Adopt&rdquo; on a pet to complete your background evaluation and RA 10631 agreement.</p>
                 </div>`
               : `<div class="divide-y divide-black/[0.06]">
-                  ${S.applications
+                  ${myApplications()
                     .map(
                       (app) => `
                         <div class="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
@@ -1655,10 +1923,10 @@
                               <span class="font-display text-sm font-bold text-[#1A1A1A]">${esc(app.petName)}</span>
                               <span class="text-xs text-[#5A635C]">· ${esc(app.submittedAt)}</span>
                             </div>
-                            <p class="text-xs text-[#D97736] font-semibold mt-0.5">${esc(app.coordinatorReviewStatus)} · Status: ${esc(app.stage)}</p>
+                            <p class="text-xs text-[#D97736] font-semibold mt-0.5">${esc(app.coordinatorReviewStatus)}</p>
                           </div>
-                          <button type="button" onclick="PP.openChat('${esc(app.petId)}')" class="px-3.5 py-2 rounded-lg border border-black/[0.12] text-xs font-semibold text-[#144226] hover:bg-[#F7F8F4] whitespace-nowrap">
-                            Open Shelter Chat
+                          <button type="button" onclick="PP.setAppsTab('mine');PP.navigate('applications')" class="px-3.5 py-2 rounded-lg border border-black/[0.12] text-xs font-semibold text-[#144226] hover:bg-[#F7F8F4] whitespace-nowrap">
+                            Track Progress
                           </button>
                         </div>
                       `
@@ -1666,31 +1934,9 @@
                     .join('')}
                 </div>`;
 
-          const ordersHtml =
-            S.orders.length === 0
-              ? `<div class="py-6 text-center bg-[#F7F8F4] rounded-xl px-4">
-                  <span class="text-[#5A635C] inline-block mb-1.5">${ico('bag', 'w-5 h-5')}</span>
-                  <p class="text-sm font-medium text-[#1A1A1A]">No supply reservations yet</p>
-                  <p class="text-xs text-[#5A635C] mt-1">Visit Food &amp; Supplies to reserve pet kibble and recovery cans for store pick-up.</p>
-                </div>`
-              : `<div class="divide-y divide-black/[0.06]">
-                  ${S.orders
-                    .slice(0, 4)
-                    .map(
-                      (ord) => `
-                        <div class="py-3 flex items-center justify-between gap-3">
-                          <div class="min-w-0">
-                            <div class="flex items-center gap-1.5 text-xs font-semibold text-[#2D5A3C]">
-                              <span class="shrink-0">${ico('checkCircle', 'w-3.5 h-3.5')}</span>
-                              <span class="truncate">${esc(ord.pickupBranch)}</span>
-                            </div>
-                            <p class="text-xs text-[#5A635C] mt-0.5 truncate">${ord.items.reduce((s, i) => s + i.quantity, 0)} items · ${esc(ord.createdAt)}</p>
-                          </div>
-                          <div class="font-mono-num text-sm font-semibold text-[#1A1A1A] shrink-0">${phpFmt(ord.totalPhp)}</div>
-                        </div>
-                      `
-                    )
-                    .join('')}
+          const ordersHtml = `<div class="py-6 text-center bg-[#F7F8F4] rounded-xl px-4">
+                  <p class="text-sm font-medium text-[#1A1A1A]">Browse real Manila pet stores</p>
+                  <p class="text-xs text-[#5A635C] mt-1">The Food &amp; Supplies directory lists verified pet food and supply stores with their contact details and Google Maps links.</p>
                 </div>`;
 
           return `
@@ -1748,7 +1994,7 @@
                   </div>
                   <div>
                     <h2 class="font-display text-lg font-bold text-[#1A1A1A]">Resources &amp; Welfare Map</h2>
-                    <p class="text-sm text-[#5A635C] mt-1 leading-relaxed">Isolated map view for Manila veterinary clinics, free rabies centers, and store pick-up food suppliers.</p>
+                    <p class="text-sm text-[#5A635C] mt-1 leading-relaxed">Isolated map view for Manila veterinary clinics, free rabies centers, and real pet food and supply stores.</p>
                   </div>
                 </button>
               </div>
@@ -1771,8 +2017,8 @@
                 <div class="lg:col-span-5 bg-white rounded-2xl border border-black/[0.08] p-6 space-y-4">
                   <div class="flex items-center justify-between">
                     <div>
-                      <h3 class="font-display text-base font-bold text-[#1A1A1A]">Supply Pick-Up Reservations</h3>
-                      <p class="text-xs text-[#5A635C]">Store Pick-Up Only (No live animals)</p>
+                      <h3 class="font-display text-base font-bold text-[#1A1A1A]">Food &amp; Supplies Directory</h3>
+                      <p class="text-xs text-[#5A635C]">Real Metro Manila pet stores</p>
                     </div>
                     <button type="button" onclick="PP.navigate('food')" class="text-xs font-semibold text-[#2D5A3C] hover:underline flex items-center gap-1 whitespace-nowrap">
                       <span>Food Store</span>
@@ -1844,6 +2090,7 @@
                 })
                 .join('')
             : filteredResources
+                .filter((r) => r.inMap)
                 .map((res) => {
                   const pt = projectLatLng(res.lat, res.lng);
                   const isSel = selectedResource && selectedResource.id === res.id;
@@ -1901,18 +2148,42 @@
                               : ''
                           }
                         </div>
-                        <div class="grid grid-cols-2 gap-3 pt-1">
+                        ${
+                          isMyListing(selectedPet)
+                            ? (() => {
+                                const reqs = requestsForPet(selectedPet.id).filter((a) => a.stage !== 'Declined');
+                                return `<button type="button" onclick="PP.openApplicants('${esc(selectedPet.id)}')" class="w-full h-11 rounded-lg bg-[#2D5A3C] hover:bg-[#21432C] text-white text-xs font-semibold flex items-center justify-center gap-2">
+                                  ${ico('users', 'w-4 h-4')}
+                                  <span>See Citizens Who Want to Adopt (${reqs.length})</span>
+                                </button>`;
+                              })()
+                            : `<div class="grid grid-cols-2 gap-3 pt-1">
                           <button type="button" onclick="PP.openChat('${esc(selectedPet.id)}')" class="h-11 rounded-lg border border-black/[0.12] hover:bg-[#F7F8F4] text-xs font-semibold text-[#1A1A1A] flex items-center justify-center gap-1.5">
                             ${ico('message', 'w-3.5 h-3.5')}
-                            <span>Message Shelter</span>
+                            <span>${selectedPet.listingType === 'stray' ? 'Message Reporter' : 'Message Shelter'}</span>
                           </button>
                           <button type="button" onclick="PP.openAdoptionModal('${esc(selectedPet.id)}')" class="h-11 rounded-lg bg-[#2D5A3C] hover:bg-[#21432C] text-white text-xs font-semibold flex items-center justify-center gap-1.5">
                             ${ico('shield', 'w-4 h-4')}
                             <span>Want to Adopt</span>
                           </button>
-                        </div>
+                        </div>`
+                        }
+                        ${
+                          isMyListing(selectedPet)
+                            ? `<button type="button" onclick="PP.deletePet('${esc(selectedPet.id)}')" class="w-full h-9 rounded-lg border border-[#A50E0E]/30 text-[#A50E0E] hover:bg-[#FEF2F2] text-xs font-semibold flex items-center justify-center gap-1.5">${ico('trash', 'w-3.5 h-3.5')}<span>Remove My Listing</span></button>`
+                            : ''
+                        }
                       </div>
                     </article>`
+                  : S.pets.length === 0
+                  ? `<div class="bg-white rounded-2xl border border-black/[0.08] p-6 text-center space-y-3">
+                      <p class="text-sm font-semibold text-[#1A1A1A]">No pets logged yet</p>
+                      <p class="text-xs text-[#5A635C]">Pets and stray reports appear here live as soon as someone logs them.</p>
+                      <div class="flex flex-wrap justify-center gap-2">
+                        <button type="button" onclick="PP.navigate('rehome')" class="px-3.5 h-9 rounded-lg bg-[#2D5A3C] text-white text-xs font-semibold">Register a Pet</button>
+                        <button type="button" onclick="PP.navigate('stray')" class="px-3.5 h-9 rounded-lg border border-[#D97736] text-[#D97736] text-xs font-semibold">Report a Stray</button>
+                      </div>
+                    </div>`
                   : `<div class="bg-white rounded-2xl border border-black/[0.08] p-6 text-center text-sm text-[#5A635C]">No pets match the selected filter.</div>`
               }
               <div class="bg-white rounded-2xl border border-black/[0.08] divide-y divide-black/[0.06] max-h-[260px] overflow-y-auto">
@@ -1958,34 +2229,9 @@
                             }
                           </span>
                         </div>
-                        <div class="flex items-center gap-1.5"><span class="text-[#5A635C] shrink-0">${ico('phone', 'w-3.5 h-3.5')}</span><span class="font-mono-num">${esc(selectedResource.phone)}</span></div>
-                        <div class="flex items-center gap-1.5"><span class="text-[#5A635C] shrink-0">${ico('clock', 'w-3.5 h-3.5')}</span><span>${esc(selectedResource.hours)}</span></div>
+                        <div class="flex items-center gap-1.5"><span class="text-[#5A635C] shrink-0">${ico('phone', 'w-3.5 h-3.5')}</span><span class="font-mono-num">${esc(phoneText(selectedResource))}</span></div>
                       </div>
-                      ${
-                        selectedResource.clinicData
-                          ? `<div class="bg-[#F7F8F4] rounded-xl p-3.5 space-y-1.5 text-xs">
-                              <div class="font-semibold text-[#1A1A1A]">Available Services</div>
-                              ${selectedResource.clinicData.services
-                                .map(
-                                  (srv) => `<div class="flex items-center justify-between gap-2"><span class="text-[#414942]">${esc(srv.name)}</span><span class="font-mono-num font-semibold text-[#0284C7]">${esc(srv.price)}</span></div>`
-                                )
-                                .join('')}
-                            </div>`
-                          : ''
-                      }
-                      ${
-                        selectedResource.shopData
-                          ? `<div class="bg-[#F7F8F4] rounded-xl p-3.5 space-y-2 text-xs">
-                              <p class="text-[#414942] leading-relaxed"><strong class="text-[#1A1A1A]">Nutrition Guide:</strong> ${esc(selectedResource.shopData.guide)}</p>
-                              <div class="text-[11px] font-semibold text-[#2D5A3C]">Store Pick-Up Only (No live animals)</div>
-                            </div>`
-                          : ''
-                      }
-                      ${
-                        selectedResource.kind === 'clinic'
-                          ? `<button type="button" onclick="PP.bookClinic('${esc(selectedResource.name)}')" class="w-full h-11 rounded-lg bg-[#0284C7] hover:bg-[#0369A1] text-white text-xs font-semibold transition-colors">Book Veterinary Consultation</button>`
-                          : `<button type="button" onclick="PP.navigate('food')" class="w-full h-11 rounded-lg bg-[#2D5A3C] hover:bg-[#21432C] text-white text-xs font-semibold transition-colors">Reserve Supplies at Store</button>`
-                      }
+                      ${renderContactLinks(selectedResource)}
                     </article>`
                   : ''
               }
@@ -1997,7 +2243,7 @@
                       <button type="button" onclick="PP.selectResourcePin('${esc(res.id)}')" class="w-full text-left px-4 py-3 flex items-center justify-between gap-3 transition-colors ${isSel ? 'bg-[#EFF6FF]' : 'hover:bg-[#F7F8F4]'}">
                         <div class="min-w-0">
                           <div class="text-sm font-bold text-[#1A1A1A] truncate">${esc(res.name)}</div>
-                          <div class="text-xs text-[#5A635C] truncate">${esc(res.subtitle)} · ${esc(res.district)}</div>
+                          <div class="text-xs text-[#5A635C] truncate">${esc(res.subtitle)} · ${esc(res.district)}${res.inMap ? '' : ' · not on map view'}</div>
                         </div>
                         <span class="text-[11px] font-semibold shrink-0 ${res.kind === 'clinic' ? 'text-[#0284C7]' : 'text-[#2D5A3C]'}">${res.kind === 'clinic' ? 'Clinic' : 'Food Store'}</span>
                       </button>
@@ -2007,7 +2253,7 @@
               </div>
               <div class="p-3.5 rounded-xl bg-[#FEF2F2] text-[#991B1B] text-xs flex items-start gap-2">
                 <span class="shrink-0 mt-0.5">${ico('alert', 'w-4 h-4')}</span>
-                <span>For active trauma or poisoning, bring the animal directly to a 24-hour physical hospital (San Lazaro or Vets in Practice Ermita).</span>
+                <span>For active trauma or poisoning, bring the animal directly to a 24-hour physical hospital (call ahead to confirm they are open).</span>
               </div>
             `;
 
@@ -2151,8 +2397,8 @@
                             <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[#D97736]"></span><span>Stray Emergency (${filteredPets.filter((p) => p.listingType === 'stray').length})</span></span>
                           </div>`
                         : `<div class="flex flex-wrap items-center gap-4">
-                            <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[#0284C7]"></span><span>Healthcare / Clinics (${HEALTH_CENTERS.length})</span></span>
-                            <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[#2D5A3C]"></span><span>Food &amp; Supply Stores (${FOOD_SHOPS.length})</span></span>
+                            <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[#0284C7]"></span><span>Healthcare / Clinics (${HEALTH_CENTERS.filter((r) => r.inMap).length})</span></span>
+                            <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[#2D5A3C]"></span><span>Food &amp; Supply Stores (${FOOD_SHOPS.filter((r) => r.inMap).length})</span></span>
                           </div>`
                     }
                     <span class="text-[11px] text-[#5A635C]">Drag map to pan · Zero live API billing</span>
@@ -2169,9 +2415,15 @@
 
         function renderMessages() {
           const activePet = S.pets.find((p) => p.id === S.selectedPetId) || S.pets[0];
-          if (!activePet) return '';
+          if (!activePet) {
+            return `<div class="max-w-[600px] mx-auto px-4 py-16 text-center space-y-2">
+              <p class="font-display text-lg font-bold text-[#1A1A1A]">No shelter threads yet</p>
+              <p class="text-sm text-[#5A635C]">Threads appear once pets are logged on the Adoption Map.</p>
+            </div>`;
+          }
           const petMessages = S.messages.filter((m) => m.petId === activePet.id);
-          const activeApplication = S.applications.find((a) => a.petId === activePet.id);
+          const activeApplication = myApplications().find((a) => a.petId === activePet.id && a.stage !== 'Declined');
+          const myOwnPet = isMyListing(activePet);
 
           return `
             <div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-6">
@@ -2188,7 +2440,7 @@
                     ${S.pets
                       .map((pet) => {
                         const isSel = pet.id === activePet.id;
-                        const hasApp = S.applications.some((a) => a.petId === pet.id);
+                        const hasApp = myApplications().some((a) => a.petId === pet.id && a.stage !== 'Declined');
                         return `
                           <button type="button" onclick="PP.selectChatPet('${esc(pet.id)}')" class="w-full text-left px-4 py-3 flex items-center gap-3 transition-colors ${isSel ? 'bg-[#F0F5F1]' : 'hover:bg-[#F7F8F4]'}">
                             <img src="${safePetImage(pet)}" alt="${esc(pet.name)}" class="w-11 h-11 rounded-lg object-cover shrink-0" />
@@ -2218,7 +2470,15 @@
                       </div>
                       <div class="flex items-center gap-2">
                         ${
-                          !activeApplication && activePet.adoptionStage !== 'Pet Adopted'
+                          myOwnPet
+                            ? `<button type="button" onclick="PP.openApplicants('${esc(activePet.id)}')" class="px-3.5 py-2 rounded-lg bg-[#2D5A3C] hover:bg-[#21432C] text-white text-xs font-semibold flex items-center gap-1.5 whitespace-nowrap">
+                                ${ico('users', 'w-3.5 h-3.5')}
+                                <span>See Citizens Who Want to Adopt</span>
+                              </button>`
+                            : ''
+                        }
+                        ${
+                          !myOwnPet && !activeApplication && activePet.adoptionStage !== 'Pet Adopted'
                             ? `<button type="button" onclick="PP.openAdoptionModal('${esc(activePet.id)}')" class="px-3.5 py-2 rounded-lg bg-[#2D5A3C] hover:bg-[#21432C] text-white text-xs font-semibold flex items-center gap-1.5 whitespace-nowrap">
                                 ${ico('shield', 'w-3.5 h-3.5')}
                                 <span>Want to Adopt (Background Check)</span>
@@ -2227,7 +2487,7 @@
                         }
                         ${
                           activeApplication && activePet.adoptionStage !== 'Pet Adopted'
-                            ? `<button type="button" onclick="PP.markAdopted('${esc(activePet.id)}')" class="px-3.5 py-2 rounded-lg border border-[#2D5A3C] text-[#2D5A3C] hover:bg-[#F0F5F1] text-xs font-semibold whitespace-nowrap">Finalize Pet Adopted</button>`
+                            ? `<button type="button" onclick="PP.setAppsTab('mine');PP.navigate('applications')" class="px-3.5 py-2 rounded-lg border border-[#2D5A3C] text-[#2D5A3C] hover:bg-[#F0F5F1] text-xs font-semibold whitespace-nowrap">Track My Application</button>`
                             : ''
                         }
                       </div>
@@ -2250,7 +2510,7 @@
                         ? `<div class="px-3 py-2 rounded-lg bg-[#FEF3C7] text-[#92400E] text-xs flex items-center justify-between gap-2">
                             <div class="flex items-center gap-2 font-semibold">
                               <span class="shrink-0">${ico('clock', 'w-4 h-4')}</span>
-                              <span>${esc(activeApplication.coordinatorReviewStatus)} · Ongoing Adoption Status</span>
+                              <span>${esc(activeApplication.coordinatorReviewStatus)}</span>
                             </div>
                             <span class="font-mono-num text-[11px]">RA 10631 Signed (${esc(activeApplication.submittedAt)})</span>
                           </div>`
@@ -2298,6 +2558,22 @@
         }
         window._ppDraft = (v) => { S.chatDraft = v; };
 
+        function renderResourceCard(r, accent, label) {
+          return `
+            <article class="bg-white rounded-2xl border border-black/[0.08] p-5 sm:p-6 space-y-3">
+              <div>
+                <span class="text-xs font-semibold ${accent}">${esc(label)}</span>
+                <h2 class="font-display text-lg font-bold text-[#1A1A1A] mt-0.5">${esc(r.name)}</h2>
+              </div>
+              <div class="text-xs text-[#414942] space-y-1.5">
+                <div class="flex items-start gap-1.5"><span class="text-[#5A635C] mt-0.5 shrink-0">${ico('mapPin', 'w-3.5 h-3.5')}</span><span>${esc(r.address)}</span></div>
+                <div class="flex items-center gap-1.5"><span class="text-[#5A635C] shrink-0">${ico('phone', 'w-3.5 h-3.5')}</span><span class="font-mono-num">${esc(phoneText(r))}</span></div>
+                ${r.inMap ? '' : '<div class="text-[11px] text-[#5A635C]">Outside the current Manila map window — use the Google Maps link for its exact pin.</div>'}
+              </div>
+              ${renderContactLinks(r)}
+            </article>`;
+        }
+
         function renderHealthCenters() {
           return `
             <div class="max-w-[1040px] mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
@@ -2305,9 +2581,9 @@
                 <div>
                   <p class="text-xs font-semibold text-[#0284C7]">Healthcare &amp; Veterinary Network</p>
                   <h1 class="font-display text-2xl sm:text-3xl font-bold text-[#1A1A1A] mt-1">Manila Health Centers &amp; Clinics</h1>
-                  <p class="text-sm text-[#5A635C] mt-1">Public anti-rabies vaccination hubs, city veterinary offices, and 24-hour emergency partner hospitals.</p>
+                  <p class="text-sm text-[#5A635C] mt-1">Real veterinary clinics, animal hospitals and city animal facilities in Manila. Contact them directly.</p>
                 </div>
-                <button type="button" onclick="PP.navigate('map','resources')" class="px-4 h-10 rounded-lg border border-[#0284C7] text-[#0284C7] hover:bg-[#EFF6FF] text-xs font-semibold flex items-center gap-1.5 whitespace-nowrap shrink-0">
+                <button type="button" onclick="PP.navigate('map','resources')" class="px-4 h-10 rounded-lg border border-[#0284C7] text-[#0284C7] hover:bg-[#EFF6FF] text-xs font-semibold flex items-center gap-2 whitespace-nowrap">
                   ${ico('mapPin', 'w-3.5 h-3.5')}
                   <span>View Clinics on Resources Map</span>
                 </button>
@@ -2315,234 +2591,93 @@
 
               <div class="p-4 rounded-xl bg-[#FEF2F2] text-[#991B1B] text-xs sm:text-sm flex items-start gap-2.5">
                 <span class="shrink-0 mt-0.5">${ico('alert', 'w-4 h-4')}</span>
-                <span><strong>Emergency Physical Notice:</strong> For active bleeding, poisoning, heatstroke, or vehicular trauma, transport the animal directly to a 24-hour physical veterinary hospital.</span>
+                <span><strong>Emergency Physical Notice:</strong> For active bleeding, poisoning, heatstroke, or vehicular trauma, transport the animal directly to a physical veterinary hospital. Call ahead to confirm they are open.</span>
               </div>
 
-              <div class="space-y-4">
-                ${HEALTH_CENTERS.map(
-                  (hc) => `
-                    <article class="bg-white rounded-2xl border border-black/[0.08] p-5 sm:p-6 space-y-4">
-                      <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-2">
-                        <div>
-                          <span class="text-xs font-semibold text-[#0284C7]">${esc(hc.category)}</span>
-                          <h2 class="font-display text-lg font-bold text-[#1A1A1A] mt-0.5">${esc(hc.name)}</h2>
-                          <div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-[#5A635C] mt-1.5">
-                            <span class="flex items-center gap-1">${ico('mapPin', 'w-3.5 h-3.5')} ${esc(hc.address)}</span>
-                            <span class="flex items-center gap-1 font-mono-num">${ico('phone', 'w-3.5 h-3.5')} ${esc(hc.phone)}</span>
-                            <span class="flex items-center gap-1">${ico('clock', 'w-3.5 h-3.5')} ${esc(hc.hours)}</span>
-                          </div>
-                        </div>
-                        <button type="button" onclick="PP.bookClinic('${esc(hc.name)}')" class="px-4 h-10 rounded-lg bg-[#0284C7] hover:bg-[#0369A1] text-white text-xs font-semibold flex items-center gap-1.5 whitespace-nowrap shrink-0">
-                          ${ico('stethoscope', 'w-3.5 h-3.5')}
-                          <span>Book Consultation</span>
-                        </button>
-                      </div>
-                      <div class="bg-[#F7F8F4] rounded-xl p-4 divide-y divide-black/[0.06] text-xs">
-                        ${hc.services
-                          .map(
-                            (srv) => `<div class="py-2 first:pt-0 last:pb-0 flex items-center justify-between gap-4">
-                              <span class="text-[#1A1A1A] font-medium">${esc(srv.name)}</span>
-                              <span class="font-mono-num font-bold text-[#0284C7] shrink-0">${esc(srv.price)}</span>
-                            </div>`
-                          )
-                          .join('')}
-                      </div>
-                    </article>
-                  `
-                ).join('')}
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                ${HEALTH_CENTERS.map((hc) => renderResourceCard(hc, 'text-[#0284C7]', hc.category)).join('')}
               </div>
             </div>
           `;
         }
 
         function renderFoodSupplies() {
-          const totalCount = S.cart.reduce((s, i) => s + i.quantity, 0);
-          const totalPrice = S.cart.reduce((s, i) => s + i.price * i.quantity, 0);
-
-          const drawer = S.cartDrawerOpen
-            ? `<div class="fixed inset-0 z-50 bg-black/45 backdrop-blur-sm flex justify-end" role="dialog" aria-modal="true" aria-labelledby="cart-drawer-title">
-                <div class="w-full max-w-md bg-white h-full shadow-2xl flex flex-col">
-                  <div class="px-6 py-4 border-b border-black/[0.08] flex items-center justify-between">
-                    <div>
-                      <p class="text-xs font-semibold text-[#2D5A3C]">Inside Infos Preview</p>
-                      <h2 id="cart-drawer-title" class="font-display text-lg font-bold text-[#1A1A1A]">My Cart / Supplies Reserve</h2>
-                    </div>
-                    <button type="button" onclick="PP.openCartDrawer(false)" aria-label="Close cart drawer" class="w-10 h-10 rounded-lg flex items-center justify-center text-[#5A635C] hover:text-[#1A1A1A] hover:bg-[#F7F8F4]">${ico('x', 'w-5 h-5')}</button>
-                  </div>
-
-                  <div class="flex-1 overflow-y-auto p-6 space-y-5">
-                    ${
-                      S.confirmedReceipt
-                        ? `<div class="p-5 rounded-xl bg-[#E6F4EA] text-[#144226] space-y-3">
-                            <div class="flex items-center gap-2 font-bold text-sm">${ico('checkCircle', 'w-5 h-5')}<span>Order Reservation Confirmed</span></div>
-                            <p class="text-xs leading-relaxed">Reservation <strong class="font-mono-num">${esc(S.confirmedReceipt.id)}</strong> is ready for pick-up at <strong>${esc(S.confirmedReceipt.pickupBranch)}</strong>.</p>
-                            <div class="text-xs border-t border-[#2D5A3C]/20 pt-2 space-y-1">
-                              ${S.confirmedReceipt.items
-                                .map(
-                                  (i) => `<div class="flex justify-between"><span>${esc(i.name)} [Qty: ${i.quantity}]</span><span class="font-mono-num font-semibold">${phpFmt(i.price * i.quantity)}</span></div>`
-                                )
-                                .join('')}
-                            </div>
-                            <div class="flex justify-between font-bold text-sm pt-2 border-t border-[#2D5A3C]/20">
-                              <span>Total Price</span>
-                              <span class="font-mono-num">${phpFmt(S.confirmedReceipt.totalPhp)}</span>
-                            </div>
-                          </div>`
-                        : S.cart.length === 0
-                          ? `<div class="py-12 text-center space-y-3">
-                              <span class="text-[#5A635C] inline-block">${ico('bag', 'w-8 h-8')}</span>
-                              <p class="text-sm font-semibold text-[#1A1A1A]">Your reserve cart is empty</p>
-                              <p class="text-xs text-[#5A635C]">Add pet food or supplements from Manila partner stores, or preview the standard foster bundle.</p>
-                              <button type="button" onclick="PP.loadFosterBundle()" class="px-4 h-10 rounded-lg border border-[#2D5A3C] text-[#2D5A3C] text-xs font-semibold hover:bg-[#F0F5F1]">Load Standard Foster Reserve (₱1,115.00)</button>
-                            </div>`
-                          : `<div class="space-y-3">
-                              <h3 class="text-xs font-bold uppercase tracking-wider text-[#5A635C]">Inside Infos — Reserved Inventory</h3>
-                              <div class="divide-y divide-black/[0.08] border border-black/[0.08] rounded-xl px-4">
-                                ${S.cart
-                                  .map(
-                                    (item) => `
-                                      <div class="py-3.5 space-y-2">
-                                        <div class="flex items-start justify-between gap-2">
-                                          <div>
-                                            <div class="text-sm font-bold text-[#1A1A1A]">${esc(item.name)}</div>
-                                            <div class="text-xs text-[#5A635C] font-mono-num">${phpFmt(item.price)} [Qty: ${item.quantity}]</div>
-                                          </div>
-                                          <div class="font-mono-num text-sm font-bold text-[#1A1A1A]">${phpFmt(item.price * item.quantity)}</div>
-                                        </div>
-                                        <div class="flex items-center justify-between">
-                                          <div class="inline-flex items-center border border-black/[0.12] rounded-lg overflow-hidden">
-                                            <button type="button" onclick="PP.adjustCart('${esc(item.id)}', -1)" aria-label="Decrease quantity" class="w-8 h-8 flex items-center justify-center hover:bg-[#F7F8F4]">${ico('minus', 'w-3.5 h-3.5')}</button>
-                                            <span class="px-3 text-xs font-mono-num font-semibold">${item.quantity}</span>
-                                            <button type="button" onclick="PP.adjustCart('${esc(item.id)}', 1)" aria-label="Increase quantity" class="w-8 h-8 flex items-center justify-center hover:bg-[#F7F8F4]">${ico('plus', 'w-3.5 h-3.5')}</button>
-                                          </div>
-                                          <button type="button" onclick="PP.adjustCart('${esc(item.id)}', -${item.quantity})" class="text-xs text-[#A50E0E] hover:underline flex items-center gap-1">${ico('trash', 'w-3.5 h-3.5')}<span>Remove</span></button>
-                                        </div>
-                                      </div>
-                                    `
-                                  )
-                                  .join('')}
-                              </div>
-                            </div>
-                            <div class="space-y-3 pt-2">
-                              <div>
-                                <label class="block text-xs font-semibold text-[#1A1A1A] mb-1">Collection Branch</label>
-                                <select onchange="PP.setPickupBranch(this.value)" class="w-full h-10 px-3 rounded-lg border border-black/[0.15] bg-white text-xs font-medium">
-                                  ${FOOD_SHOPS.map((s) => `<option value="${esc(s.name)}" ${S.pickupBranch === s.name ? 'selected' : ''}>${esc(s.name)}</option>`).join('')}
-                                </select>
-                              </div>
-                              <div class="p-3 rounded-xl bg-[#F7F8F4] text-xs font-semibold text-[#144226] flex items-center gap-2">
-                                <span class="text-[#D97736] shrink-0">${ico('mapPin', 'w-4 h-4')}</span>
-                                <span>Collection: Store Pick-Up Only (No live animals)</span>
-                              </div>
-                            </div>`
-                    }
-                  </div>
-
-                  ${
-                    S.cart.length > 0 && !S.confirmedReceipt
-                      ? `<div class="p-6 border-t border-black/[0.08] bg-[#F7F8F4] space-y-4">
-                          <div class="flex items-baseline justify-between">
-                            <span class="text-sm font-semibold text-[#414942]">Total Price</span>
-                            <span class="font-mono-num text-2xl font-bold text-[#1A1A1A]">${phpFmt(totalPrice)}</span>
-                          </div>
-                          <button type="button" onclick="PP.confirmOrder()" class="w-full h-12 rounded-lg bg-[#2D5A3C] hover:bg-[#21432C] text-white text-sm font-semibold transition-colors">Confirm Order Reservation</button>
-                        </div>`
-                      : ''
-                  }
-                </div>
-              </div>`
-            : '';
-
           return `
             <div class="max-w-[1040px] mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
               <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
                 <div>
                   <p class="text-xs font-semibold text-[#2D5A3C]">Nutrition &amp; Supply Directory</p>
-                  <h1 class="font-display text-2xl sm:text-3xl font-bold text-[#1A1A1A] mt-1">Food &amp; Supplies — Store Pick-Up Reserve</h1>
-                  <p class="text-sm text-[#5A635C] mt-1">Species-specific nutrition guidance and in-store pick-up reservations (strictly no live animals).</p>
+                  <h1 class="font-display text-2xl sm:text-3xl font-bold text-[#1A1A1A] mt-1">Food &amp; Supplies — Pet Store Directory</h1>
+                  <p class="text-sm text-[#5A635C] mt-1">Real pet food and supply stores in Manila and nearby Pasay. Contact the store directly for stock and availability.</p>
                 </div>
-                <div class="flex flex-wrap items-center gap-2.5">
-                  <button type="button" onclick="PP.navigate('map','resources')" class="px-3.5 h-10 rounded-lg border border-black/[0.12] bg-white hover:bg-[#F7F8F4] text-xs font-semibold text-[#1A1A1A] flex items-center gap-1.5 whitespace-nowrap">
-                    <span class="text-[#2D5A3C]">${ico('mapPin', 'w-3.5 h-3.5')}</span>
-                    <span>View Stores on Map</span>
-                  </button>
-                  <button type="button" onclick="PP.openCartDrawer(true)" class="px-4 h-10 rounded-lg bg-[#2D5A3C] hover:bg-[#21432C] text-white text-xs font-semibold flex items-center gap-2 whitespace-nowrap tabular-nums">
-                    ${ico('bag', 'w-4 h-4')}
-                    <span>My Cart / Supplies Reserve (${totalCount})</span>
-                  </button>
-                </div>
+                <button type="button" onclick="PP.navigate('map','resources')" class="px-3.5 h-10 rounded-lg border border-black/[0.12] bg-white hover:bg-[#F7F8F4] text-xs font-semibold text-[#1A1A1A] flex items-center gap-2 whitespace-nowrap">
+                  <span class="text-[#2D5A3C]">${ico('mapPin', 'w-3.5 h-3.5')}</span>
+                  <span>View Stores on Map</span>
+                </button>
               </div>
 
-              <div class="bg-white rounded-xl border border-black/[0.08] px-4 py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
-                <span class="text-[#414942]"><strong>Collection Policy:</strong> Store Pick-Up Only (No live animals). Preview the standard foster nutrition bundle or add individual items below.</span>
-                <button type="button" onclick="PP.loadFosterBundle()" class="text-[#2D5A3C] font-semibold hover:underline whitespace-nowrap text-left sm:text-right">Preview Foster Bundle (₱1,115.00)</button>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                ${FOOD_SHOPS.map((shop) => renderResourceCard(shop, 'text-[#2D5A3C]', 'Pet Food & Supplies Store')).join('')}
               </div>
-
-              <div class="space-y-6">
-                ${FOOD_SHOPS.map(
-                  (shop) => `
-                    <section class="bg-white rounded-2xl border border-black/[0.08] p-5 sm:p-6 space-y-4">
-                      <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-2">
-                        <div>
-                          <h2 class="font-display text-lg font-bold text-[#1A1A1A]">${esc(shop.name)}</h2>
-                          <div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-[#5A635C] mt-1">
-                            <span class="flex items-center gap-1">${ico('mapPin', 'w-3.5 h-3.5')} ${esc(shop.address)}</span>
-                            <span class="flex items-center gap-1 font-mono-num">${ico('phone', 'w-3.5 h-3.5')} ${esc(shop.phone)}</span>
-                            <span class="flex items-center gap-1">${ico('clock', 'w-3.5 h-3.5')} ${esc(shop.hours)}</span>
-                          </div>
-                        </div>
-                        <span class="text-xs font-semibold text-[#2D5A3C] shrink-0">${esc(shop.district)}, Manila</span>
-                      </div>
-                      <div class="bg-[#F7F8F4] rounded-xl p-3.5 text-xs text-[#414942]"><strong class="text-[#1A1A1A]">Diet Guide:</strong> ${esc(shop.guide)}</div>
-                      <div class="divide-y divide-black/[0.06] border border-black/[0.08] rounded-xl px-4">
-                        ${shop.items
-                          .map(
-                            (item) => `
-                              <div class="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                                <div>
-                                  <div class="text-sm font-bold text-[#1A1A1A]">${esc(item.name)}</div>
-                                  <div class="text-xs text-[#5A635C]">Unit: ${esc(item.unit)} · <span class="font-mono-num font-semibold text-[#2D5A3C]">${phpFmt(item.price)}</span></div>
-                                </div>
-                                <button type="button" onclick="PP.addToCart('${esc(item.id)}')" class="px-4 h-9 rounded-lg bg-[#2D5A3C] hover:bg-[#21432C] text-white text-xs font-semibold flex items-center justify-center gap-1.5 whitespace-nowrap shrink-0">
-                                  ${ico('plus', 'w-3.5 h-3.5')}
-                                  <span>Add to Reserve</span>
-                                </button>
-                              </div>
-                            `
-                          )
-                          .join('')}
-                      </div>
-                    </section>
-                  `
-                ).join('')}
-              </div>
-
-              ${
-                S.orders.length > 0
-                  ? `<section class="bg-white rounded-2xl border border-black/[0.08] p-5 sm:p-6 space-y-3">
-                      <h3 class="font-display text-base font-bold text-[#1A1A1A]">Your Confirmed Store Pick-Up Reservations</h3>
-                      <div class="divide-y divide-black/[0.06]">
-                        ${S.orders
-                          .map(
-                            (ord) => `
-                              <div class="py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
-                                <div>
-                                  <span class="font-mono-num font-bold text-[#2D5A3C]">${esc(ord.id)}</span> ·
-                                  <strong class="text-[#1A1A1A]">${esc(ord.pickupBranch)}</strong> ·
-                                  <span class="text-[#5A635C]">${esc(ord.collectionMode)}</span>
-                                </div>
-                                <div class="font-mono-num font-bold text-sm text-[#1A1A1A]">${phpFmt(ord.totalPhp)}</div>
-                              </div>
-                            `
-                          )
-                          .join('')}
-                      </div>
-                    </section>`
-                  : ''
-              }
-              ${drawer}
             </div>
           `;
+        }
+
+        // ---- Photo check: resize in the browser, then upload to the pet-photos bucket ----
+        function resizeImage(file, maxSide, quality) {
+          return new Promise((resolve, reject) => {
+            const url = URL.createObjectURL(file);
+            const img = new Image();
+            img.onload = () => {
+              const scale = Math.min(1, maxSide / Math.max(img.width, img.height));
+              const canvas = document.createElement('canvas');
+              canvas.width = Math.max(1, Math.round(img.width * scale));
+              canvas.height = Math.max(1, Math.round(img.height * scale));
+              canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+              URL.revokeObjectURL(url);
+              resolve(canvas.toDataURL('image/jpeg', quality));
+            };
+            img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('decode failed')); };
+            img.src = url;
+          });
+        }
+
+        // Returns a public URL when Supabase Storage works, otherwise keeps the compressed image inline.
+        async function uploadPetPhoto(dataUrl) {
+          if (!sb || !dataUrl || !dataUrl.startsWith('data:image/')) return dataUrl;
+          try {
+            const blob = await (await fetch(dataUrl)).blob();
+            const path = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.jpg`;
+            const { error } = await sb.storage.from('pet-photos').upload(path, blob, { contentType: 'image/jpeg', upsert: false });
+            if (error) return dataUrl;
+            const { data } = sb.storage.from('pet-photos').getPublicUrl(path);
+            return (data && data.publicUrl) || dataUrl;
+          } catch (_) {
+            return dataUrl;
+          }
+        }
+
+        function renderPhotoField(kind) {
+          const photo = kind === 'rehome' ? S.rehomePhoto : S.strayPhoto;
+          return `
+            <div class="pt-5 border-t border-black/[0.08]">
+              <label class="block text-xs font-semibold text-[#1A1A1A] mb-1">Photo Check *</label>
+              <p class="text-[11px] text-[#5A635C] mb-3">Add a clear, recent photo of the animal (face and body visible). It is shown on the listing and helps coordinators verify the animal.</p>
+              <div class="w-full flex flex-col items-center gap-3">
+                ${
+                  photo
+                    ? `<div class="w-full h-48 sm:h-64 rounded-xl border border-black/[0.1] bg-[#F7F8F4] flex items-center justify-center overflow-hidden"><img src="${photo}" alt="Selected animal photo preview" class="max-w-full max-h-full object-contain" /></div>`
+                    : `<div class="w-full h-48 sm:h-64 rounded-xl border-2 border-dashed border-black/[0.15] bg-[#F7F8F4] flex items-center justify-center text-sm text-[#5A635C] text-center px-4">No photo yet</div>`
+                }
+                <div class="flex flex-col items-center gap-2">
+                  <label class="px-4 h-10 rounded-lg border border-[#2D5A3C] text-[#2D5A3C] hover:bg-[#F0F5F1] text-xs font-semibold inline-flex items-center justify-center cursor-pointer focus-within:ring-2 focus-within:ring-[#2D5A3C]">
+                    <input type="file" accept="image/*" class="sr-only" onchange="PP.pickPhoto('${kind}', this)" />
+                    <span>${photo ? 'Change Photo' : 'Take / Upload Photo'}</span>
+                  </label>
+                  ${photo ? `<button type="button" onclick="PP.clearPhoto('${kind}')" class="text-xs text-[#A50E0E] hover:underline text-left">Remove photo</button>` : ''}
+                </div>
+              </div>
+            </div>`;
         }
 
         function renderRehomeForm() {
@@ -2636,6 +2771,12 @@
                         </label>`;
                       }).join('')}
                     </div>
+                    ${r.healthConditions.includes('Other') ? `
+                      <div>
+                        <label class="block text-xs font-semibold text-[#1A1A1A] mb-1">Other health condition *</label>
+                        <input name="otherHealthCondition" type="text" required value="${esc(r.otherHealthCondition)}" oninput="PP.syncRehomeOther(this.value)" placeholder="Enter the pet's health condition" class="w-full h-11 px-3.5 rounded-lg border border-black/[0.15] text-sm" />
+                      </div>
+                    ` : ''}
                   </div>
 
                   <div class="pt-5 border-t border-black/[0.08] space-y-3">
@@ -2660,6 +2801,8 @@
                     <label class="block text-xs font-semibold text-[#1A1A1A] mb-1">Reason for Rehoming &amp; Daily Routine Notes *</label>
                     <textarea name="rehomingReason" required rows="3" oninput="PP.syncRehomeField('rehomingReason', this.value)" placeholder="Explain why you are rehoming and share diet/behavior details for the next family." class="w-full p-3.5 rounded-lg border border-black/[0.15] text-sm resize-none">${esc(r.rehomingReason)}</textarea>
                   </div>
+
+                  ${renderPhotoField('rehome')}
 
                   <button type="submit" class="w-full h-12 rounded-lg bg-[#2D5A3C] hover:bg-[#21432C] text-white font-semibold text-sm transition-colors">Publish Pet to Adoption Map</button>
                 </form>
@@ -2705,7 +2848,20 @@
                   </div>
                   <div>
                     <label class="block text-xs font-semibold text-[#1A1A1A] mb-1">Physical Condition &amp; Medical Details *</label>
-                    <textarea name="conditionDesc" required rows="3" oninput="PP.syncStrayField('conditionDesc', this.value)" placeholder="e.g. Limping near front left paw, appears dehydrated, approachable" class="w-full p-3.5 rounded-lg border border-black/[0.15] text-sm resize-none">${esc(st.conditionDesc)}</textarea>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                      ${['Need urgent treatment', 'Injured', 'Healthy stray', 'Lost stray (with collars)', 'Aggressive behavior', 'Victim of Cruelty', 'Other'].map((condition) => {
+                        const checked = st.conditionTypes.includes(condition);
+                        return `<label class="flex items-center gap-3 p-3 rounded-xl border cursor-pointer text-sm transition-colors ${
+                          checked ? 'bg-[#F0F5F1] border-[#2D5A3C] text-[#144226] font-semibold' : 'bg-white border-black/[0.1] text-[#414942]'
+                        }">
+                          <input type="checkbox" ${checked ? 'checked' : ''} onchange="PP.toggleStrayCondition('${condition}')" class="w-4 h-4 accent-[#2D5A3C]" />
+                          <span>${esc(condition)}</span>
+                        </label>`;
+                      }).join('')}
+                    </div>
+                    ${st.conditionTypes.includes('Other') ? `
+                      <input name="conditionOther" type="text" required value="${esc(st.conditionOther)}" oninput="PP.syncStrayField('conditionOther', this.value)" placeholder="Describe the physical condition or medical details" class="w-full h-11 px-3.5 mt-2 rounded-lg border border-black/[0.15] text-sm" />
+                    ` : ''}
                   </div>
                   <div>
                     <label class="block text-xs font-semibold text-[#1A1A1A] mb-1">Stranding Location &amp; Landmarks *</label>
@@ -2713,8 +2869,10 @@
                   </div>
                   <div>
                     <label class="block text-xs font-semibold text-[#1A1A1A] mb-1">Reporter Contact Phone *</label>
-                    <input name="phone" type="tel" required value="${esc(st.phone)}" oninput="PP.syncStrayField('phone', this.value)" class="w-full h-11 px-3.5 rounded-lg border border-black/[0.15] text-sm font-mono-num" />
+                    <input name="phone" type="tel" required inputmode="numeric" maxlength="16" pattern="[+]63 [0-9]{3} [0-9]{3} [0-9]{4}" title="Enter a phone number in the format +63 912 345 6789" value="${esc(formatPhilippinePhone(st.phone))}" oninput="PP.formatStrayPhone(this)" class="w-full h-11 px-3.5 rounded-lg border border-black/[0.15] text-sm font-mono-num" />
                   </div>
+                  ${renderPhotoField('stray')}
+
                   <button type="submit" class="w-full h-12 rounded-lg bg-[#D97736] hover:bg-[#B85D23] text-white font-semibold text-sm transition-colors">Dispatch Stray Emergency to Adoption Map</button>
                 </form>
               </div>
@@ -2742,6 +2900,7 @@
                   <button type="button" onclick="PP.switchAuthMode('signup')" class="py-2 text-xs font-semibold rounded-md transition-colors ${!isLogin ? 'bg-white text-[#144226] shadow-sm' : 'text-[#5A635C]'}">Sign Up</button>
                 </div>
 
+                ${m.notice ? `<div class="mt-4 p-3 rounded-lg bg-[#E6F4EA] text-[#144226] text-xs font-medium">${esc(m.notice)}</div>` : ''}
                 ${m.error ? `<div class="mt-4 p-3 rounded-lg bg-[#FCE8E6] text-[#A50E0E] text-xs font-medium">${esc(m.error)}</div>` : ''}
 
                 ${
@@ -2749,7 +2908,7 @@
                     ? `<form onsubmit="PP.submitAuthLogin(event)" class="mt-5 space-y-4">
                         <div>
                           <label class="block text-xs font-semibold text-[#1A1A1A] mb-1">Email Address</label>
-                          <input name="email" type="email" required placeholder="citizen@pawpath.ph" class="w-full h-11 px-3.5 rounded-lg border border-black/[0.15] text-sm focus:outline-none focus:border-[#2D5A3C]" />
+                          <input name="email" type="email" required value="${esc(m.email || '')}" placeholder="citizen@pawpath.ph" class="w-full h-11 px-3.5 rounded-lg border border-black/[0.15] text-sm focus:outline-none focus:border-[#2D5A3C]" />
                         </div>
                         <div>
                           <label class="block text-xs font-semibold text-[#1A1A1A] mb-1">Password</label>
@@ -2773,11 +2932,11 @@
                         <div class="grid grid-cols-2 gap-3">
                           <div>
                             <label class="block text-xs font-semibold text-[#1A1A1A] mb-1">Age (18+) *</label>
-                            <input name="age" type="number" min="18" required value="24" class="w-full h-10 px-3 rounded-lg border border-black/[0.15] text-sm tabular-nums focus:outline-none focus:border-[#2D5A3C]" />
+                            <input name="age" type="number" min="18" required placeholder="18 and above only" class="w-full h-10 px-3 rounded-lg border border-black/[0.15] text-sm tabular-nums focus:outline-none focus:border-[#2D5A3C]" />
                           </div>
                           <div>
                             <label class="block text-xs font-semibold text-[#1A1A1A] mb-1">Mobile Number *</label>
-                            <input name="mobile" type="tel" required value="+63 917 " class="w-full h-10 px-3 rounded-lg border border-black/[0.15] text-sm focus:outline-none focus:border-[#2D5A3C]" />
+                            <input name="mobile" type="tel" required value="+63 " placeholder="e.g. +63 917 123 4567" pattern="\\+63 [0-9]{3} [0-9]{3} [0-9]{4}" maxlength="16" inputmode="numeric" title="Use the format +63 917 123 4567" oninput="PP.formatSignupMobile(this)" class="w-full h-10 px-3 rounded-lg border border-black/[0.15] text-sm focus:outline-none focus:border-[#2D5A3C]" />
                           </div>
                         </div>
                         <div class="grid grid-cols-2 gap-3">
@@ -2800,11 +2959,6 @@
                       </form>`
                 }
 
-                <div class="mt-5 pt-4 border-t border-black/[0.08]">
-                  <button type="button" onclick="PP.demoLogin()" class="w-full h-11 rounded-lg border border-[#2D5A3C] text-[#2D5A3C] hover:bg-[#2D5A3C]/5 text-xs font-semibold transition-colors">
-                    1-Click Demo Citizen Sign-In (${esc(DEMO_USER.fullName)})
-                  </button>
-                </div>
               </div>
             </div>
           `;
@@ -2975,7 +3129,7 @@
                   <div><strong>Experience:</strong> ${app.backgroundCheck.firstTimeFurparent === 'Yes' ? '1st Time Furparent' : 'Experienced Owner'} · ${esc(app.backgroundCheck.currentFurbabiesCount)} current furbabies</div>
                   <div><strong>Status:</strong> ${esc(app.coordinatorReviewStatus)} / ${esc(app.stage)}</div>
                 </div>
-                <button type="button" onclick="PP.closeAdoptionModal()" class="w-full h-11 rounded-lg bg-[#2D5A3C] hover:bg-[#21432C] text-white text-sm font-semibold">Continue to Shelter Chat</button>
+                <button type="button" onclick="PP.closeAdoptionModal()" class="w-full h-11 rounded-lg bg-[#2D5A3C] hover:bg-[#21432C] text-white text-sm font-semibold">Track My Application</button>
               </div>
             `;
           }
@@ -3031,11 +3185,205 @@
           vp.onpointerleave = () => { dragState.active = false; };
         }
 
+
+        // =========================================================================
+        // ADOPTIONS VIEW + NOTIFICATION PANEL
+        // =========================================================================
+        function renderStageStepper(stage) {
+          if (stage === 'Declined') {
+            return `<span class="inline-block px-2.5 py-1 rounded-md text-[11px] font-semibold bg-[#FCE8E6] text-[#A50E0E]">Not selected</span>`;
+          }
+          const steps = ['Pending Coordinator Review', 'Ongoing Adoption', 'Pet Adopted'];
+          const labels = ['Submitted · owner review', 'Approved · meetup', 'Adopted'];
+          const idx = steps.indexOf(stage);
+          return `<div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar">${steps
+            .map((st, i) => {
+              const cls = i < idx
+                ? 'bg-[#E6F4EA] text-[#144226]'
+                : i === idx
+                  ? stage === 'Pet Adopted' ? 'bg-[#2D5A3C] text-white' : 'bg-[#FEF3C7] text-[#92400E]'
+                  : 'bg-[#F7F8F4] text-[#5A635C]';
+              return `<span class="px-2.5 py-1 rounded-md text-[11px] font-semibold whitespace-nowrap shrink-0 ${cls}">${i < idx ? '✓ ' : ''}${labels[i]}</span>`;
+            })
+            .join('')}</div>`;
+        }
+
+        function renderApplicantCard(a) {
+          const bg = a.backgroundCheck || {};
+          const ra = a.ra10631 || {};
+          const rows = [
+            ['Monthly income', bg.monthlyIncomeRange],
+            ['Housing', bg.housingType ? `${bg.housingType}${bg.landlordPermission ? ` (${bg.landlordPermission})` : ''}` : ''],
+            ['Space', bg.yardStatus],
+            ['Experience', bg.firstTimeFurparent ? (bg.firstTimeFurparent === 'Yes' ? 'First-time furparent' : 'Experienced owner') : ''],
+            ['Pets at home', bg.currentFurbabiesCount],
+            ['Where the pet will sleep', bg.petSleepingArrangement],
+            ['Work / income stability', bg.jobStabilityNote],
+            ['Why they want to adopt', bg.adoptionIntentReason],
+            ['Government ID type', ra.governmentIdType],
+            ['RA 10631 e-signature', ra.digitalSignature],
+          ].filter((r) => r[1]);
+          const tel = String(a.applicantMobile || '').replace(/\s/g, '');
+          const actions =
+            a.stage === 'Pending Coordinator Review'
+              ? `<button type="button" onclick="PP.updateRequestStage('${esc(a.id)}','Ongoing Adoption')" class="px-3.5 h-9 rounded-lg bg-[#2D5A3C] hover:bg-[#21432C] text-white text-xs font-semibold">Approve &amp; Arrange Meetup</button>
+                 <button type="button" onclick="PP.updateRequestStage('${esc(a.id)}','Declined')" class="px-3.5 h-9 rounded-lg border border-[#A50E0E]/30 text-[#A50E0E] hover:bg-[#FEF2F2] text-xs font-semibold">Decline</button>`
+              : a.stage === 'Ongoing Adoption'
+                ? `<button type="button" onclick="PP.updateRequestStage('${esc(a.id)}','Pet Adopted')" class="px-3.5 h-9 rounded-lg bg-[#2D5A3C] hover:bg-[#21432C] text-white text-xs font-semibold">Mark Pet Adopted</button>
+                   <button type="button" onclick="PP.updateRequestStage('${esc(a.id)}','Declined')" class="px-3.5 h-9 rounded-lg border border-[#A50E0E]/30 text-[#A50E0E] hover:bg-[#FEF2F2] text-xs font-semibold">Decline</button>`
+                : '';
+          return `
+            <div class="p-4 rounded-xl border border-black/[0.08] bg-white space-y-3">
+              <div class="flex flex-wrap items-start justify-between gap-2">
+                <div>
+                  <p class="font-display text-sm font-bold text-[#1A1A1A]">${esc(a.applicantName)}</p>
+                  <p class="text-xs text-[#5A635C] mt-0.5">${esc(a.applicantDistrict || 'Metro Manila')} · Applied ${esc(a.submittedAt)}${a.createdAt ? ` · ${esc(timeAgo(a.createdAt))}` : ''}</p>
+                </div>
+                ${tel ? `<a href="tel:${esc(tel)}" class="px-3 h-8 rounded-lg border border-black/[0.12] text-xs font-semibold text-[#144226] hover:bg-[#F7F8F4] inline-flex items-center gap-1.5">${ico('phone', 'w-3.5 h-3.5')}<span>${esc(a.applicantMobile)}</span></a>` : ''}
+              </div>
+              ${renderStageStepper(a.stage)}
+              <details class="text-xs text-[#414942]">
+                <summary class="cursor-pointer font-semibold text-[#144226]">View background check &amp; RA 10631 agreement</summary>
+                <dl class="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2">
+                  ${rows.map((r) => `<div><dt class="text-[11px] text-[#5A635C]">${esc(r[0])}</dt><dd class="font-medium text-[#1A1A1A]">${esc(r[1])}</dd></div>`).join('')}
+                </dl>
+              </details>
+              ${actions ? `<div class="flex flex-wrap gap-2">${actions}</div>` : ''}
+            </div>`;
+        }
+
+        function renderApplications() {
+          const myPets = S.pets.filter(isMyListing);
+          const mine = myApplications().slice().sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+          const tab = S.appsTab || (myPets.some((p) => requestsForPet(p.id).length > 0) || mine.length === 0 ? 'adopters' : 'mine');
+          const pending = pendingForMyPets();
+          const focus = S.appsFocusPetId;
+          const shownPets = (focus ? myPets.filter((p) => p.id === focus) : myPets)
+            .slice()
+            .sort((a, b) => requestsForPet(b.id).length - requestsForPet(a.id).length);
+
+          const tabBtn = (id, label, count) => `<button type="button" onclick="PP.setAppsTab('${id}')" class="px-4 h-10 rounded-lg text-xs font-semibold flex items-center gap-2 transition-colors ${tab === id ? 'bg-[#2D5A3C] text-white' : 'bg-white border border-black/[0.1] text-[#414942] hover:bg-[#F7F8F4]'}">
+              <span>${label}</span>${count ? `<span class="min-w-[18px] h-[18px] px-1 rounded-full text-[10px] font-bold flex items-center justify-center ${tab === id ? 'bg-white/25 text-white' : 'bg-[#D97736] text-white'}">${count}</span>` : ''}
+            </button>`;
+
+          const adoptersHtml =
+            myPets.length === 0
+              ? `<div class="bg-white rounded-2xl border border-black/[0.08] p-8 text-center space-y-3">
+                  <p class="text-sm font-semibold text-[#1A1A1A]">You have no listings yet</p>
+                  <p class="text-xs text-[#5A635C]">Report a stray or register a pet for rehoming. Citizens who want to adopt will appear here.</p>
+                  <div class="flex flex-wrap justify-center gap-2">
+                    <button type="button" onclick="PP.navigate('stray')" class="px-3.5 h-9 rounded-lg border border-[#D97736] text-[#D97736] text-xs font-semibold">Report a Stray</button>
+                    <button type="button" onclick="PP.navigate('rehome')" class="px-3.5 h-9 rounded-lg bg-[#2D5A3C] text-white text-xs font-semibold">Register a Pet</button>
+                  </div>
+                </div>`
+              : `${focus ? `<button type="button" onclick="PP.clearAppsFocus()" class="text-xs font-semibold text-[#2D5A3C] hover:underline">&larr; Show all my listings</button>` : ''}
+                 ${shownPets
+                   .map((p) => {
+                     const reqs = requestsForPet(p.id).slice().sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                     return `<section class="bg-white rounded-2xl border border-black/[0.08] p-4 sm:p-5 space-y-4">
+                       <div class="flex items-center gap-3">
+                         <img src="${safePetImage(p)}" alt="${esc(p.name)}" class="w-14 h-14 rounded-xl object-cover" />
+                         <div class="min-w-0 flex-1">
+                           <h2 class="font-display text-base font-bold text-[#1A1A1A] truncate">${esc(p.name)}</h2>
+                           <p class="text-xs text-[#5A635C]">${p.listingType === 'stray' ? 'Stray report' : 'Rehoming listing'} · ${esc(p.district)} · ${esc(p.adoptionStage)}</p>
+                         </div>
+                         <span class="text-xs font-bold text-[#144226] shrink-0">${reqs.filter((r) => r.stage !== 'Declined').length} interested</span>
+                       </div>
+                       ${
+                         reqs.length === 0
+                           ? `<div class="py-6 text-center bg-[#F7F8F4] rounded-xl px-4 text-xs text-[#5A635C]">No one has asked to adopt ${esc(p.name)} yet. You will get a notification as soon as someone does.</div>`
+                           : `<div class="space-y-3">${reqs.map(renderApplicantCard).join('')}</div>`
+                       }
+                     </section>`;
+                   })
+                   .join('')}`;
+
+          const mineHtml =
+            mine.length === 0
+              ? `<div class="bg-white rounded-2xl border border-black/[0.08] p-8 text-center space-y-3">
+                  <p class="text-sm font-semibold text-[#1A1A1A]">You have not applied to adopt a pet yet</p>
+                  <p class="text-xs text-[#5A635C]">Open the Adoption Map, pick a pet, and choose &ldquo;Want to Adopt&rdquo;. Every update on your application shows up here and in your notifications.</p>
+                  <button type="button" onclick="PP.navigate('map','adoption')" class="px-4 h-9 rounded-lg bg-[#2D5A3C] text-white text-xs font-semibold">Open Adoption Map</button>
+                </div>`
+              : mine
+                  .map((a) => {
+                    const pet = S.pets.find((p) => p.id === a.petId);
+                    const hint =
+                      a.stage === 'Pending Coordinator Review'
+                        ? `${esc(a.ownerName || 'The owner')} has been notified and is reviewing your background check.`
+                        : a.stage === 'Ongoing Adoption'
+                          ? `Approved! ${esc(a.ownerName || 'The owner')} will arrange a safe meetup.${pet && pet.reporterPhone ? ` Contact: ${esc(pet.reporterPhone)}` : ''}`
+                          : a.stage === 'Pet Adopted'
+                            ? 'Adoption complete. Thank you for giving a home.'
+                            : 'This request was not selected. You can apply for other pets.';
+                    return `<div class="bg-white rounded-2xl border border-black/[0.08] p-4 sm:p-5 space-y-3">
+                      <div class="flex items-center gap-3">
+                        ${pet ? `<img src="${safePetImage(pet)}" alt="${esc(pet.name)}" class="w-14 h-14 rounded-xl object-cover" />` : ''}
+                        <div class="min-w-0 flex-1">
+                          <h2 class="font-display text-base font-bold text-[#1A1A1A] truncate">${esc(a.petName)}</h2>
+                          <p class="text-xs text-[#5A635C]">Listed by ${esc(a.ownerName || 'owner')} · Applied ${esc(a.submittedAt)}</p>
+                        </div>
+                        ${pet ? `<button type="button" onclick="PP.openChat('${esc(a.petId)}')" class="px-3 h-9 rounded-lg border border-black/[0.12] text-xs font-semibold text-[#144226] hover:bg-[#F7F8F4] whitespace-nowrap">Message</button>` : ''}
+                      </div>
+                      ${renderStageStepper(a.stage)}
+                      <p class="text-xs text-[#414942]">${hint}</p>
+                    </div>`;
+                  })
+                  .join('');
+
+          return `
+            <div class="max-w-[860px] mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-5">
+              <div>
+                <h1 class="font-display text-2xl font-bold text-[#1A1A1A]">Adoptions</h1>
+                <p class="text-xs text-[#5A635C] mt-1">See who wants to adopt your listings, and follow the progress of your own applications.</p>
+              </div>
+              <div class="flex flex-wrap gap-2">
+                ${tabBtn('adopters', 'Citizens who want to adopt my pets', pending)}
+                ${tabBtn('mine', 'My applications', mine.filter((a) => a.stage === 'Ongoing Adoption').length)}
+              </div>
+              <div class="space-y-4">${tab === 'adopters' ? adoptersHtml : mineHtml}</div>
+            </div>`;
+        }
+
+        function renderNotifPanel() {
+          if (!S.user || !S.notifOpen) return '';
+          const list = myNotifs().slice().sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, 30);
+          const unread = list.filter((n) => !n.read).length;
+          return `
+            <div class="fixed inset-0 z-40" onclick="PP.toggleNotifs()" aria-hidden="true"></div>
+            <section role="dialog" aria-label="Notifications" class="fixed z-50 top-[68px] right-3 sm:right-6 w-[calc(100vw-1.5rem)] sm:w-[380px] max-h-[70vh] flex flex-col bg-white rounded-2xl border border-black/[0.1] shadow-xl overflow-hidden">
+              <div class="px-4 py-3 border-b border-black/[0.08] flex items-center justify-between">
+                <h2 class="font-display text-sm font-bold text-[#1A1A1A]">Notifications${unread ? ` · ${unread} new` : ''}</h2>
+                ${unread ? `<button type="button" onclick="PP.markAllNotifsRead()" class="text-xs font-semibold text-[#2D5A3C] hover:underline">Mark all read</button>` : ''}
+              </div>
+              <div class="overflow-y-auto divide-y divide-black/[0.06]">
+                ${
+                  list.length === 0
+                    ? `<div class="px-4 py-10 text-center text-xs text-[#5A635C]">No updates yet. When someone wants to adopt your pet, or your application moves forward, it shows up here.</div>`
+                    : list
+                        .map(
+                          (n) => `<button type="button" onclick="PP.openNotif('${esc(n.id)}')" class="w-full text-left px-4 py-3 flex gap-3 hover:bg-[#F7F8F4] ${n.read ? '' : 'bg-[#F0F5F1]'}">
+                            <span class="mt-0.5 w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${n.type === 'new_applicant' ? 'bg-[#FDECDD] text-[#D97736]' : 'bg-[#E6F4EA] text-[#2D5A3C]'}">${ico(n.type === 'new_applicant' ? 'users' : 'checkCircle', 'w-4 h-4')}</span>
+                            <span class="min-w-0 flex-1">
+                              <span class="block text-xs font-bold text-[#1A1A1A]">${esc(n.title)}</span>
+                              ${n.body ? `<span class="block text-[11px] text-[#5A635C] mt-0.5 leading-snug">${esc(n.body)}</span>` : ''}
+                              <span class="block text-[10px] text-[#8A928C] mt-1">${esc(timeAgo(n.createdAt))}</span>
+                            </span>
+                            ${n.read ? '' : '<span class="mt-1.5 w-2 h-2 rounded-full bg-[#D97736] shrink-0"></span>'}
+                          </button>`
+                        )
+                        .join('')
+                }
+              </div>
+            </section>`;
+        }
+
         function renderMain() {
           if (!S.user) return renderPreLoginLanding();
           switch (S.view) {
             case 'map': return renderDualMaps();
             case 'chat': return renderMessages();
+            case 'applications': return renderApplications();
             case 'health': return renderHealthCenters();
             case 'food': return renderFoodSupplies();
             case 'rehome': return renderRehomeForm();
@@ -3056,6 +3404,7 @@
 
           root.innerHTML = `
             ${renderHeader()}
+            ${renderNotifPanel()}
             <main class="flex-1 ${S.user ? 'pb-20 lg:pb-12' : 'pb-12'}">
               ${renderMain()}
             </main>
@@ -3073,8 +3422,22 @@
           }
         }
 
-        syncFromSupabase();
         render();
+        syncFromSupabase();
+        subscribePetsRealtime();
+        restoreSession();
+
+        // Demo mode: keep two tabs of the same browser in sync (pets, applications, notifications).
+        window.addEventListener('storage', (ev) => {
+          if (sb) return;
+          if (ev.key === LS_KEYS.APPLICATIONS) S.applications = normalizeApps(lsRead(LS_KEYS.APPLICATIONS, []));
+          else if (ev.key === LS_KEYS.NOTIFS) S.notifications = lsRead(LS_KEYS.NOTIFS, []) || [];
+          else if (ev.key === LS_KEYS.PETS) {
+            const stored = lsRead(LS_KEYS.PETS, []);
+            if (Array.isArray(stored)) S.pets = stored.filter((p) => !SEED_PET_IDS.test(String(p.id))).map((p) => ({ ...p, imageUrl: safePetImage(p) }));
+          } else return;
+          render();
+        });
       })();
     </script>
   </body>
