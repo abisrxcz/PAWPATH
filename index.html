@@ -199,6 +199,19 @@
           }
         }
 
+        // Why the app is (not) talking to Supabase, shown in the footer badge so it is never a mystery.
+        const CONN = {
+          live: Boolean(sb),
+          reason: sb
+            ? 'Connected to Supabase'
+            : !CFG.url || !CFG.key
+              ? 'config.js has no Supabase url/key'
+              : !(window.supabase && typeof window.supabase.createClient === 'function')
+                ? 'Supabase library failed to load'
+                : 'Supabase client could not start (check url/key)',
+        };
+        if (!sb) console.warn('[PawPath] Demo mode: pets are saved only in this browser. ' + CONN.reason);
+
         function lsRead(key, fallback) {
           try {
             const raw = localStorage.getItem(key);
@@ -844,6 +857,7 @@
             S.view = 'home';
             S.notifOpen = false;
             if (sb) {
+              syncFromSupabase();
               syncUserData();
               subscribeUserRealtime();
             } else {
@@ -3412,6 +3426,7 @@
           root.innerHTML = `
             ${renderHeader()}
             ${renderNotifPanel()}
+            ${CONN.live ? '' : `<div class="bg-[#FEF3C7] text-[#92400E] text-[11px] sm:text-xs px-4 py-2 text-center font-medium">Demo mode: pets, accounts and reports are saved only in this browser, so other users and devices cannot see them. ${esc(CONN.reason)}. Add your Supabase url and key in config.js to share data between everyone.</div>`}
             <main class="flex-1 ${S.user ? 'pb-20 lg:pb-12' : 'pb-12'}">
               ${renderMain()}
             </main>
@@ -3433,6 +3448,11 @@
         syncFromSupabase();
         subscribePetsRealtime();
         restoreSession();
+        if (sb) {
+          // Safety net if Realtime is not enabled for the table: refresh when the tab regains focus and every 30s.
+          document.addEventListener('visibilitychange', () => { if (!document.hidden) { syncFromSupabase(); syncUserData(); } });
+          setInterval(() => { if (!document.hidden) { syncFromSupabase(); syncUserData(); } }, 30000);
+        }
 
         // Demo mode: keep two tabs of the same browser in sync (pets, applications, notifications).
         window.addEventListener('storage', (ev) => {
