@@ -5,6 +5,6 @@
 // Leave url and key empty ("") to run PawPath Manila in standalone local
 // browser demo mode with zero external costs.
 window.PAWPATH_CONFIG = {
-  url: "",
-  key: "",
+  url: "https://gceswisigqgrogrsuauq.supabase.co/rest/v1/",
+  key: "sb_publishable_VdC6aopu1KfA-xzpd1wsEw_vliL7PBC",
 };
