@@ -389,6 +389,115 @@
         const myNotifs = () => (S.user ? S.notifications.filter((n) => n.recipientId === S.user.id) : []);
         const myApplications = () => (S.user ? S.applications.filter((a) => a.applicantId === S.user.id) : []);
         const requestsForPet = (petId) => S.applications.filter((a) => a.petId === petId);
+
+        // ---------------------------------------------------------------------
+        // Direct messaging: one thread per (pet, adopter) between the adopter and the pet owner/reporter
+        // ---------------------------------------------------------------------
+        const threadKey = (petId, adopterId) => `${petId}::${adopterId}`;
+        function newMsgId() {
+          try { if (window.crypto && window.crypto.randomUUID) return window.crypto.randomUUID(); } catch (_) {}
+          return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+            const r = (Math.random() * 16) | 0;
+            return (c === 'x' ? r : (r & 0x3) | 0x8).toString(16);
+          });
+        }
+        const nowTimeLabel = () => new Date().toLocaleTimeString('en-PH', { hour: '2-digit', minute: '2-digit' });
+        function msgTimeLabel(m) {
+          if (!m.ts) return m.createdAt || '';
+          const d = new Date(m.ts);
+          if (isNaN(d.getTime())) return m.createdAt || '';
+          const time = d.toLocaleTimeString('en-PH', { hour: '2-digit', minute: '2-digit' });
+          return d.toDateString() === new Date().toDateString() ? time : `${d.toLocaleDateString('en-PH', { month: 'short', day: 'numeric' })}, ${time}`;
+        }
+        const persistMsgs = () => { if (!sb) lsWrite(LS_KEYS.MESSAGES, S.messages); };
+        function rowToMsg(r) {
+          const role = r.sender_role || 'adopter';
+          return {
+            id: String(r.id),
+            petId: String(r.pet_id),
+            adopterId: r.adopter_id ? String(r.adopter_id) : null,
+            ownerId: r.owner_id ? String(r.owner_id) : null,
+            senderId: role === 'adopter' ? (r.adopter_id ? String(r.adopter_id) : null) : role === 'coordinator' ? (r.owner_id ? String(r.owner_id) : null) : null,
+            senderName: r.sender_name || 'Citizen',
+            senderRole: role,
+            body: r.body || '',
+            ts: r.created_at,
+            createdAt: '',
+          };
+        }
+        async function syncMessages() {
+          if (!sb || !S.user) return;
+          try {
+            const r = await sb
+              .from('messages')
+              .select('*')
+              .or(`adopter_id.eq.${S.user.id},owner_id.eq.${S.user.id}`)
+              .order('created_at', { ascending: true })
+              .limit(1000);
+            if (r.error) {
+              S.msgError = r.error.message || 'Could not load messages';
+              return;
+            }
+            S.msgError = '';
+            const fromDb = (r.data || []).map(rowToMsg);
+            const ids = new Set(fromDb.map((m) => m.id));
+            const pending = S.messages.filter((m) => m.pending && !ids.has(m.id));
+            S.messages = [...fromDb, ...pending];
+          } catch (e) {
+            S.msgError = (e && e.message) || 'Could not load messages';
+          }
+        }
+        // Every conversation the signed-in person is part of (as adopter or as pet owner/reporter).
+        function myThreads() {
+          const u = S.user;
+          if (!u) return [];
+          const map = new Map();
+          const upsert = (petId, adopterId, adopterName, ts) => {
+            if (!petId || !adopterId) return;
+            const pet = S.pets.find((p) => p.id === petId);
+            if (!pet) return;
+            const iAmOwner = isMyListing(pet);
+            if (iAmOwner && adopterId === u.id) return;
+            if (!iAmOwner && adopterId !== u.id) return;
+            const key = threadKey(petId, adopterId);
+            const cur = map.get(key) || { key, petId, adopterId, pet, iAmOwner, adopterName: '', ts: 0 };
+            if (adopterName && !cur.adopterName) cur.adopterName = adopterName;
+            if (ts > cur.ts) cur.ts = ts;
+            map.set(key, cur);
+          };
+          S.applications.forEach((a) => upsert(a.petId, a.applicantId, a.applicantName, a.createdAt ? Date.parse(a.createdAt) || 0 : 0));
+          S.messages.forEach((m) => upsert(m.petId, m.adopterId, m.senderRole === 'adopter' ? m.senderName : '', m.ts ? Date.parse(m.ts) || 0 : 0));
+          return Array.from(map.values())
+            .map((t) => {
+              const adopterName = t.adopterName || (t.adopterId === u.id ? u.fullName : 'Citizen');
+              return { ...t, adopterName, otherName: t.iAmOwner ? adopterName : t.pet.reporterName || 'Pet owner' };
+            })
+            .sort((a, b) => b.ts - a.ts);
+        }
+        function resolveActiveThread() {
+          if (!S.user) return null;
+          const threads = myThreads();
+          const want = S.chatThread;
+          if (want && want.adopterId) {
+            const found = threads.find((t) => t.key === threadKey(want.petId, want.adopterId));
+            if (found) return found;
+            // A brand-new conversation the adopter is about to start (no message sent yet).
+            const pet = S.pets.find((p) => p.id === want.petId);
+            if (pet && want.adopterId === S.user.id && !isMyListing(pet)) {
+              return { key: threadKey(pet.id, S.user.id), petId: pet.id, adopterId: S.user.id, pet, iAmOwner: false, adopterName: S.user.fullName, otherName: pet.reporterName || 'Pet owner', ts: 0 };
+            }
+          }
+          if (want && want.petId) {
+            const sameTarget = threads.find((t) => t.petId === want.petId);
+            if (sameTarget) return sameTarget;
+          }
+          return threads[0] || null;
+        }
+        function activeThreadKey() {
+          if (!S.user || S.view !== 'chat') return '';
+          const t = resolveActiveThread();
+          return t ? t.key : '';
+        }
         const pendingForMyPets = () => S.applications.filter((a) => S.user && a.ownerId === S.user.id && a.stage === 'Pending Coordinator Review').length;
 
         async function pushNotif(n) {
@@ -422,6 +531,7 @@
             ]);
             if (!rq.error && Array.isArray(rq.data)) S.applications = rq.data.map(rowToRequest);
             if (!nt.error && Array.isArray(nt.data)) S.notifications = nt.data.map(rowToNotif);
+            await syncMessages();
             render();
           } catch (_) {}
         }
@@ -455,6 +565,21 @@
               const n = rowToNotif(payload.new);
               S.notifications = S.notifications.map((x) => (x.id === n.id ? n : x));
               render();
+            })
+            .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' }, (payload) => {
+              const m = rowToMsg(payload.new);
+              if (m.adopterId !== uid && m.ownerId !== uid) return;
+              const exists = S.messages.some((x) => x.id === m.id);
+              if (exists) {
+                S.messages = S.messages.map((x) => (x.id === m.id ? { ...m, pending: false } : x));
+                render();
+                return;
+              }
+              S.messages = [...S.messages, m];
+              const incoming = m.senderRole !== 'system' && m.senderId && m.senderId !== uid;
+              const viewing = S.view === 'chat' && activeThreadKey() === threadKey(m.petId, m.adopterId);
+              if (incoming && !viewing) toast(`New message from ${m.senderName}`);
+              else render();
             })
             .subscribe((status) => {
               if (status === 'SUBSCRIBED') syncUserData();
@@ -503,8 +628,25 @@
           ? storedPets.filter((p) => !SEED_PET_IDS.test(String(p.id))).map((p) => ({ ...p, imageUrl: safePetImage(p) }))
           : [];
 
-        const storedMsgs = lsRead(LS_KEYS.MESSAGES, null);
-        const initialMsgs = Array.isArray(storedMsgs) ? storedMsgs.filter((m) => !SEED_PET_IDS.test(String(m.petId))) : [];
+        // Messages: in Supabase mode they are loaded from the database (never cached in the browser).
+        // Old demo-mode auto-replies (bot messages) and threadless messages are dropped.
+        function normalizeMsgs(list) {
+          if (!Array.isArray(list)) return [];
+          const accts = getAccounts();
+          return list
+            .filter((m) => m && !SEED_PET_IDS.test(String(m.petId)) && !String(m.id || '').startsWith('m-rep-'))
+            .map((m) => {
+              if (m.adopterId) return m;
+              if (m.senderRole === 'adopter') {
+                const a = accts.find((x) => x.profile && x.profile.fullName === m.senderName);
+                return a ? { ...m, adopterId: a.profile.id } : m;
+              }
+              return m;
+            })
+            .filter((m) => m.adopterId);
+        }
+        const storedMsgs = sb ? null : lsRead(LS_KEYS.MESSAGES, null);
+        const initialMsgs = normalizeMsgs(storedMsgs);
 
         const S = {
           user: lsRead(LS_KEYS.USER, null),
@@ -532,6 +674,9 @@
           toast: null,
           toastTimer: null,
           chatDraft: '',
+          chatDrafts: {},
+          chatThread: null,
+          msgError: '',
           rehomePhoto: null,
           strayPhoto: null,
           rehome: {
@@ -815,6 +960,7 @@
             S.view = view;
             render();
             window.scrollTo({ top: 0, behavior: 'smooth' });
+            if (view === 'chat' && sb) syncMessages().then(() => render());
           },
 
           openAuth(mode) {
@@ -1266,22 +1412,38 @@
             }
 
             const summaryMsg = {
-              id: `sys-${Date.now()}`,
+              id: newMsgId(),
               petId: pet.id,
               senderName: 'PawPath Verification',
               senderRole: 'system',
               body: `${app.applicantName} submitted a Capabilities & Background Check (${bg.monthlyIncomeRange}, ${bg.housingType}) and a signed RA 10631 Digital Agreement. Status: ${app.coordinatorReviewStatus}.`,
-              createdAt: 'Just now',
+              createdAt: nowTimeLabel(),
+              ts: nowIso(),
+              adopterId: S.user.id,
+              ownerId: ownerId || null,
+              senderId: null,
+              pending: true,
             };
             S.messages = [...S.messages, summaryMsg];
-            lsWrite(LS_KEYS.MESSAGES, S.messages);
+            persistMsgs();
             S.selectedPetId = pet.id;
+            S.chatThread = { petId: pet.id, adopterId: S.user.id };
             S.adoptionModal.submittedApp = app;
             S.adoptionModal.step = 3;
 
             if (sb) {
               try {
-                await sb.from('messages').insert({ pet_id: pet.id, sender_name: summaryMsg.senderName, sender_role: 'system', body: summaryMsg.body });
+                const sysIns = await sb.from('messages').insert({
+                  id: summaryMsg.id,
+                  pet_id: pet.id,
+                  adopter_id: S.user.id,
+                  owner_id: ownerId && UUID_RE.test(String(ownerId)) ? ownerId : null,
+                  sender_name: summaryMsg.senderName,
+                  sender_role: 'system',
+                  body: summaryMsg.body,
+                });
+                if (sysIns && sysIns.error) S.msgError = sysIns.error.message;
+                summaryMsg.pending = false;
               } catch (_) {}
             }
 
@@ -1428,6 +1590,10 @@
             S.notifOpen = false;
             if (n.type === 'new_applicant') {
               PP.openApplicants(n.petId);
+            } else if (n.type === 'message') {
+              const last = [...S.messages].reverse().find((x) => x.petId === n.petId && x.senderId && x.senderId !== S.user.id && (x.adopterId === S.user.id || x.ownerId === S.user.id));
+              PP.openChat(n.petId, last ? last.adopterId : null);
+              window.scrollTo({ top: 0 });
             } else {
               S.appsTab = 'mine';
               S.view = 'applications';
@@ -1449,61 +1615,104 @@
             render();
           },
 
-          // Messages
-          openChat(petId) {
+          // Messages (adopter <-> pet owner / reporter; no automated replies)
+          openChat(petId, adopterId) {
+            const pet = S.pets.find((p) => p.id === petId);
+            if (!pet || !S.user) return;
+            let aid = adopterId || null;
+            if (!aid) {
+              if (isMyListing(pet)) {
+                const t = myThreads().find((x) => x.petId === petId);
+                aid = t ? t.adopterId : null;
+              } else {
+                aid = S.user.id;
+              }
+            }
+            S.chatThread = { petId, adopterId: aid };
             S.selectedPetId = petId;
             S.view = 'chat';
             render();
+            if (sb) syncMessages().then(() => render());
           },
-          selectChatPet(petId) {
+          selectThread(petId, adopterId) {
+            S.chatThread = { petId, adopterId };
             S.selectedPetId = petId;
             render();
+          },
+          selectChatPet(petId) {
+            PP.openChat(petId);
           },
           sendChat(e) {
             e.preventDefault();
             if (!S.user) return;
-            const body = (S.chatDraft || '').trim();
+            const t = resolveActiveThread();
+            if (!t) return;
+            const body = (S.chatDrafts[t.key] || '').trim();
             if (!body) return;
-            const pet = S.pets.find((p) => p.id === S.selectedPetId) || S.pets[0];
-            if (!pet) return;
-
-            const timeNow = () => new Date().toLocaleTimeString('en-PH', { hour: '2-digit', minute: '2-digit' });
+            if (S.lastSend && S.lastSend.key === t.key && S.lastSend.body === body && Date.now() - S.lastSend.at < 1500) return;
+            S.lastSend = { key: t.key, body, at: Date.now() };
+            const pet = t.pet;
+            const ownerId = t.iAmOwner ? S.user.id : ownerIdFor(pet) || null;
             const msg = {
-              id: `m-${Date.now()}`,
+              id: newMsgId(),
               petId: pet.id,
+              adopterId: t.adopterId,
+              ownerId,
+              senderId: S.user.id,
               senderName: S.user.fullName,
-              senderRole: 'adopter',
+              senderRole: t.iAmOwner ? 'coordinator' : 'adopter',
               body,
-              createdAt: timeNow(),
+              createdAt: nowTimeLabel(),
+              ts: nowIso(),
+              pending: true,
             };
             S.messages = [...S.messages, msg];
-            S.chatDraft = '';
-            lsWrite(LS_KEYS.MESSAGES, S.messages);
-            if (sb) {
-              sb.from('messages').insert({ pet_id: pet.id, sender_name: msg.senderName, sender_role: 'adopter', body }).then(() => {});
-            }
+            S.chatDrafts[t.key] = '';
+            S.chatThread = { petId: pet.id, adopterId: t.adopterId };
+            if (!sb) { msg.pending = false; persistMsgs(); }
+            // Empty the visible box first so the old text is never restored after sending.
+            const box = document.querySelector('input[data-k]');
+            if (box) box.value = '';
             render();
-            const stream = document.getElementById('chat-stream');
-            if (stream) stream.scrollTop = stream.scrollHeight;
 
-            setTimeout(() => {
-              const reply = {
-                id: `m-rep-${Date.now()}`,
+            const recipientId = t.iAmOwner ? t.adopterId : ownerId;
+            const notifyOther = () => {
+              if (!recipientId) return;
+              pushNotif({
+                recipientId,
+                type: 'message',
+                title: `New message from ${S.user.fullName}`,
+                body: body.length > 90 ? `${body.slice(0, 90)}…` : body,
                 petId: pet.id,
-                senderName: pet.reporterName || 'Shelter Coordinator',
-                senderRole: 'coordinator',
-                body: `Received your message regarding ${pet.name}. Our coordinator will review your application and coordinate a safe meetup.`,
-                createdAt: timeNow(),
-              };
-              S.messages = [...S.messages, reply];
-              lsWrite(LS_KEYS.MESSAGES, S.messages);
-              if (sb) {
-                sb.from('messages').insert({ pet_id: pet.id, sender_name: reply.senderName, sender_role: 'coordinator', body: reply.body }).then(() => {});
-              }
-              render();
-              const stream2 = document.getElementById('chat-stream');
-              if (stream2) stream2.scrollTop = stream2.scrollHeight;
-            }, 650);
+              });
+            };
+            if (sb) {
+              sb.from('messages')
+                .insert({
+                  id: msg.id,
+                  pet_id: pet.id,
+                  adopter_id: UUID_RE.test(String(t.adopterId)) ? t.adopterId : null,
+                  owner_id: ownerId && UUID_RE.test(String(ownerId)) ? ownerId : null,
+                  sender_name: msg.senderName,
+                  sender_role: msg.senderRole,
+                  body,
+                })
+                .then(({ error }) => {
+                  if (error) {
+                    S.messages = S.messages.filter((m) => m.id !== msg.id);
+                    S.chatDrafts[t.key] = body;
+                    S.msgError = error.message || '';
+                    toast(`Message not sent: ${error.message || 'database error'}`);
+                    return;
+                  }
+                  S.msgError = '';
+                  S.messages = S.messages.map((m) => (m.id === msg.id ? { ...m, pending: false } : m));
+                  render();
+                  notifyOther();
+                });
+            } else {
+              notifyOther();
+            }
           },
           markAdopted(petId) {
             const target = S.pets.find((p) => p.id === petId);
@@ -2456,49 +2665,94 @@
         }
 
         function renderMessages() {
-          const activePet = S.pets.find((p) => p.id === S.selectedPetId) || S.pets[0];
-          if (!activePet) {
+          const threads = myThreads();
+          const t = resolveActiveThread();
+          const threadKeys = new Set(threads.map((x) => x.key));
+          const startable = S.pets.filter((p) => !isMyListing(p) && p.adoptionStage !== 'Pet Adopted' && !threadKeys.has(threadKey(p.id, S.user.id)));
+
+          if (threads.length === 0 && startable.length === 0) {
             return `<div class="max-w-[600px] mx-auto px-4 py-16 text-center space-y-2">
-              <p class="font-display text-lg font-bold text-[#1A1A1A]">No shelter threads yet</p>
-              <p class="text-sm text-[#5A635C]">Threads appear once pets are logged on the Adoption Map.</p>
+              <p class="font-display text-lg font-bold text-[#1A1A1A]">No conversations yet</p>
+              <p class="text-sm text-[#5A635C]">Conversations appear when you message a pet's owner or reporter, or when someone messages you about a pet you listed.</p>
             </div>`;
           }
-          const petMessages = S.messages.filter((m) => m.petId === activePet.id);
-          const activeApplication = myApplications().find((a) => a.petId === activePet.id && a.stage !== 'Declined');
-          const myOwnPet = isMyListing(activePet);
+
+          const lastMsgOf = (key) => {
+            const list = S.messages.filter((m) => threadKey(m.petId, m.adopterId) === key);
+            return list.length ? list[list.length - 1] : null;
+          };
+
+          const threadItem = (th) => {
+            const isSel = t && th.key === t.key;
+            const last = lastMsgOf(th.key);
+            const preview = last ? `${last.senderRole === 'system' ? '' : (last.senderId === S.user.id ? 'You: ' : '')}${last.body}` : 'No messages yet';
+            return `
+              <button type="button" onclick="PP.selectThread('${esc(th.petId)}','${esc(th.adopterId)}')" class="w-full text-left px-4 py-3 flex items-center gap-3 transition-colors ${isSel ? 'bg-[#F0F5F1]' : 'hover:bg-[#F7F8F4]'}">
+                <img src="${safePetImage(th.pet)}" alt="${esc(th.pet.name)}" class="w-11 h-11 rounded-lg object-cover shrink-0" />
+                <div class="min-w-0 flex-1">
+                  <div class="flex items-center justify-between gap-2">
+                    <span class="text-sm font-bold text-[#1A1A1A] truncate">${esc(th.otherName)}</span>
+                    <span class="text-[11px] font-semibold text-[#2D5A3C] shrink-0">${th.iAmOwner ? 'Your listing' : 'Owner'}</span>
+                  </div>
+                  <p class="text-xs text-[#5A635C] truncate">${esc(th.pet.name)} · ${esc(preview)}</p>
+                </div>
+              </button>`;
+          };
+
+          const startItem = (p) => `
+            <button type="button" onclick="PP.openChat('${esc(p.id)}')" class="w-full text-left px-4 py-3 flex items-center gap-3 transition-colors hover:bg-[#F7F8F4]">
+              <img src="${safePetImage(p)}" alt="${esc(p.name)}" class="w-11 h-11 rounded-lg object-cover shrink-0" />
+              <div class="min-w-0 flex-1">
+                <span class="text-sm font-bold text-[#1A1A1A] truncate block">${esc(p.name)}</span>
+                <p class="text-xs text-[#5A635C] truncate">Message ${esc(p.reporterName)}</p>
+              </div>
+            </button>`;
+
+          const sidebar = `
+            <aside class="lg:col-span-4 bg-white rounded-2xl border border-black/[0.08] overflow-hidden flex flex-col max-h-[620px]">
+              <div class="px-4 py-3.5 border-b border-black/[0.08] flex items-center justify-between">
+                <h2 class="font-display text-sm font-bold text-[#1A1A1A]">Messages</h2>
+                <button type="button" onclick="PP.navigate('map','adoption')" class="text-xs font-semibold text-[#2D5A3C] hover:underline flex items-center gap-1">
+                  ${ico('mapPin', 'w-3.5 h-3.5')}
+                  <span>Map</span>
+                </button>
+              </div>
+              <div class="overflow-y-auto flex-1">
+                ${threads.length ? `<p class="px-4 pt-3 pb-1 text-[11px] font-semibold uppercase tracking-wide text-[#5A635C]">Your conversations</p><div class="divide-y divide-black/[0.06]">${threads.map(threadItem).join('')}</div>` : ''}
+                ${startable.length ? `<p class="px-4 pt-4 pb-1 text-[11px] font-semibold uppercase tracking-wide text-[#5A635C]">Start a conversation</p><div class="divide-y divide-black/[0.06]">${startable.map(startItem).join('')}</div>` : ''}
+              </div>
+            </aside>`;
+
+          if (!t) {
+            return `
+              <div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-6">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+                  ${sidebar}
+                  <section class="lg:col-span-8 bg-white rounded-2xl border border-black/[0.08] h-[620px] flex items-center justify-center text-center p-6">
+                    <div class="space-y-1">
+                      <p class="font-display text-base font-bold text-[#1A1A1A]">No conversation selected</p>
+                      <p class="text-xs text-[#5A635C]">Pick a conversation, or choose a pet to message its owner or reporter.</p>
+                    </div>
+                  </section>
+                </div>
+              </div>`;
+          }
+
+          const activePet = t.pet;
+          const myOwnPet = t.iAmOwner;
+          const activeApplication = S.applications.find((a) => a.petId === activePet.id && a.applicantId === t.adopterId && a.stage !== 'Declined');
+          const petMessages = S.messages
+            .filter((m) => m.petId === activePet.id && m.adopterId === t.adopterId)
+            .map((m, i) => ({ m, i }))
+            .sort((a, b) => (Date.parse(a.m.ts || '') || 0) - (Date.parse(b.m.ts || '') || 0) || a.i - b.i)
+            .map((x) => x.m);
+          const noOwnerLink = !myOwnPet && !ownerIdFor(activePet);
+          const draft = S.chatDrafts[t.key] || '';
 
           return `
             <div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-6">
               <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
-                <aside class="lg:col-span-4 bg-white rounded-2xl border border-black/[0.08] overflow-hidden flex flex-col max-h-[620px]">
-                  <div class="px-4 py-3.5 border-b border-black/[0.08] flex items-center justify-between">
-                    <h2 class="font-display text-sm font-bold text-[#1A1A1A]">Shelter &amp; Rescue Threads</h2>
-                    <button type="button" onclick="PP.navigate('map','adoption')" class="text-xs font-semibold text-[#2D5A3C] hover:underline flex items-center gap-1">
-                      ${ico('mapPin', 'w-3.5 h-3.5')}
-                      <span>Map</span>
-                    </button>
-                  </div>
-                  <div class="divide-y divide-black/[0.06] overflow-y-auto flex-1">
-                    ${S.pets
-                      .map((pet) => {
-                        const isSel = pet.id === activePet.id;
-                        const hasApp = myApplications().some((a) => a.petId === pet.id && a.stage !== 'Declined');
-                        return `
-                          <button type="button" onclick="PP.selectChatPet('${esc(pet.id)}')" class="w-full text-left px-4 py-3 flex items-center gap-3 transition-colors ${isSel ? 'bg-[#F0F5F1]' : 'hover:bg-[#F7F8F4]'}">
-                            <img src="${safePetImage(pet)}" alt="${esc(pet.name)}" class="w-11 h-11 rounded-lg object-cover shrink-0" />
-                            <div class="min-w-0 flex-1">
-                              <div class="flex items-center justify-between gap-2">
-                                <span class="text-sm font-bold text-[#1A1A1A] truncate">${esc(pet.name)}</span>
-                                <span class="text-[11px] font-semibold text-[#2D5A3C] shrink-0">${hasApp ? 'In Review' : esc(pet.adoptionStage)}</span>
-                              </div>
-                              <p class="text-xs text-[#5A635C] truncate">${esc(pet.reporterName)}</p>
-                            </div>
-                          </button>
-                        `;
-                      })
-                      .join('')}
-                  </div>
-                </aside>
+                ${sidebar}
 
                 <section class="lg:col-span-8 bg-white rounded-2xl border border-black/[0.08] overflow-hidden flex flex-col h-[620px]">
                   <div class="p-4 sm:p-5 border-b border-black/[0.08] space-y-3">
@@ -2506,8 +2760,8 @@
                       <div class="flex items-center gap-3">
                         <img src="${safePetImage(activePet)}" alt="${esc(activePet.name)}" class="w-11 h-11 rounded-full object-cover" />
                         <div>
-                          <h1 class="font-display text-base font-bold text-[#1A1A1A]">${esc(activePet.name)} · ${esc(activePet.breed)}</h1>
-                          <p class="text-xs text-[#5A635C]">Coordinator: ${esc(activePet.reporterName)} · ${esc(activePet.district)}</p>
+                          <h1 class="font-display text-base font-bold text-[#1A1A1A]">${esc(t.otherName)} · ${esc(activePet.name)}</h1>
+                          <p class="text-xs text-[#5A635C]">${myOwnPet ? `Citizen who wants to adopt ${esc(activePet.name)}` : `Pet owner / reporter`} · ${esc(activePet.breed)} · ${esc(activePet.district)}</p>
                         </div>
                       </div>
                       <div class="flex items-center gap-2">
@@ -2528,7 +2782,7 @@
                             : ''
                         }
                         ${
-                          activeApplication && activePet.adoptionStage !== 'Pet Adopted'
+                          !myOwnPet && activeApplication && activePet.adoptionStage !== 'Pet Adopted'
                             ? `<button type="button" onclick="PP.setAppsTab('mine');PP.navigate('applications')" class="px-3.5 py-2 rounded-lg border border-[#2D5A3C] text-[#2D5A3C] hover:bg-[#F0F5F1] text-xs font-semibold whitespace-nowrap">Track My Application</button>`
                             : ''
                         }
@@ -2558,27 +2812,33 @@
                           </div>`
                         : ''
                     }
+                    ${S.msgError ? `<div class="px-3 py-2 rounded-lg bg-[#FCE8E6] text-[#A50E0E] text-xs">Messaging is not fully set up in the database: ${esc(S.msgError)}. Run supabase-messages.sql in the Supabase SQL Editor.</div>` : ''}
+                    ${noOwnerLink ? `<div class="px-3 py-2 rounded-lg bg-[#FEF3C7] text-[#92400E] text-xs">This listing is not linked to an owner account, so ${esc(activePet.reporterName)} may not see your messages in the app. Use the contact details on the pet card if available.</div>` : ''}
                   </div>
 
                   <div id="chat-stream" class="flex-1 overflow-y-auto p-4 sm:p-5 space-y-3 bg-[#F7F8F4]">
                     <div class="bg-white border border-black/[0.06] rounded-xl p-3 text-xs text-[#414942]">
-                      Direct shelter messaging with <strong>${esc(activePet.reporterName)}</strong>. Meetups are conducted safely at designated Manila Barangay &amp; Veterinary Sub-Offices.
+                      ${myOwnPet
+                        ? `Private conversation with <strong>${esc(t.adopterName)}</strong> about <strong>${esc(activePet.name)}</strong>.`
+                        : `Private conversation with <strong>${esc(activePet.reporterName)}</strong>, the pet owner / reporter of <strong>${esc(activePet.name)}</strong>.`}
+                      Meetups are conducted safely at designated Manila Barangay &amp; Veterinary Sub-Offices.
                     </div>
                     ${
                       petMessages.length === 0
-                        ? `<div class="py-10 text-center text-xs text-[#5A635C]">No messages yet for ${esc(activePet.name)}. Send a greeting or submit your Background Check above.</div>`
+                        ? `<div class="py-10 text-center text-xs text-[#5A635C]">No messages yet. ${myOwnPet ? `Say hello to ${esc(t.adopterName)}.` : `Send a message to ${esc(activePet.reporterName)} about ${esc(activePet.name)}.`}</div>`
                         : petMessages
                             .map((m) => {
+                              const mine = m.senderRole === 'adopter' ? !myOwnPet : m.senderRole === 'coordinator' ? myOwnPet : false;
                               const bubbleCls =
-                                m.senderRole === 'adopter'
-                                  ? 'bg-[#2D5A3C] text-white rounded-tr-sm'
-                                  : m.senderRole === 'system'
-                                    ? 'bg-[#EFF6FF] text-[#1E3A8A] border border-[#BFDBFE]'
+                                m.senderRole === 'system'
+                                  ? 'bg-[#EFF6FF] text-[#1E3A8A] border border-[#BFDBFE]'
+                                  : mine
+                                    ? 'bg-[#2D5A3C] text-white rounded-tr-sm'
                                     : 'bg-white text-[#1A1A1A] border border-black/[0.06] rounded-tl-sm';
                               return `
-                                <div class="flex flex-col ${m.senderRole === 'adopter' ? 'items-end' : 'items-start'}">
-                                  <span class="text-[11px] text-[#5A635C] mb-1 px-1">${esc(m.senderName)} · ${esc(m.createdAt)}</span>
-                                  <div class="p-3.5 rounded-2xl max-w-[82%] text-sm leading-relaxed ${bubbleCls}">${esc(m.body)}</div>
+                                <div class="flex flex-col ${mine ? 'items-end' : 'items-start'}">
+                                  <span class="text-[11px] text-[#5A635C] mb-1 px-1">${mine ? 'You' : esc(m.senderName)} · ${esc(msgTimeLabel(m))}${m.pending ? ' · sending…' : ''}</span>
+                                  <div class="p-3.5 rounded-2xl max-w-[82%] text-sm leading-relaxed whitespace-pre-wrap break-words ${bubbleCls}">${esc(m.body)}</div>
                                 </div>
                               `;
                             })
@@ -2587,7 +2847,7 @@
                   </div>
 
                   <form onsubmit="PP.sendChat(event)" class="p-3 sm:p-4 border-t border-black/[0.08] bg-white flex items-center gap-2.5">
-                    <input type="text" value="${esc(S.chatDraft)}" oninput="window._ppDraft(this.value)" placeholder="Message ${esc(activePet.reporterName)} about ${esc(activePet.name)}..." class="flex-1 h-11 px-4 rounded-lg bg-[#F7F8F4] border border-black/[0.08] text-sm focus:outline-none focus:border-[#2D5A3C]" />
+                    <input type="text" data-k="${esc(t.key)}" value="${esc(draft)}" oninput="window._ppDraft(this.dataset.k, this.value)" autocomplete="off" placeholder="Message ${esc(t.otherName)} about ${esc(activePet.name)}..." class="flex-1 h-11 px-4 rounded-lg bg-[#F7F8F4] border border-black/[0.12] text-sm focus:outline-none focus:border-[#2D5A3C]" />
                     <button type="submit" class="h-11 px-5 rounded-lg bg-[#2D5A3C] hover:bg-[#21432C] text-white text-sm font-semibold flex items-center gap-1.5 shrink-0">
                       ${ico('send', 'w-4 h-4')}
                       <span>Send</span>
@@ -2598,7 +2858,7 @@
             </div>
           `;
         }
-        window._ppDraft = (v) => { S.chatDraft = v; };
+        window._ppDraft = (k, v) => { S.chatDrafts[k] = v; };
 
         function renderResourceCard(r, accent, label) {
           return `
@@ -3290,7 +3550,7 @@
                   ${rows.map((r) => `<div><dt class="text-[11px] text-[#5A635C]">${esc(r[0])}</dt><dd class="font-medium text-[#1A1A1A]">${esc(r[1])}</dd></div>`).join('')}
                 </dl>
               </details>
-              ${actions ? `<div class="flex flex-wrap gap-2">${actions}</div>` : ''}
+              <div class="flex flex-wrap gap-2">${actions}${a.applicantId ? `<button type="button" onclick="PP.openChat('${esc(a.petId)}','${esc(a.applicantId)}')" class="px-3.5 h-9 rounded-lg border border-black/[0.12] text-[#144226] hover:bg-[#F7F8F4] text-xs font-semibold inline-flex items-center gap-1.5">${ico('send', 'w-3.5 h-3.5')}<span>Message applicant</span></button>` : ''}</div>
             </div>`;
         }
 
@@ -3434,7 +3694,149 @@
           }
         }
 
+        // =========================================================================
+        // UI STATE PRESERVATION
+        // The whole page is rebuilt on every render() (button clicks, realtime updates, the 30s
+        // sync, toasts...). Before the rebuild we snapshot what the person has typed / selected /
+        // scrolled, and put it back afterwards, so nothing has to be entered again.
+        // =========================================================================
+        let lastUi = null;
+        function uiCtx() {
+          return [
+            S.view,
+            S.user ? 'in' : 'out',
+            S.authModal ? `auth-${S.authModal.mode}` : '',
+            S.adoptionModal ? `adopt-${S.adoptionModal.petId}-${S.adoptionModal.step}` : '',
+            activeThreadKey(),
+          ].join('|');
+        }
+        const UI_SKIP_TYPES = ['file', 'button', 'submit', 'reset', 'image', 'hidden'];
+        function uiFieldBase(el) {
+          const type = (el.type || '').toLowerCase();
+          return [
+            el.tagName,
+            type,
+            el.id || el.name || el.getAttribute('placeholder') || el.getAttribute('aria-label') || '',
+            el.getAttribute('onchange') || '',
+            type === 'radio' || type === 'checkbox' ? el.getAttribute('value') || '' : '',
+          ].join('|');
+        }
+        function uiFieldDefault(el) {
+          const type = (el.type || '').toLowerCase();
+          if (type === 'checkbox' || type === 'radio') return String(el.defaultChecked);
+          if (el.tagName === 'SELECT') {
+            const o = Array.from(el.options).find((x) => x.defaultSelected) || el.options[0];
+            return o ? o.value : '';
+          }
+          return el.defaultValue;
+        }
+        function uiEachField(root, fn) {
+          const counts = {};
+          root.querySelectorAll('input, textarea, select').forEach((el) => {
+            if (UI_SKIP_TYPES.includes((el.type || '').toLowerCase())) return;
+            const base = uiFieldBase(el);
+            counts[base] = (counts[base] || 0) + 1;
+            fn(el, `${base}#${counts[base]}`);
+          });
+        }
+        function uiEachScroller(root, fn) {
+          const counts = {};
+          root.querySelectorAll('[class*="overflow-"], [id]').forEach((el) => {
+            const base = `${el.tagName}|${el.id || String(el.className || '').slice(0, 80)}`;
+            counts[base] = (counts[base] || 0) + 1;
+            fn(el, `${base}#${counts[base]}`);
+          });
+        }
+        function uiEachDetails(root, fn) {
+          root.querySelectorAll('details').forEach((el, i) => {
+            const sum = el.querySelector('summary');
+            fn(el, `${i}|${sum ? sum.textContent.trim().slice(0, 40) : ''}`);
+          });
+        }
+        function captureUi(root) {
+          const snap = {
+            ctx: lastUi ? lastUi.ctx : null,
+            view: lastUi ? lastUi.view : null,
+            chatKey: lastUi ? lastUi.chatKey : '',
+            x: window.scrollX,
+            y: window.scrollY,
+            fields: new Map(),
+            scrollers: new Map(),
+            details: new Map(),
+            focus: null,
+            chatNearBottom: true,
+          };
+          if (!lastUi) return snap;
+          const active = document.activeElement;
+          uiEachField(root, (el, key) => {
+            snap.fields.set(key, { value: el.value, checked: el.checked, def: uiFieldDefault(el) });
+            if (el === active) {
+              let s = null;
+              let e = null;
+              try { s = el.selectionStart; e = el.selectionEnd; } catch (_) {}
+              snap.focus = { key, s, e };
+            }
+          });
+          uiEachScroller(root, (el, key) => {
+            if (el.scrollTop > 0 || el.scrollLeft > 0) snap.scrollers.set(key, { top: el.scrollTop, left: el.scrollLeft });
+          });
+          uiEachDetails(root, (el, key) => { snap.details.set(key, el.open); });
+          const stream = document.getElementById('chat-stream');
+          if (stream) snap.chatNearBottom = stream.scrollHeight - stream.scrollTop - stream.clientHeight < 80;
+          return snap;
+        }
+        function restoreUi(root, snap) {
+          if (snap && lastUi) {
+            const same = snap.ctx !== null && snap.ctx === uiCtx();
+            if (same) {
+              const byKey = new Map();
+              uiEachField(root, (el, key) => {
+                byKey.set(key, el);
+                const s = snap.fields.get(key);
+                if (!s) return;
+                // If the app itself changed what this field is rendered with, the app wins.
+                if (uiFieldDefault(el) !== s.def) return;
+                const type = (el.type || '').toLowerCase();
+                if (type === 'checkbox' || type === 'radio') {
+                  el.checked = s.checked;
+                } else if (el.tagName === 'SELECT') {
+                  if (Array.from(el.options).some((o) => o.value === s.value)) el.value = s.value;
+                } else if (el.value !== s.value) {
+                  el.value = s.value;
+                }
+              });
+              uiEachDetails(root, (el, key) => { if (snap.details.has(key)) el.open = snap.details.get(key); });
+              uiEachScroller(root, (el, key) => {
+                const s = snap.scrollers.get(key);
+                if (s) { el.scrollTop = s.top; el.scrollLeft = s.left; }
+              });
+              if (snap.focus) {
+                const el = byKey.get(snap.focus.key);
+                if (el && document.activeElement !== el) {
+                  try { el.focus({ preventScroll: true }); } catch (_) {}
+                  try { if (snap.focus.s !== null) el.setSelectionRange(snap.focus.s, snap.focus.e); } catch (_) {}
+                }
+              }
+            }
+            if (snap.view === S.view && Math.abs(window.scrollY - snap.y) > 1) window.scrollTo(snap.x, snap.y);
+          }
+          // Chat: stay pinned to the newest message unless the person scrolled up to read older ones.
+          const stream = document.getElementById('chat-stream');
+          if (stream && S.user && S.view === 'chat') {
+            const key = activeThreadKey();
+            if (!snap || !snap.chatKey || snap.chatKey !== key || snap.chatNearBottom) stream.scrollTop = stream.scrollHeight;
+          }
+        }
         function render() {
+          const root = document.getElementById('app');
+          if (!root) return;
+          const snap = captureUi(root);
+          renderNow();
+          restoreUi(root, snap);
+          lastUi = { ctx: uiCtx(), view: S.view, chatKey: activeThreadKey() };
+        }
+
+        function renderNow() {
           const root = document.getElementById('app');
           if (!root) return;
           const toastHtml = S.toast
@@ -3460,10 +3862,6 @@
           if (S.user && S.view === 'map') {
             attachMapDrag();
           }
-          if (S.user && S.view === 'chat') {
-            const stream = document.getElementById('chat-stream');
-            if (stream) stream.scrollTop = stream.scrollHeight;
-          }
         }
 
         render();
@@ -3481,6 +3879,7 @@
           if (sb) return;
           if (ev.key === LS_KEYS.APPLICATIONS) S.applications = normalizeApps(lsRead(LS_KEYS.APPLICATIONS, []));
           else if (ev.key === LS_KEYS.NOTIFS) S.notifications = lsRead(LS_KEYS.NOTIFS, []) || [];
+          else if (ev.key === LS_KEYS.MESSAGES) S.messages = normalizeMsgs(lsRead(LS_KEYS.MESSAGES, []));
           else if (ev.key === LS_KEYS.PETS) {
             const stored = lsRead(LS_KEYS.PETS, []);
             if (Array.isArray(stored)) S.pets = stored.filter((p) => !SEED_PET_IDS.test(String(p.id))).map((p) => ({ ...p, imageUrl: safePetImage(p) }));
