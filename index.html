@@ -72,6 +72,18 @@
     </style>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
     <script src="config.js"></script>
+    <script>
+      // If config.js is only in /public (needed for Vercel), local servers such as Live Server cannot see it at the
+      // site root. Fall back to public/config.js so the same file works in both places.
+      if (!window.PAWPATH_CONFIG) {
+        try {
+          var xhr = new XMLHttpRequest();
+          xhr.open('GET', 'public/config.js', false);
+          xhr.send();
+          if (xhr.status === 200) (0, eval)(xhr.responseText);
+        } catch (e) {}
+      }
+    </script>
   </head>
   <body class="bg-[#F7F8F4] text-[#1A1A1A] antialiased selection:bg-[#2D5A3C]/15 selection:text-[#144226]">
     <div id="app" class="min-h-screen flex flex-col"></div>
@@ -746,12 +758,21 @@
           if (!sb) return;
           try {
             const { data, error } = await sb.from('pets').select('*').order('created_at', { ascending: false });
+            if (error) {
+              CONN.error = error.message || String(error);
+              console.error('[PawPath] Could not load pets from Supabase:', error);
+              render();
+            }
             if (!error && Array.isArray(data)) {
+              CONN.error = null;
               S.pets = data.map(rowToPet);
               if (S.selectedPetId && !S.pets.some((p) => p.id === S.selectedPetId)) S.selectedPetId = null;
               render();
             }
-          } catch (_) {}
+          } catch (e) {
+            CONN.error = (e && e.message) || 'Network error reaching Supabase';
+            render();
+          }
         }
 
         let petsChannel = null;
@@ -3426,7 +3447,8 @@
           root.innerHTML = `
             ${renderHeader()}
             ${renderNotifPanel()}
-            ${CONN.live ? '' : `<div class="bg-[#FEF3C7] text-[#92400E] text-[11px] sm:text-xs px-4 py-2 text-center font-medium">Demo mode: pets, accounts and reports are saved only in this browser, so other users and devices cannot see them. ${esc(CONN.reason)}. Add your Supabase url and key in config.js to share data between everyone.</div>`}
+            ${CONN.live && CONN.error ? `<div class="bg-[#FCE8E6] text-[#A50E0E] text-[11px] sm:text-xs px-4 py-2 text-center font-medium">Connected to Supabase, but loading pets failed: ${esc(CONN.error)}. Run supabase-realtime-pets.sql in the SQL Editor (it creates the pets table and the read policy).</div>` : ''}
+            ${CONN.live ? '' : `<div class="sticky top-16 z-30 bg-[#FEF3C7] text-[#92400E] text-[11px] sm:text-xs px-4 py-2 text-center font-medium">Demo mode: pets, accounts and reports are saved only in this browser, so other users and devices cannot see them. ${esc(CONN.reason)}. Add your Supabase url and key in config.js to share data between everyone.</div>`}
             <main class="flex-1 ${S.user ? 'pb-20 lg:pb-12' : 'pb-12'}">
               ${renderMain()}
             </main>
